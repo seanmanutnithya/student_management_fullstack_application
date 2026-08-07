@@ -1,0 +1,11 @@
+const fetchAllStudent = require("./fetchAllStudents");
+
+const fs = require("fs");
+const path = require("path");
+
+async function exportToJson() {
+  const row = await fetchAllStudent();
+  const filePath = path.join(__dirname, "../../../database/data.json");
+  await fs.writeFileSync(filePath, JSON.stringify(row, null, 2));
+}
+module.exports = exportToJson;
