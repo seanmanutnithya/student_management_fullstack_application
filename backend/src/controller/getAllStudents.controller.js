@@ -1,6 +1,8 @@
 const fetchAllStudent = require("../helper/fetchAllStudents");
+
 const getAllStudents = async (req, res) => {
-  res.send({ message: "get all student successfuly" });
+  const students = await fetchAllStudent();
+  res.send({ students });
 };
 
 module.exports = getAllStudents;
