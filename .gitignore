@@ -1,3 +1,11 @@
 # secret key
 .env
 
+#backend
+backend/node_modules/
+
+#database
+database/
+
+#my note
+note/
