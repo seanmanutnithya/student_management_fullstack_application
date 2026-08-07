@@ -9,3 +9,6 @@ database/
 
 #my note
 note/
+
+#logs error
+backend/logs
