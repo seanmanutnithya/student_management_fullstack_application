@@ -1,5 +1,5 @@
 const express = require("express");
-
+const student_managementRoute = require("./src/router/student_managment.route");
 const app = express();
 app.use(express.json());
 
@@ -11,6 +11,7 @@ const home = (app) => {
   });
 };
 home(app);
+student_managementRoute(app);
 
 app.listen(PORT, () => {
   console.log(`server is running on http://localhost:${PORT}`);
