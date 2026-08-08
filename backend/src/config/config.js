@@ -16,11 +16,11 @@ const studentDB = mysql.createPool({
   database: "student_management",
 });
 
-const AuthDB = mysql.createPool({
+const authDB = mysql.createPool({
   host: AUTH_DB_HOST,
-  user: AUTH_DB_HOST,
+  user: AUTH_DB_USER,
   password: "",
   database: "auth_management",
 });
 
-module.exports = { studentDB };
+module.exports = { studentDB, authDB };

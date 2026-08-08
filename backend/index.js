@@ -1,4 +1,5 @@
 const student_managementRoute = require("./src/router/student_managment.route");
+const authRoute = require("./src/router/auth.route");
 
 // node modules
 const express = require("express");
@@ -10,13 +11,8 @@ app.use(cors());
 
 const PORT = 3000;
 
-const home = (app) => {
-  app.get("/", (req, res) => {
-    res.send("hello");
-  });
-};
-home(app);
 student_managementRoute(app);
+authRoute(app);
 
 app.listen(PORT, () => {
   console.log(`server is running on http://localhost:${PORT}`);

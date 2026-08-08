@@ -1,4 +1,4 @@
-const fetchAllStudent = require("./fetchAllData");
+const fetchAllData = require("./fetchAllData");
 async function missingValues(res, field) {
   const missing = Object.entries(field).filter(([key, value]) =>
     value == "" ? true
@@ -13,7 +13,7 @@ async function missingValues(res, field) {
 }
 
 async function checkTargetId(res, targetId) {
-  const students = await fetchAllStudent("students");
+  const students = await fetchAllData("students");
 
   const index = await students.findIndex((idx) => idx.id == targetId);
   if (index == -1) {
