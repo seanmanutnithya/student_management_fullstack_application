@@ -1,4 +1,4 @@
-const fetchAllStudent = require("../../helper/fetchAllStudents");
+const fetchAllStudent = require("../../helper/fetchAllData");
 const { checkTargetId } = require("../../helper/validate");
 const getStudentById = async (req, res) => {
   const targetId = req.params.targetId;

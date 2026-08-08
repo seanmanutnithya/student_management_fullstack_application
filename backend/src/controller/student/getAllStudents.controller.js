@@ -1,4 +1,4 @@
-const fetchAllStudent = require("../../helper/fetchAllStudents");
+const fetchAllStudent = require("../../helper/fetchAllData");
 const exportToJson = require("../../helper/exprtToJson");
 const logs_error = require("../../helper/logs_error");
 

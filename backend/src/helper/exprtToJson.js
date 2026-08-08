@@ -1,4 +1,4 @@
-const fetchAllStudent = require("./fetchAllStudents");
+const fetchAllStudent = require("./fetchAllData");
 
 const fs = require("fs");
 const path = require("path");
