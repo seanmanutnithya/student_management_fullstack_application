@@ -1,6 +1,6 @@
-const fetchAllStudent = require("../helper/fetchAllStudents");
-const exportToJson = require("../helper/exprtToJson");
-const logs_error = require("../helper/logs_error");
+const fetchAllStudent = require("../../helper/fetchAllStudents");
+const exportToJson = require("../../helper/exprtToJson");
+const logs_error = require("../../helper/logs_error");
 
 const getAllStudents = async (req, res) => {
   try {

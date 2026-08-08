@@ -1,5 +1,5 @@
-const db = require("../config/config");
-const logs_error = require("../helper/logs_error");
+const db = require("../../config/config");
+const logs_error = require("../../helper/logs_error");
 
 const createStudent = async (req, res) => {
   const mysql = `

@@ -1,6 +1,6 @@
-const db = require("../config/config");
-const logs_error = require("../helper/logs_error");
-const { checkTargetId } = require("../helper/validate");
+const db = require("../../config/config");
+const logs_error = require("../../helper/logs_error");
+const { checkTargetId } = require("../../helper/validate");
 
 const deleteStudent = async (req, res) => {
   try {

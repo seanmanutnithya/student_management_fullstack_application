@@ -1,6 +1,6 @@
-const db = require("../config/config");
-const fetchAllStudent = require("../helper/fetchAllStudents");
-const { checkTargetId } = require("../helper/validate");
+const db = require("../../config/config");
+const fetchAllStudent = require("../../helper/fetchAllStudents");
+const { checkTargetId } = require("../../helper/validate");
 const getStudentById = async (req, res) => {
   const targetId = req.params.targetId;
   const students = await fetchAllStudent();

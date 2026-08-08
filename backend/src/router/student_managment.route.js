@@ -1,8 +1,8 @@
-const getAllStudents = require("../controller/getAllStudents.controller");
-const getStudentById = require("../controller/getStudentById.controller");
-const createStudent = require("../controller/createStudent.controller");
-const udpateStudent = require("../controller/updateStudent.controller");
-const deleteStudent = require("../controller/deleteStudent.controller");
+const getAllStudents = require("../controller/student/getAllStudents.controller");
+const getStudentById = require("../controller/student/getStudentById.controller");
+const createStudent = require("../controller/student/createStudent.controller");
+const udpateStudent = require("../controller/student/updateStudent.controller");
+const deleteStudent = require("../controller/student/deleteStudent.controller");
 const validate_token = require("../middleware/auth");
 
 const student_managementRoute = (app) => {

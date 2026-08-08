@@ -1,6 +1,6 @@
-const db = require("../config/config");
-const logs_error = require("../helper/logs_error");
-const { missingValues, checkTargetId } = require("../helper/validate");
+const db = require("../../config/config");
+const logs_error = require("../../helper/logs_error");
+const { missingValues, checkTargetId } = require("../../helper/validate");
 
 const udpateStudent = async (req, res) => {
   try {
