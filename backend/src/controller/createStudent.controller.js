@@ -23,7 +23,7 @@ const createStudent = async (req, res) => {
     });
   } catch (error) {
     const content = error.message;
-    logs_error(res, content + "\n");
+    logs_error(content + "\n");
     res.send({ status: false, message: content });
   }
 };

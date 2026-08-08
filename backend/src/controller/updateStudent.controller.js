@@ -31,7 +31,7 @@ const udpateStudent = async (req, res) => {
     });
   } catch (error) {
     const content = error.message;
-    logs_error(res, content + "\n");
+    logs_error(content + "\n");
     res.status(500).send({
       status: false,
       message: content,
