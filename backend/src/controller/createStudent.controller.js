@@ -1,4 +1,5 @@
 const db = require("../config/config");
+const logs_error = require("../helper/logs_error");
 
 const createStudent = async (req, res) => {
   const mysql = `
@@ -21,7 +22,9 @@ const createStudent = async (req, res) => {
       student,
     });
   } catch (error) {
-    res.send({ status: false, message: error });
+    const content = error.message;
+    logs_error(res, content + "\n");
+    res.send({ status: false, message: content });
   }
 };
 

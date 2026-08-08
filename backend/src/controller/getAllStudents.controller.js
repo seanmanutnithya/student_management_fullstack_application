@@ -1,5 +1,6 @@
 const fetchAllStudent = require("../helper/fetchAllStudents");
 const exportToJson = require("../helper/exprtToJson");
+const logs_error = require("../helper/logs_error");
 
 const getAllStudents = async (req, res) => {
   try {
@@ -7,6 +8,7 @@ const getAllStudents = async (req, res) => {
     res.send({ students, s });
   } catch (error) {
     const content = error.message;
+    logs_error(res, content + "\n");
     res.status(500).send({
       status: false,
       message: content,

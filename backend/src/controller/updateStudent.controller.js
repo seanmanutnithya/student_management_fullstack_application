@@ -30,8 +30,8 @@ const udpateStudent = async (req, res) => {
       message: "updated student!",
     });
   } catch (error) {
-    const content = error.message + "\n";
-    logs_error(content);
+    const content = error.message;
+    logs_error(res, content + "\n");
     res.status(500).send({
       status: false,
       message: content,
