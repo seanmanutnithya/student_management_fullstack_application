@@ -3,9 +3,9 @@ const fetchAllData = require("../../helper/fetchAllData");
 const logs_error = require("../../helper/logs_error");
 const getAllUsers = async (req, res) => {
   try {
-    const auths = await fetchAllData("auths");
+    const users = await fetchAllData("auths");
     res.send({
-      auths,
+      users,
     });
   } catch (error) {
     const content = error.message;
