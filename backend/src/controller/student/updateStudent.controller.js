@@ -1,4 +1,4 @@
-const db = require("../../config/config");
+const { studentDB } = require("../../config/config");
 const logs_error = require("../../helper/logs_error");
 const { missingValues, checkTargetId } = require("../../helper/validate");
 
@@ -14,7 +14,7 @@ const udpateStudent = async (req, res) => {
 
     await checkTargetId(res, targetId);
     await missingValues(res, field);
-    await db.query(sql, [
+    await studentDB.query(sql, [
       id,
       name,
       gender,

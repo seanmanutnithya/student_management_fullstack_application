@@ -431,7 +431,9 @@
   const confirmOverlay = document.getElementById("confirmOverlay");
   const confirmCancelBtn = document.getElementById("confirmCancelBtn");
   const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
-  const deleteSelectedBtn = document.getElementById("deleteSelectedBtn");
+  const deleteSelectestudnetDBtn = document.getElementById(
+    "deleteSelectestudnetDBtn",
+  );
 
   function openConfirm() {
     confirmOverlay.style.visibility = "visible";
@@ -491,7 +493,7 @@
     showToast("Student removed", "trash-2");
   });
 
-  deleteSelectedBtn.addEventListener("click", () => {
+  deleteSelectestudnetDBtn.addEventListener("click", () => {
     const checked = document.querySelectorAll(
       "#studentsTbody .row-check:checked",
     );

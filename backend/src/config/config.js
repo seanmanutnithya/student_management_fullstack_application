@@ -1,9 +1,9 @@
 const mysql = require("mysql2/promise");
-const connection = mysql.createPool({
+const studentDB = mysql.createPool({
   host: "localhost",
   user: "root",
   password: "",
   database: "student_management",
 });
 
-module.exports = connection;
+module.exports = { studentDB };

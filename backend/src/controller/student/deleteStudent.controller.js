@@ -1,4 +1,4 @@
-const db = require("../../config/config");
+const { studentDB } = require("../../config/config");
 const logs_error = require("../../helper/logs_error");
 const { checkTargetId } = require("../../helper/validate");
 
@@ -8,7 +8,7 @@ const deleteStudent = async (req, res) => {
     const targetId = req.params.targetId;
     await checkTargetId(res, targetId);
 
-    await db.query(sql, [targetId]);
+    await studentDB.query(sql, [targetId]);
     res.send({
       status: true,
       message: "Deleted student!",

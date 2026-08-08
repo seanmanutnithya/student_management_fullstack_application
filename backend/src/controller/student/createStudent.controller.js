@@ -1,4 +1,4 @@
-const db = require("../../config/config");
+const { studentDB } = require("../../config/config");
 const logs_error = require("../../helper/logs_error");
 
 const createStudent = async (req, res) => {
@@ -9,7 +9,14 @@ const createStudent = async (req, res) => {
   try {
     const field = ({ id, name, gender, std_class, phone, image_url } =
       req.body);
-    await db.query(mysql, [id, name, gender, std_class, phone, image_url]);
+    await studentDB.query(mysql, [
+      id,
+      name,
+      gender,
+      std_class,
+      phone,
+      image_url,
+    ]);
     const student = {
       id,
       name,
