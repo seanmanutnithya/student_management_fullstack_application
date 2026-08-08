@@ -13,7 +13,7 @@ async function missingValues(res, field) {
 }
 
 async function checkTargetId(res, targetId) {
-  const students = await fetchAllStudent();
+  const students = await fetchAllStudent("students");
 
   const index = await students.findIndex((idx) => idx.id == targetId);
   if (index == -1) {

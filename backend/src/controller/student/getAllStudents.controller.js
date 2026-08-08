@@ -4,7 +4,7 @@ const logs_error = require("../../helper/logs_error");
 
 const getAllStudents = async (req, res) => {
   try {
-    const students = await fetchAllStudent();
+    const students = await fetchAllStudent("students");
     res.send({ students });
   } catch (error) {
     const content = error.message;
