@@ -13,7 +13,7 @@ const udpateStudent = async (req, res) => {
       req.body);
 
     await checkTargetId(res, targetId);
-    await missingValues(field);
+    await missingValues(res, field);
     await db.query(sql, [
       id,
       name,

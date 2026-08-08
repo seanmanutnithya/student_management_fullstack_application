@@ -1,5 +1,5 @@
 const fetchAllStudent = require("./fetchAllStudents");
-async function missingValues(req, res, field) {
+async function missingValues(res, field) {
   const missing = Object.entries(field).filter(([key, value]) =>
     value == "" ? true
     : value == null ? true
