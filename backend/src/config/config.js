@@ -6,11 +6,21 @@ dotenv.config({ path: path.resolve(__dirname, "../../../.env") });
 const STUDNET_DB_HOST = process.env.STUDNET_DB_HOST;
 const STUDNET_DB_USER = process.env.STUDNET_DB_USER;
 
+const AUTH_DB_HOST = process.env.AUTH_DB_HOST;
+const AUTH_DB_USER = process.env.AUTH_DB_USER;
+
 const studentDB = mysql.createPool({
   host: STUDNET_DB_HOST,
   user: STUDNET_DB_USER,
   password: "",
   database: "student_management",
+});
+
+const AuthDB = mysql.createPool({
+  host: AUTH_DB_HOST,
+  user: AUTH_DB_HOST,
+  password: "",
+  database: "auth_management",
 });
 
 module.exports = { studentDB };
