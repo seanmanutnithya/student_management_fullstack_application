@@ -12,17 +12,26 @@ async function missingValues(res, field) {
   }
 }
 
-async function checkTargetId(res, targetId) {
+async function checkTargetId(targetId) {
   const students = await fetchAllData("students");
 
   const index = await students.findIndex((idx) => idx.id == targetId);
-  if (index == -1) {
-    return res.status(404).send({
-      status: false,
-      message: "TargetId not found!",
-    });
-  }
+
   return index;
 }
 
-module.exports = { missingValues, checkTargetId };
+async function checkEmail(res, email) {
+  const users = await fetchAllData("auths");
+
+  const index = await users.findIndex((idx) => idx.email === email);
+  if (index == -1) {
+    return res.status(404).send({
+      status: false,
+      message: "this account doesn't exist, singup instead!",
+    });
+  }
+
+  return index;
+}
+
+module.exports = { missingValues, checkTargetId, checkEmail };
