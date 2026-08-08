@@ -6,7 +6,13 @@ const deleteStudent = async (req, res) => {
   try {
     const sql = `DELETE FROM students WHERE students.id=?`;
     const targetId = req.params.targetId;
-    await checkTargetId(res, targetId);
+    const index = checkTargetId(targetId);
+    if (index == -1) {
+      return res.status(404).send({
+        status: false,
+        message: "TargetId not found!",
+      });
+    }
 
     await studentDB.query(sql, [targetId]);
     res.send({

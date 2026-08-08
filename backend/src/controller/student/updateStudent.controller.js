@@ -12,7 +12,13 @@ const udpateStudent = async (req, res) => {
     const field = ({ id, name, gender, std_class, phone, image_url, remark } =
       req.body);
 
-    await checkTargetId(res, targetId);
+    const index = await checkTargetId(targetId);
+    if (index == -1) {
+      return res.status(404).send({
+        status: false,
+        message: "TargetId not found!",
+      });
+    }
     await missingValues(res, field);
     await studentDB.query(sql, [
       id,
