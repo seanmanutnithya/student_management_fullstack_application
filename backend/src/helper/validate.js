@@ -13,15 +13,16 @@ async function missingValues(res, field) {
 }
 
 async function checkTargetId(res, targetId) {
-  const allStudents = await fetchAllStudent();
+  const students = await fetchAllStudent();
 
-  const index = await allStudents.findIndex((idx) => idx.id == targetId);
+  const index = await students.findIndex((idx) => idx.id == targetId);
   if (index == -1) {
     return res.status(404).send({
       status: false,
       message: "TargetId not found!",
     });
   }
+  return index;
 }
 
 module.exports = { missingValues, checkTargetId };
