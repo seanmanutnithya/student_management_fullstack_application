@@ -1,5 +1,6 @@
 const { authDB } = require("../../config/config");
 const { checkEmail } = require("../../helper/validate");
+const { compareHashPassword } = require("../../helper/hashPassword");
 const fetchAllData = require("../../helper/fetchAllData");
 
 const logIn = async (req, res) => {
@@ -16,9 +17,17 @@ const logIn = async (req, res) => {
 
     const users = await fetchAllData("auths");
 
+    const password = users[index].password;
+    const isMatch = await compareHashPassword(log_password, password);
+    if (!isMatch) {
+      return res.status(401).send({
+        status: false,
+        message: "invalid email or password!",
+      });
+    }
+
     const user_name = users[index].user_name;
     const email = users[index].email;
-    const password = users[index].password;
     const phone = users[index].phone;
 
     res.send({

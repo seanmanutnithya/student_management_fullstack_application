@@ -1,7 +1,7 @@
 const { authDB } = require("../../config/config");
 const { missingValues, checkEmail } = require("../../helper/validate");
 
-const hashPassword = require("../../helper/hashPassword");
+const { hashPassword } = require("../../helper/hashPassword");
 const logs_error = require("../../helper/logs_error");
 const signup = async (req, res) => {
   const sql = `
