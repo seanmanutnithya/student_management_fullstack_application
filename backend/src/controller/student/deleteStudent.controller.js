@@ -28,7 +28,6 @@ const deleteStudent = async (req, res) => {
         <b>Gender:</b> ${student.gender}
         <b>Class:</b> ${student.std_class}
         <b>Phone:</b> <code>${student.phone}</code>
-        <b>Profile:</b> ${student.image_url}
         <b>Remark:</b> ${student.remark}
     `.trim();
     await sendTelegramMessage(message);

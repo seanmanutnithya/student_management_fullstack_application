@@ -7,12 +7,11 @@ const sendTelegramMessage = require("../../helper/sendTelegramMessage");
 const udpateStudent = async (req, res) => {
   try {
     const sql = `
-        UPDATE students SET id=?,name=?,gender=?,std_class=?,phone=?,image_url=?,remark=? 
+        UPDATE students SET id=?,name=?,gender=?,std_class=?,phone=?,remark=? 
         WHERE students.id=?        
     `;
     const targetId = req.params.targetId;
-    const field = ({ id, name, gender, std_class, phone, image_url, remark } =
-      req.body);
+    const field = ({ id, name, gender, std_class, phone, remark } = req.body);
 
     const index = await checkTargetId(targetId);
     if (index == -1) {
@@ -35,7 +34,6 @@ const udpateStudent = async (req, res) => {
       gender,
       std_class,
       phone,
-      image_url,
       remark,
       targetId,
     ]);
@@ -46,7 +44,6 @@ const udpateStudent = async (req, res) => {
       gender,
       std_class,
       phone,
-      image_url,
       remark,
     };
 
@@ -57,7 +54,6 @@ const udpateStudent = async (req, res) => {
         <b>Gender:</b> ${student.gender}
         <b>Class:</b> ${student.std_class}
         <b>Phone:</b> <code>${student.phone}</code>
-        <b>Profile:</b> ${student.image_url}
     `.trim();
 
     await sendTelegramMessage(message);

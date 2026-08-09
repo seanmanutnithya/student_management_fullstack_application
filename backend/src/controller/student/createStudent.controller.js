@@ -3,34 +3,25 @@ const logs_error = require("../../helper/logs_error");
 const sendTelegramMessage = require("../../helper/sendTelegramMessage");
 const createStudent = async (req, res) => {
   const mysql = `
-    INSERT INTO students (id, name, gender, std_class, phone, image_url) VALUES
-    (?,?,?,?,?,?);
+    INSERT INTO students (id, name, gender, std_class, phone ) VALUES
+    (?,?,?,?,?);
   `;
   try {
-    const field = ({ id, name, gender, std_class, phone, image_url } =
-      req.body);
-    await studentDB.query(mysql, [
-      id,
-      name,
-      gender,
-      std_class,
-      phone,
-      image_url,
-    ]);
+    const field = ({ id, name, gender, std_class, phone } = req.body);
+    await studentDB.query(mysql, [id, name, gender, std_class, phone]);
     const student = {
       id,
       name,
       gender,
       std_class,
       phone,
-      image_url,
     };
     const message = `
       🆕 <b>New Student Registered</b>
           <b>ID:</b> <code>${student.id}</code>
           <b>Name:</b> ${student.name}
           <b>Gender:</b> ${student.gender}
-          <b>Class:</b> ${student.studnet_class}
+          <b>Class:</b> ${student.std_class}
           <b>Phone:</b> <code>${student.phone}</code>
     `.trim();
     await sendTelegramMessage(message);

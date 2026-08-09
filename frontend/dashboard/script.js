@@ -36,13 +36,13 @@
   }
 
   /* ---------------- Render: table rows ---------------- */
+  // <img class="student-avatar" src="${s.image_url}" alt="" loading="lazy">
   function rowMarkup(s, i) {
     return `
       <tr data-index="${i}">
         <td class="col-check"><input type="checkbox" class="row-check" aria-label="Select ${s.name}"></td>
         <td>
           <div class="student-name-cell">
-            <img class="student-avatar" src="${s.image_url}" alt="" loading="lazy">
             <span class="student-name">${s.name}</span>
           </div>
         </td>
@@ -63,13 +63,12 @@
         </td>
       </tr>`;
   }
-
+  // <img class="student-avatar" src="${s.image_url}" alt="" loading="lazy">
   function cardMarkup(s, i) {
     return `
       <div class="student-card" data-index="${i}">
         <div class="student-card-top">
           <input type="checkbox" class="row-check" aria-label="Select ${s.name}">
-          <img class="student-avatar" src="${s.image_url}" alt="" loading="lazy">
           <div>
             <div class="student-card-name">${s.name}</div>
             <div class="student-card-roll">Roll ${s.std_class} · Class ${s.std_class}</div>
