@@ -56,7 +56,7 @@
             <button class="row-action-btn edit" title="Edit ${s.name}" aria-label="Edit ${s.name}">
               <i data-lucide="pencil"></i>
             </button>
-            <button class="row-action-btn delete" title="Delete ${s.name}" aria-label="Delete ${s.name}">
+            <button class="row-action-btn delete" title="Delete ${s.name}" aria-label="Delete ${s.name}" >
               <i data-lucide="trash-2"></i>
             </button>
           </div>
@@ -385,27 +385,38 @@
     if (e.target === confirmOverlay) closeConfirm();
   });
 
-  confirmDeleteBtn.addEventListener("click", () => {
+  confirmDeleteBtn.addEventListener("click", async () => {
     const el = pendingDeleteEl;
     confirmOverlay.style.visibility = "hidden";
     confirmOverlay.style.opacity = 0;
-    if (el && window.gsap) {
-      gsap.to(el, {
-        opacity: 0,
-        x: -16,
-        height: 0,
-        paddingTop: 0,
-        paddingBottom: 0,
-        marginTop: 0,
-        marginBottom: 0,
-        duration: 0.3,
-        ease: "power2.in",
-        onComplete: () => {
-          el.remove();
-        },
-      });
-    } else if (el) {
-      el.remove();
+
+    try {
+      if (!el) return;
+      const index = el.dataset.index;
+      const student = STUDENTS[index];
+      await handleDeleteStudent(student.id);
+
+      if (window.gsap) {
+        gsap.to(el, {
+          opacity: 0,
+          x: -16,
+          height: 0,
+          paddingTop: 0,
+          paddingBottom: 0,
+          marginTop: 0,
+          marginBottom: 0,
+          duration: 0.3,
+          ease: "power2.in",
+          onComplete: () => {
+            el.remove();
+          },
+        });
+      } else if (el) {
+        el.remove();
+      }
+    } catch (error) {
+      console.error(error);
+      showToast("Select students to delete first", "info");
     }
     pendingDeleteEl = null;
     showToast("Student removed", "trash-2");
@@ -421,23 +432,41 @@
     }
     pendingDeleteEl = null;
     openConfirm();
-    confirmDeleteBtn.onclick = () => {
+
+    confirmDeleteBtn.onclick = async () => {
       confirmOverlay.style.visibility = "hidden";
       confirmOverlay.style.opacity = 0;
+
+      const idsToDelete = [];
       checked.forEach((box) => {
         const tr = box.closest("tr");
-        if (tr && window.gsap) {
-          gsap.to(tr, {
-            opacity: 0,
-            x: -16,
-            duration: 0.25,
-            onComplete: () => tr.remove(),
-          });
-        } else if (tr) {
-          tr.remove();
-        }
+        const index = tr.dataset.index;
+        idsToDelete.push(STUDENTS[index].id);
       });
-      showToast(`${checked.length} student(s) removed`, "trash-2");
+
+      try {
+        await Promise.all(idsToDelete.map((id) => handleDeleteStudent(id)));
+        STUDENTS = STUDENTS.filter((s) => !idsToDelete.includes(s.id));
+        render();
+
+        checked.forEach((box) => {
+          if (tr && window.gsap) {
+            gsap.to(tr, {
+              opacity: 0,
+              x: -16,
+              duration: 0.25,
+              onComplete: () => tr.remove(),
+            });
+          } else if (tr) {
+            tr.remove();
+          }
+
+          showToast(`${checked.length} student(s) removed`, "trash-2");
+        });
+      } catch (error) {
+        console.error(error);
+        showToast("Failed to delete selected students", "info");
+      }
     };
   });
 
@@ -558,4 +587,17 @@
   }
 
   document.addEventListener("DOMContentLoaded", init);
+
+  // intergrate with backend
+  async function handleDeleteStudent(targetId) {
+    const res = await fetch(base_URL + `/api/v1/student/delete/${targetId}`, {
+      method: "DELETE",
+    });
+
+    if (!res.ok) {
+      throw new Error(`Delete failed with status ${res.status}`);
+    }
+
+    return res.json();
+  }
 })();
