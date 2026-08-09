@@ -19,7 +19,14 @@ const udpateStudent = async (req, res) => {
         message: "TargetId not found!",
       });
     }
-    await missingValues(res, field);
+    const missing = missingValues(field);
+
+    if (missing.length > 0) {
+      return res.status(404).send({
+        message: `${missing.map(([key]) => key).join(", ")} is required!`,
+      });
+    }
+
     await studentDB.query(sql, [
       id,
       name,

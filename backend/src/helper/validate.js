@@ -1,15 +1,12 @@
 const fetchAllData = require("./fetchAllData");
-async function missingValues(res, field) {
+function missingValues(field) {
   const missing = Object.entries(field).filter(([key, value]) =>
     value == "" ? true
     : value == null ? true
     : false,
   );
-  if (missing.length > 0) {
-    return res.status(404).send({
-      message: `${missing.map(([key]) => key).join(", ")} is required!`,
-    });
-  }
+
+  return missing;
 }
 
 async function checkTargetId(targetId) {
@@ -20,16 +17,10 @@ async function checkTargetId(targetId) {
   return index;
 }
 
-async function checkEmail(res, email) {
+async function checkEmail(email) {
   const users = await fetchAllData("auths");
 
   const index = await users.findIndex((idx) => idx.email === email);
-  if (index == -1) {
-    return res.status(404).send({
-      status: false,
-      message: "this account doesn't exist, singup instead!",
-    });
-  }
 
   return index;
 }

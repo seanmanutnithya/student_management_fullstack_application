@@ -1,5 +1,5 @@
 const { authDB } = require("../../config/config");
-const { missingValues } = require("../../helper/validate");
+const { missingValues, checkEmail } = require("../../helper/validate");
 
 const logs_error = require("../../helper/logs_error");
 const signup = async (req, res) => {
@@ -9,7 +9,22 @@ const signup = async (req, res) => {
     `;
   try {
     const field = ({ user_name, email, password, phone } = req.body);
-    await missingValues(res, field);
+
+    const missing = missingValues(field);
+    if (missing.length > 0) {
+      return res.status(404).send({
+        message: `${missing.map(([key]) => key).join(", ")} is required!`,
+      });
+    }
+
+    const index = await checkEmail(email);
+    if (index !== -1) {
+      return res.status(500).send({
+        status: true,
+        message: "this account already exist!",
+      });
+    }
+
     await authDB.query(sql, [user_name, email, password, phone]);
     const user = {
       user_name,
