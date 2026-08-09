@@ -127,13 +127,27 @@
 
   /* ---------------- Row actions (UI + animation only) ---------------- */
   let pendingDeleteEl = null;
+  let pendingEditEle = null;
 
   function wireRowActions() {
     document.querySelectorAll(".row-action-btn.edit").forEach((btn) => {
-      btn.addEventListener("click", () => openModal("Edit Student"));
+      btn.addEventListener("click", () => {
+        pendingEditEle = btn.closest("tr , .student-card");
+        const index = pendingEditEle.dataset.index;
+        const student = STUDENTS[index];
+        document.getElementById("studentName").value = student.name;
+        document.getElementById("studentId").value = student.id;
+        document.getElementById("studentGender").value = student.gender;
+        document.getElementById("studentClass").value = student.std_class;
+        document.getElementById("studentPhone").value = student.phone;
+        document.getElementById("studentRemark").value = student.remark ?? "";
+
+        openModal("Edit Student");
+      });
     });
     document.querySelectorAll(".row-action-btn.delete").forEach((btn) => {
       btn.addEventListener("click", () => {
+        currentMode = "edit";
         pendingDeleteEl = btn.closest("tr, .student-card");
         openConfirm();
       });
@@ -308,16 +322,52 @@
     document.body.style.overflow = "";
   }
 
-  addStudentBtn.addEventListener("click", () => openModal("Add Student"));
+  let currentMode = null;
+
+  addStudentBtn.addEventListener("click", () => {
+    currentMode = "add";
+    pendingEditEle = null;
+    studentForm.reset();
+    openModal("Add Student");
+  });
   modalCloseBtn.addEventListener("click", closeModal);
   modalCancelBtn.addEventListener("click", closeModal);
   modalOverlay.addEventListener("click", (e) => {
     if (e.target === modalOverlay) closeModal();
   });
 
-  modalSaveBtn.addEventListener("click", () => {
-    closeModal();
+  modalSaveBtn.addEventListener("click", async () => {
+    const el = pendingEditEle;
+    const index = el.dataset.index;
+    const name = document.getElementById("studentName").value;
+    const id = document.getElementById("studentId").value;
+    const gender = document.getElementById("studentGender").value;
+    const std_class = document.getElementById("studentClass").value;
+    const phone = document.getElementById("studentPhone").value;
+    const remark = document.getElementById("studentRemark").value;
+
+    STUDENTS[index].name = name;
+    STUDENTS[index].id = id;
+    STUDENTS[index].gender = gender;
+    STUDENTS[index].std_class = std_class;
+    STUDENTS[index].phone = phone;
+    STUDENTS[index].remark = remark;
+
+    const targetId = STUDENTS[index].id;
+    const updateData = {
+      name,
+      id,
+      gender,
+      std_class,
+      phone,
+      remark,
+    };
+    await handleUpdateStudent(targetId, updateData);
+    render();
     runLoading(() => showToast("Student saved successfully", "check-circle-2"));
+
+    // showToast("Failed to update", "info");
+    // throw new Error("Failed to update!");
   });
 
   /* ---------------- Photo upload preview ---------------- */
@@ -597,7 +647,22 @@
     if (!res.ok) {
       throw new Error(`Delete failed with status ${res.status}`);
     }
+    return res.json();
+  }
 
+  async function handleUpdateStudent(targetId, updateData) {
+    const res = await fetch(base_URL + `/api/v1/student/update/${targetId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updateData),
+    });
+
+    if (!res.ok) {
+      throw new Error(`Update failed with status ${res.status}`);
+    }
+    closeModal();
     return res.json();
   }
 })();

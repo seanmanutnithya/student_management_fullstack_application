@@ -1,5 +1,5 @@
 const { studentDB } = require("../../config/config");
-const { missingValues, checkTargetId } = require("../../helper/validate");
+const { checkTargetId } = require("../../helper/validate");
 
 const logs_error = require("../../helper/logs_error");
 const sendTelegramMessage = require("../../helper/sendTelegramMessage");
@@ -18,13 +18,6 @@ const udpateStudent = async (req, res) => {
       return res.status(404).send({
         status: false,
         message: "TargetId not found!",
-      });
-    }
-    const missing = missingValues(field);
-
-    if (missing.length > 0) {
-      return res.status(404).send({
-        message: `${missing.map(([key]) => key).join(", ")} is required!`,
       });
     }
 
