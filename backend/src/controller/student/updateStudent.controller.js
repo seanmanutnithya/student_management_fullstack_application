@@ -3,6 +3,7 @@ const { missingValues, checkTargetId } = require("../../helper/validate");
 
 const logs_error = require("../../helper/logs_error");
 const sendTelegramMessage = require("../../helper/sendTelegramMessage");
+const exportToJson = require("../../helper/exprtToJson");
 
 const udpateStudent = async (req, res) => {
   try {
@@ -61,6 +62,7 @@ const udpateStudent = async (req, res) => {
     `.trim();
 
     await sendTelegramMessage(message);
+    await exportToJson();
 
     res.send({
       status: true,

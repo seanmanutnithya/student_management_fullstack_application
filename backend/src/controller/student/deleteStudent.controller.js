@@ -4,6 +4,7 @@ const { checkTargetId } = require("../../helper/validate");
 const logs_error = require("../../helper/logs_error");
 const sendTelegramMessage = require("../../helper/sendTelegramMessage");
 const fetchAllData = require("../../helper/fetchAllData");
+const exportToJson = require("../../helper/exprtToJson");
 
 const deleteStudent = async (req, res) => {
   try {
@@ -32,7 +33,7 @@ const deleteStudent = async (req, res) => {
         <b>Remark:</b> ${student.remark}
     `.trim();
     await sendTelegramMessage(message);
-
+    await exportToJson();
     res.send({
       status: true,
       message: "Deleted student!",
