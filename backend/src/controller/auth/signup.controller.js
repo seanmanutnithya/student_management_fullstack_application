@@ -1,6 +1,7 @@
 const { authDB } = require("../../config/config");
 const { missingValues, checkEmail } = require("../../helper/validate");
 
+const hashPassword = require("../../helper/hashPassword");
 const logs_error = require("../../helper/logs_error");
 const signup = async (req, res) => {
   const sql = `
@@ -8,8 +9,7 @@ const signup = async (req, res) => {
         VALUES (?,?,?,?)
     `;
   try {
-    const field = ({ user_name, email, password, phone } = req.body);
-
+    const field = ({ user_name, email, user_password, phone } = req.body);
     const missing = missingValues(field);
     if (missing.length > 0) {
       return res.status(404).send({
@@ -24,6 +24,8 @@ const signup = async (req, res) => {
         message: "this account already exist!",
       });
     }
+
+    const password = await hashPassword(user_password);
 
     await authDB.query(sql, [user_name, email, password, phone]);
     const user = {
