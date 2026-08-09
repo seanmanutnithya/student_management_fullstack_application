@@ -1,7 +1,6 @@
 const { studentDB } = require("../../config/config");
 const logs_error = require("../../helper/logs_error");
 const sendTelegramMessage = require("../../helper/sendTelegramMessage");
-const exportToJson = require("../../helper/exprtToJson");
 const createStudent = async (req, res) => {
   const mysql = `
     INSERT INTO students (id, name, gender, std_class, phone, image_url) VALUES
@@ -35,7 +34,6 @@ const createStudent = async (req, res) => {
           <b>Phone:</b> <code>${student.phone}</code>
     `.trim();
     await sendTelegramMessage(message);
-    await exportToJson();
     res.send({
       student,
     });
