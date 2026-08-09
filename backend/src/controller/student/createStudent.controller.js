@@ -27,7 +27,7 @@ const createStudent = async (req, res) => {
       image_url,
     };
     const message = `
-      🎓 <b>New Student Registered</b>
+      🆕 <b>New Student Registered</b>
           <b>ID:</b> <code>${student.id}</code>
           <b>Name:</b> ${student.name}
           <b>Gender:</b> ${student.gender}

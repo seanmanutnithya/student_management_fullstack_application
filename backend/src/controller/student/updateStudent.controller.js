@@ -1,6 +1,8 @@
 const { studentDB } = require("../../config/config");
-const logs_error = require("../../helper/logs_error");
 const { missingValues, checkTargetId } = require("../../helper/validate");
+
+const logs_error = require("../../helper/logs_error");
+const sendTelegramMessage = require("../../helper/sendTelegramMessage");
 
 const udpateStudent = async (req, res) => {
   try {
@@ -34,9 +36,31 @@ const udpateStudent = async (req, res) => {
       std_class,
       phone,
       image_url,
-      gender,
+      remark,
       targetId,
     ]);
+
+    const student = {
+      id,
+      name,
+      gender,
+      std_class,
+      phone,
+      image_url,
+      remark,
+    };
+
+    const message = `
+    ✅ <b>Student Updated!</b>
+        <b>ID:</b> <code>${student.id}</code>
+        <b>Name:</b> ${student.name}
+        <b>Gender:</b> ${student.gender}
+        <b>Class:</b> ${student.std_class}
+        <b>Phone:</b> <code>${student.phone}</code>
+        <b>Profile:</b> ${student.image_url}
+    `.trim();
+
+    await sendTelegramMessage(message);
 
     res.send({
       status: true,

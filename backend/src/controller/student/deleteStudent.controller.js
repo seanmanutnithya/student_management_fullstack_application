@@ -22,7 +22,7 @@ const deleteStudent = async (req, res) => {
     await studentDB.query(sql, [targetId]);
 
     const message = `
-    ❌ <b>Student removed!</b>
+    ❌ <b>Student Removed!</b>
         <b>ID:</b> <code>${student.id}</code>
         <b>Name:</b> ${student.name}
         <b>Gender:</b> ${student.gender}
