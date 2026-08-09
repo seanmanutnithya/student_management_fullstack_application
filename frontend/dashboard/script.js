@@ -665,4 +665,20 @@
     closeModal();
     return res.json();
   }
+
+  async function handleAddNewStudent(student) {
+    const res = await fetch(base_URL + "/api/v1/student/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(student),
+    });
+
+    if (!res.ok) {
+      throw new Error(`Create failed with status ${res.status}`);
+    }
+    closeModal();
+    return res.json();
+  }
 })();
