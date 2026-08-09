@@ -3,102 +3,21 @@
    CRUD buttons are wired for UI/animation only; no real
    create/update/delete logic or persistence is implemented.
    ============================================================ */
-(() => {
+(async () => {
   "use strict";
 
   /* ---------------- Seed data ---------------- */
-  const STUDENTS = [
-    {
-      name: "Eleanor Pena",
-      roll: "#01",
-      address: "TA-107, Newyork",
-      cls: "01",
-      dob: "02/05/2001",
-      phone: "+123 6988567",
-      avatar: "https://i.pravatar.cc/72?img=5",
-    },
-    {
-      name: "Jessia Rose",
-      roll: "#10",
-      address: "TA-107, Newyork",
-      cls: "02",
-      dob: "03/04/2000",
-      phone: "+123 8988569",
-      avatar: "https://i.pravatar.cc/72?img=9",
-    },
-    {
-      name: "Jenny Wilson",
-      roll: "#04",
-      address: "Australia, Sydney",
-      cls: "01",
-      dob: "12/05/2001",
-      phone: "+123 7988566",
-      avatar: "https://i.pravatar.cc/72?img=32",
-    },
-    {
-      name: "Guy Hawkins",
-      roll: "#03",
-      address: "Australia, Sydney",
-      cls: "02",
-      dob: "03/05/2001",
-      phone: "+123 5988565",
-      avatar: "https://i.pravatar.cc/72?img=12",
-    },
-    {
-      name: "Jacob Jones",
-      roll: "#15",
-      address: "Australia, Sydney",
-      cls: "04",
-      dob: "12/05/2001",
-      phone: "+123 9988568",
-      avatar: "https://i.pravatar.cc/72?img=15",
-    },
-    {
-      name: "Marcus Lee",
-      roll: "#15",
-      address: "Australia, Sydney",
-      cls: "04",
-      dob: "12/05/2001",
-      phone: "+123 9988568",
-      avatar: "https://i.pravatar.cc/72?img=18",
-    },
-    {
-      name: "Jane Cooper",
-      roll: "#01",
-      address: "Australia, Sydney",
-      cls: "04",
-      dob: "12/03/2001",
-      phone: "+123 6988566",
-      avatar: "https://i.pravatar.cc/72?img=25",
-    },
-    {
-      name: "Floyd Miles",
-      roll: "#11",
-      address: "TA-107, Newyork",
-      cls: "01",
-      dob: "03/05/2002",
-      phone: "+123 5988569",
-      avatar: "https://i.pravatar.cc/72?img=51",
-    },
-    {
-      name: "Priya Shah",
-      roll: "#11",
-      address: "TA-107, Newyork",
-      cls: "01",
-      dob: "03/05/2002",
-      phone: "+123 5988569",
-      avatar: "https://i.pravatar.cc/72?img=47",
-    },
-    {
-      name: "Aiden Brooks",
-      roll: "#07",
-      address: "TA-207, Chicago",
-      cls: "03",
-      dob: "19/09/2001",
-      phone: "+123 4433221",
-      avatar: "https://i.pravatar.cc/72?img=60",
-    },
-  ];
+  const base_URL = "http://localhost:3000";
+  async function getAllData() {
+    const res = await fetch(base_URL + "/api/v1/student/get/all");
+
+    if (!res.ok) {
+      throw new Error(`Server responded with ${res.status}`);
+    }
+    const data = await res.json();
+
+    return data.students;
+  }
 
   const tbody = document.getElementById("studentsTbody");
   const cardsWrap = document.getElementById("studentCards");
@@ -123,15 +42,15 @@
         <td class="col-check"><input type="checkbox" class="row-check" aria-label="Select ${s.name}"></td>
         <td>
           <div class="student-name-cell">
-            <img class="student-avatar" src="${s.avatar}" alt="" loading="lazy">
+            <img class="student-avatar" src="${s.image_url}" alt="" loading="lazy">
             <span class="student-name">${s.name}</span>
           </div>
         </td>
-        <td>${s.roll}</td>
-        <td>${s.address}</td>
-        <td>${s.cls}</td>
-        <td>${s.dob}</td>
+        <td>${s.id}</td>
+        <td>${s.gender}</td>
+        <td>${s.std_class}</td>
         <td>${s.phone}</td>
+        <td>${s.remark}</td>
         <td class="col-action">
           <div class="row-actions">
             <button class="row-action-btn edit" title="Edit ${s.name}" aria-label="Edit ${s.name}">
@@ -150,10 +69,10 @@
       <div class="student-card" data-index="${i}">
         <div class="student-card-top">
           <input type="checkbox" class="row-check" aria-label="Select ${s.name}">
-          <img class="student-avatar" src="${s.avatar}" alt="" loading="lazy">
+          <img class="student-avatar" src="${s.image_url}" alt="" loading="lazy">
           <div>
             <div class="student-card-name">${s.name}</div>
-            <div class="student-card-roll">Roll ${s.roll} · Class ${s.cls}</div>
+            <div class="student-card-roll">Roll ${s.std_class} · Class ${s.std_class}</div>
           </div>
           <div class="row-actions">
             <button class="row-action-btn edit" title="Edit ${s.name}" aria-label="Edit ${s.name}">
@@ -165,9 +84,9 @@
           </div>
         </div>
         <dl class="student-card-grid">
-          <div><dt>Address</dt><dd>${s.address}</dd></div>
-          <div><dt>Date of birth</dt><dd>${s.dob}</dd></div>
-          <div><dt>Phone</dt><dd>${s.phone}</dd></div>
+          <div><dt>Address</dt><dd>${s.gender}</dd></div>
+          <div><dt>Date of birth</dt><dd>${s.phone}</dd></div>
+          <div><dt>Phone</dt><dd>${s.remark}</dd></div>
         </dl>
       </div>`;
   }
@@ -631,7 +550,9 @@
   }
 
   /* ---------------- Init ---------------- */
-  function init() {
+  let STUDENTS = [];
+  async function init() {
+    STUDENTS = await getAllData();
     bootIcons();
     render();
     pageLoadAnimation();
