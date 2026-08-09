@@ -1,4 +1,5 @@
 const { studentDB } = require("../../config/config");
+const { missingValues } = require("../../helper/validate");
 const logs_error = require("../../helper/logs_error");
 const sendTelegramMessage = require("../../helper/sendTelegramMessage");
 const createStudent = async (req, res) => {
@@ -8,6 +9,12 @@ const createStudent = async (req, res) => {
   `;
   try {
     const field = ({ id, name, gender, std_class, phone } = req.body);
+    const missing = await missingValues(field);
+    if (missing.length > 0) {
+      return res.status(404).send({
+        message: `${missing.map(([key]) => key).join(", ")} is required!`,
+      });
+    }
     await studentDB.query(mysql, [id, name, gender, std_class, phone]);
     const student = {
       id,
@@ -16,6 +23,7 @@ const createStudent = async (req, res) => {
       std_class,
       phone,
     };
+
     const message = `
       🆕 <b>New Student Registered</b>
           <b>ID:</b> <code>${student.id}</code>
