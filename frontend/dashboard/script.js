@@ -298,7 +298,7 @@
         onComplete: () => {
           modalOverlay.style.visibility = "hidden";
           studentForm.reset();
-          resetUploadPreview();
+          // resetUploadPreview();
         },
       });
     } else {
@@ -321,29 +321,29 @@
   });
 
   /* ---------------- Photo upload preview ---------------- */
-  const photoInput = document.getElementById("studentPhoto");
-  const uploadPreview = document.getElementById("uploadPreview");
+  // const photoInput = document.getElementById("studentPhoto");
+  // const uploadPreview = document.getElementById("uploadPreview");
 
-  function resetUploadPreview() {
-    uploadPreview.innerHTML = '<i data-lucide="image-plus"></i>';
-    bootIcons();
-  }
+  // function resetUploadPreview() {
+  //   uploadPreview.innerHTML = '<i data-lucide="image-plus"></i>';
+  //   bootIcons();
+  // }
 
-  photoInput.addEventListener("change", () => {
-    const file = photoInput.files && photoInput.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      uploadPreview.innerHTML = `<img src="${e.target.result}" alt="Student photo preview">`;
-      if (window.gsap)
-        gsap.fromTo(
-          uploadPreview,
-          { scale: 0.8, opacity: 0 },
-          { scale: 1, opacity: 1, duration: 0.3, ease: "back.out(1.7)" },
-        );
-    };
-    reader.readAsDataURL(file);
-  });
+  // photoInput.addEventListener("change", () => {
+  //   const file = photoInput.files && photoInput.files[0];
+  //   if (!file) return;
+  //   const reader = new FileReader();
+  //   reader.onload = (e) => {
+  //     uploadPreview.innerHTML = `<img src="${e.target.result}" alt="Student photo preview">`;
+  //     if (window.gsap)
+  //       gsap.fromTo(
+  //         uploadPreview,
+  //         { scale: 0.8, opacity: 0 },
+  //         { scale: 1, opacity: 1, duration: 0.3, ease: "back.out(1.7)" },
+  //       );
+  //   };
+  //   reader.readAsDataURL(file);
+  // });
 
   /* ---------------- Confirm delete dialog ---------------- */
   const confirmOverlay = document.getElementById("confirmOverlay");
