@@ -133,6 +133,7 @@
     document.querySelectorAll(".row-action-btn.edit").forEach((btn) => {
       btn.addEventListener("click", () => {
         pendingEditEle = btn.closest("tr , .student-card");
+        currentMode = "update";
         const index = pendingEditEle.dataset.index;
         const student = STUDENTS[index];
         document.getElementById("studentName").value = student.name;
@@ -322,6 +323,7 @@
     document.body.style.overflow = "";
   }
 
+  // add student button
   let currentMode = null;
 
   addStudentBtn.addEventListener("click", () => {
@@ -330,15 +332,14 @@
     studentForm.reset();
     openModal("Add Student");
   });
+
   modalCloseBtn.addEventListener("click", closeModal);
   modalCancelBtn.addEventListener("click", closeModal);
   modalOverlay.addEventListener("click", (e) => {
     if (e.target === modalOverlay) closeModal();
   });
-
+  // save student button
   modalSaveBtn.addEventListener("click", async () => {
-    const el = pendingEditEle;
-    const index = el.dataset.index;
     const name = document.getElementById("studentName").value;
     const id = document.getElementById("studentId").value;
     const gender = document.getElementById("studentGender").value;
@@ -346,25 +347,36 @@
     const phone = document.getElementById("studentPhone").value;
     const remark = document.getElementById("studentRemark").value;
 
-    STUDENTS[index].name = name;
-    STUDENTS[index].id = id;
-    STUDENTS[index].gender = gender;
-    STUDENTS[index].std_class = std_class;
-    STUDENTS[index].phone = phone;
-    STUDENTS[index].remark = remark;
+    const studentData = { name, id, gender, std_class, phone, remark };
+    console.log(STUDENTS);
+    if (currentMode === "update") {
+      const el = pendingEditEle;
+      const index = el.dataset.index;
 
-    const targetId = STUDENTS[index].id;
-    const updateData = {
-      name,
-      id,
-      gender,
-      std_class,
-      phone,
-      remark,
-    };
-    await handleUpdateStudent(targetId, updateData);
-    render();
-    runLoading(() => showToast("Student saved successfully", "check-circle-2"));
+      STUDENTS[index] = { ...STUDENTS[index], ...studentData };
+      const targetId = STUDENTS[index].id;
+      await handleUpdateStudent(targetId, studentData);
+
+      render();
+      closeModal();
+      runLoading(() =>
+        showToast("Student saved successfully", "check-circle-2"),
+      );
+    } else if (currentMode === "add") {
+      try {
+        await handleAddNewStudent(studentData);
+        STUDENTS.push(studentData);
+        render();
+        closeModal();
+        runLoading(() =>
+          showToast("Student added successfully", "check-circle-2"),
+        );
+      } catch (error) {
+        runLoading(() => showToast("Cannot add new student", "info"));
+        throw new Error(`Internal server error ${error.message}`);
+        return;
+      }
+    }
 
     // showToast("Failed to update", "info");
     // throw new Error("Failed to update!");
@@ -662,7 +674,6 @@
     if (!res.ok) {
       throw new Error(`Update failed with status ${res.status}`);
     }
-    closeModal();
     return res.json();
   }
 
@@ -678,7 +689,6 @@
     if (!res.ok) {
       throw new Error(`Create failed with status ${res.status}`);
     }
-    closeModal();
     return res.json();
   }
 })();
