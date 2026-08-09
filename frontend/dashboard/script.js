@@ -50,7 +50,7 @@
         <td>${s.gender}</td>
         <td>${s.std_class}</td>
         <td>${s.phone}</td>
-        <td>${s.remark}</td>
+        <td>${s.remark == null ? "" : s.remark}</td>
         <td class="col-action">
           <div class="row-actions">
             <button class="row-action-btn edit" title="Edit ${s.name}" aria-label="Edit ${s.name}">
