@@ -372,7 +372,7 @@
           showToast("Student added successfully", "check-circle-2"),
         );
       } catch (error) {
-        runLoading(() => showToast("Cannot add new student", "info"));
+        runLoading(() => showToast("Missing information", "info"));
         throw new Error(`Internal server error ${error.message}`);
         return;
       }
