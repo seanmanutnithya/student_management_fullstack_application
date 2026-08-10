@@ -321,17 +321,36 @@
 
   /* ---------------- Login submit ---------------- */
   const loginSubmit = document.getElementById("loginSubmit");
-  loginForm.addEventListener("submit", (e) => {
+  loginForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     const emailOk = validateField(loginEmailField, isValidEmail);
     const pwOk = validateField(loginPasswordField, (v) => v.trim().length > 0);
     if (!emailOk || !pwOk) return;
 
+    const password = document.getElementById("loginPassword").value;
+    const email = document.getElementById("loginEmail").value;
+
+    const login = {
+      log_email: email,
+      log_password: password,
+    };
     setLoading(loginSubmit, true);
-    setTimeout(() => {
+    try {
+      if (result.success) {
+        window.location.href = "../dashboard/index.html";
+        showToast("Logged in successfully", "check-circle-2");
+      } else {
+        showToast(result?.message || "Login failed. Please try again!");
+        setLoading(loginSubmit, false);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
       setLoading(loginSubmit, false);
-      showToast("Logged in successfully (UI demo — no backend connected)");
-    }, 900);
+    }
+    // setTimeout(() => {
+    //   showToast("Logged in successfully");
+    // }, 900);
   });
 
   /* ---------------- Signup submit ---------------- */
@@ -425,4 +444,26 @@
     bootIcons();
     pageLoadAnimation();
   });
+
+  const base_URL = "http://localhost:3000";
+
+  async function handleLogin(login) {
+    const res = await fetch(base_URL + "/api/v1/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(login),
+    });
+
+    if (res.ok) {
+      return {
+        success: true,
+      };
+    } else {
+      return {
+        success: false,
+      };
+    }
+  }
 })();
