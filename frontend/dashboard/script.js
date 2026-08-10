@@ -347,8 +347,8 @@
     const phone = document.getElementById("studentPhone").value;
     const remark = document.getElementById("studentRemark").value;
 
-    const studentData = { name, id, gender, std_class, phone };
     if (currentMode === "update") {
+      const studentData = { name, id, gender, std_class, phone, remark };
       const el = pendingEditEle;
       const index = el.dataset.index;
 
@@ -362,6 +362,8 @@
         showToast("Student saved successfully", "check-circle-2"),
       );
     } else if (currentMode === "add") {
+      const studentData = { name, id, gender, std_class, phone };
+
       try {
         await handleAddNewStudent(studentData);
         STUDENTS.push(studentData);
