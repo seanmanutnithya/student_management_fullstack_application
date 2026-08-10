@@ -32,9 +32,14 @@
         setBoxState(b, b.value ? "filled" : null);
     });
   }
-
+  const signupEmail = sessionStorage.getItem("pendingSignupEmail");
+  if (!signupEmail) {
+    window.location.href = "../auth/auth.html";
+    return;
+  }
+  document.getElementById("otpTarget").textContent = signupEmail;
   boxes.forEach((box, i) => {
-    box.addEventListener("input", (e) => {
+    box.addEventListener("input", () => {
       const digitsOnly = box.value.replace(/[^0-9]/g, "");
       box.value = digitsOnly.slice(-1);
 
@@ -164,7 +169,7 @@
     }, 2600);
   }
 
-  /* ---------------- Submit (demo validation only) ---------------- */
+  /* ---------------- Submit  ---------------- */
   otpForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const code = getCode();
@@ -180,12 +185,18 @@
 
     setLoading(otpSubmit, true);
 
-    setTimeout(() => {
+    setTimeout(async () => {
       setLoading(otpSubmit, false);
 
-      if (code === "1234") {
+      const result = await handleValidateVerifyCode({
+        email: signupEmail,
+        verifyCode: code,
+      });
+
+      if (result.status) {
         boxes.forEach((b) => setBoxState(b, "valid"));
         showToast("Identity verified — redirecting…");
+        window.location.href = "../dashboard/index.html";
         if (window.gsap) {
           gsap.to(authCard, {
             opacity: 0,
@@ -195,11 +206,9 @@
             ease: "power2.in",
           });
         }
-        // In a real integration this would redirect, e.g.:
-        // setTimeout(() => window.location.href = 'index.html', 900);
       } else {
         otpError.querySelector("span").textContent =
-          "That code isn't right. Please try again.";
+          result.message || "That code isn't right. Please try again.";
         otpError.classList.add("is-visible");
         boxes.forEach((b) => setBoxState(b, "invalid"));
         shakeBoxes();
@@ -338,4 +347,16 @@
     pageLoadAnimation();
     startCountdown();
   });
+  const base_URL = "http://localhost:3000";
+  async function handleValidateVerifyCode(verifyContent) {
+    const res = await fetch(base_URL + "/api/v1/auth/signup/verify", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(verifyContent),
+    });
+
+    return res.json();
+  }
 })();
