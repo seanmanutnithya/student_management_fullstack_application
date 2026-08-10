@@ -347,8 +347,7 @@
     const phone = document.getElementById("studentPhone").value;
     const remark = document.getElementById("studentRemark").value;
 
-    const studentData = { name, id, gender, std_class, phone, remark };
-    console.log(STUDENTS);
+    const studentData = { name, id, gender, std_class, phone };
     if (currentMode === "update") {
       const el = pendingEditEle;
       const index = el.dataset.index;
@@ -510,8 +509,8 @@
         await Promise.all(idsToDelete.map((id) => handleDeleteStudent(id)));
         STUDENTS = STUDENTS.filter((s) => !idsToDelete.includes(s.id));
         render();
-
         checked.forEach((box) => {
+          const tr = box.closest("tr");
           if (tr && window.gsap) {
             gsap.to(tr, {
               opacity: 0,
