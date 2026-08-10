@@ -505,4 +505,14 @@
       message: data.message,
     };
   }
+
+  async function handleSendVerifyCode(mailContent) {
+    const res = await fetch(base_URL + "/v1/api/auth/signup/verify", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(mailContent),
+    });
+  }
 })();
