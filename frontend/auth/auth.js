@@ -507,7 +507,7 @@
       showToast(data.message, "info");
       return;
     } else {
-      await handleSendVerifyCode(mailContent);
+      // await handleSendVerifyCode(mailContent);
       showToast(data.message, "check-circle-2");
     }
     return {
@@ -516,15 +516,15 @@
     };
   }
 
-  async function handleSendVerifyCode(mailContent) {
-    const res = await fetch(base_URL + "/v1/api/auth/signup/verify", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(mailContent),
-    });
+  // async function handleSendVerifyCode(mailContent) {
+  //   const res = await fetch(base_URL + "/v1/api/auth/signup/verify", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(mailContent),
+  //   });
 
-    return res.json();
-  }
+  //   return res.json();
+  // }
 })();

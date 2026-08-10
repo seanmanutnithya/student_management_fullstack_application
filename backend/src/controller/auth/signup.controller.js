@@ -1,8 +1,14 @@
 const { authDB } = require("../../config/config");
 const { missingValues, checkEmail } = require("../../helper/validate");
-
 const { hashPassword } = require("../../helper/hashPassword");
+const { savePendingCode } = require("../../global/storePendingCode");
+
+const generateCode = require("../../utils/generateCode");
+const sendVerificationCode = require("../../helper/mailConfig");
+// const validateVerifyCode = require("./validateVerifyCode.controller");
+
 const logs_error = require("../../helper/logs_error");
+const storePendingCode = require("../../global/storePendingCode");
 const signup = async (req, res) => {
   const sql = `
         INSERT INTO auths (user_name,email,password,phone)
@@ -24,6 +30,10 @@ const signup = async (req, res) => {
         message: "this account already exist!",
       });
     }
+
+    const verifyCode = generateCode();
+    savePendingCode(email, verifyCode);
+    await sendVerificationCode(verifyCode, email);
 
     const password = await hashPassword(user_password);
 
