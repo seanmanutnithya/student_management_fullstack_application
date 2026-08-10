@@ -391,8 +391,11 @@
       user_password: password,
       phone,
     };
+
     try {
       const result = await handleSignup(signupData);
+
+      window.location.href = "../otps/otp.html";
 
       if (result.success) {
         setLoading(signupSubmit, true);
@@ -516,7 +519,7 @@
     };
   }
 
-  // async function handleSendVerifyCode(mailContent) {
+  // async function handleValidateVerifyCode(mailContent) {
   //   const res = await fetch(base_URL + "/v1/api/auth/signup/verify", {
   //     method: "POST",
   //     headers: {

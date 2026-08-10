@@ -2,7 +2,7 @@ const { authDB } = require("../../config/config");
 const { missingValues, checkEmail } = require("../../helper/validate");
 const { hashPassword } = require("../../helper/hashPassword");
 const { savePendingCode } = require("../../global/storePendingCode");
-
+const validateVerifyCode = require("./validateVerifyCode.controller");
 const generateCode = require("../../utils/generateCode");
 const sendVerificationCode = require("../../helper/mailConfig");
 // const validateVerifyCode = require("./validateVerifyCode.controller");
@@ -35,20 +35,26 @@ const signup = async (req, res) => {
     savePendingCode(email, verifyCode);
     await sendVerificationCode(verifyCode, email);
 
-    const password = await hashPassword(user_password);
+    const data = await validateVerifyCode(req, res);
+    const response = await data.json();
+    if (!data.status) {
+      return;
+    } else {
+      const password = await hashPassword(user_password);
 
-    await authDB.query(sql, [user_name, email, password, phone]);
-    const user = {
-      user_name,
-      email,
-      password,
-      phone,
-    };
-    res.send({
-      status: true,
-      message: "signup successfully!",
-      user,
-    });
+      await authDB.query(sql, [user_name, email, password, phone]);
+      const user = {
+        user_name,
+        email,
+        password,
+        phone,
+      };
+      res.send({
+        status: true,
+        message: "signup successfully!",
+        user,
+      });
+    }
   } catch (error) {
     const content = error.message;
     logs_error(content + "\n");
