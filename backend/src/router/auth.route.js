@@ -7,7 +7,7 @@ const authRoute = (app) => {
   app.post("/api/v1/auth/login", logIn);
   app.post("/api/v1/auth/signup", signup);
 
-  app.post("/v1/api/auth/signup/verify", validateVerifyCode);
+  app.post("/api/v1/auth/signup/verify", validateVerifyCode);
 };
 
 module.exports = authRoute;
