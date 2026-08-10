@@ -330,20 +330,23 @@
     const password = document.getElementById("loginPassword").value;
     const email = document.getElementById("loginEmail").value;
 
-    const login = {
+    const loginData = {
       log_email: email,
       log_password: password,
     };
     setLoading(loginSubmit, true);
+
     try {
+      const result = await handleLogin(loginData);
       if (result.success) {
-        window.location.href = "../dashboard/index.html";
         showToast("Logged in successfully", "check-circle-2");
+        window.location.href = "../dashboard/index.html";
       } else {
         showToast(result?.message || "Login failed. Please try again!");
         setLoading(loginSubmit, false);
       }
     } catch (error) {
+      showToast(error.message || "Login failed. Please try again!");
       console.error(error);
     } finally {
       setLoading(loginSubmit, false);
@@ -358,7 +361,7 @@
   const termsCheckbox = document.getElementById("agreeTerms");
   const termsError = document.getElementById("termsError");
 
-  signupForm.addEventListener("submit", (e) => {
+  signupForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     const nameOk = validateField(signupNameField, (v) => v.trim().length >= 2);
     const emailOk = validateField(signupEmailField, isValidEmail);
@@ -377,11 +380,31 @@
 
     if (!(nameOk && emailOk && phoneOk && pwOk && confirmOk && termsOk)) return;
 
-    setLoading(signupSubmit, true);
-    setTimeout(() => {
+    const password = document.getElementById("signupPassword").value;
+    const email = document.getElementById("signupEmail").value;
+    const name = document.getElementById("signupName").value;
+    const phone = document.getElementById("signupPhone").value;
+
+    const signupData = {
+      user_name: name,
+      email,
+      user_password: password,
+      phone,
+    };
+    try {
+      const result = await handleSignup(signupData);
+      if (result.success) {
+        setLoading(signupSubmit, true);
+        showToast("Account created", "check-circle-2");
+      } else {
+        showToast(result.message || "Cannot create account");
+      }
+    } catch (error) {
+      showToast("Cannot create account");
+      console.error(error.message);
+    } finally {
       setLoading(signupSubmit, false);
-      showToast("Account created (UI demo — no backend connected)");
-    }, 1000);
+    }
   });
 
   /* ---------------- Button hover micro-interactions ---------------- */
@@ -447,13 +470,13 @@
 
   const base_URL = "http://localhost:3000";
 
-  async function handleLogin(login) {
+  async function handleLogin(loginData) {
     const res = await fetch(base_URL + "/api/v1/auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(login),
+      body: JSON.stringify(loginData),
     });
 
     if (res.ok) {
@@ -465,5 +488,21 @@
         success: false,
       };
     }
+  }
+  async function handleSignup(signupData) {
+    const res = await fetch(base_URL + "/api/v1/auth/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(signupData),
+    });
+
+    const data = await res.json();
+
+    return {
+      success: res.ok,
+      message: data.message,
+    };
   }
 })();
