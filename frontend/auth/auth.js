@@ -395,13 +395,11 @@
     try {
       const result = await handleSignup(signupData);
 
-      window.location.href = "../otps/otp.html";
-
-      if (result.success) {
-        setLoading(signupSubmit, true);
-        showToast("Account created", "check-circle-2");
+      if (result?.success) {
+        sessionStorage.setItem("pendingSignupEmail", signupData.email);
+        window.location.href = "../otps/otp.html";
       } else {
-        showToast(result.message || "Cannot create account");
+        showToast(result?.message || "Cannot create account");
       }
     } catch (error) {
       showToast("Cannot create account");
@@ -503,16 +501,6 @@
     });
 
     const data = await res.json();
-    const mailContent = {
-      user: signupData.email,
-    };
-    if (!res.ok) {
-      showToast(data.message, "info");
-      return;
-    } else {
-      // await handleSendVerifyCode(mailContent);
-      showToast(data.message, "check-circle-2");
-    }
     return {
       success: res.ok,
       message: data.message,

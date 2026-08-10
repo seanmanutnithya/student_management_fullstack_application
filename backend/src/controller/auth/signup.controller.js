@@ -1,19 +1,11 @@
-const { authDB } = require("../../config/config");
 const { missingValues, checkEmail } = require("../../helper/validate");
 const { hashPassword } = require("../../helper/hashPassword");
 const { savePendingCode } = require("../../global/storePendingCode");
-const validateVerifyCode = require("./validateVerifyCode.controller");
 const generateCode = require("../../utils/generateCode");
 const sendVerificationCode = require("../../helper/mailConfig");
-// const validateVerifyCode = require("./validateVerifyCode.controller");
 
 const logs_error = require("../../helper/logs_error");
-const storePendingCode = require("../../global/storePendingCode");
 const signup = async (req, res) => {
-  const sql = `
-        INSERT INTO auths (user_name,email,password,phone)
-        VALUES (?,?,?,?)
-    `;
   try {
     const field = ({ user_name, email, user_password, phone } = req.body);
     const missing = missingValues(field);
@@ -31,30 +23,20 @@ const signup = async (req, res) => {
       });
     }
 
+    const password = await hashPassword(user_password);
     const verifyCode = generateCode();
-    savePendingCode(email, verifyCode);
+    savePendingCode(email, verifyCode, {
+      user_name,
+      email,
+      password,
+      phone,
+    });
     await sendVerificationCode(verifyCode, email);
 
-    const data = await validateVerifyCode(req, res);
-    const response = await data.json();
-    if (!data.status) {
-      return;
-    } else {
-      const password = await hashPassword(user_password);
-
-      await authDB.query(sql, [user_name, email, password, phone]);
-      const user = {
-        user_name,
-        email,
-        password,
-        phone,
-      };
-      res.send({
-        status: true,
-        message: "signup successfully!",
-        user,
-      });
-    }
+    return res.send({
+      status: true,
+      message: "Verification code sent. Please check your email.",
+    });
   } catch (error) {
     const content = error.message;
     logs_error(content + "\n");
