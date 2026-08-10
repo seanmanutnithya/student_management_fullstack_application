@@ -491,15 +491,6 @@
     }
   }
   async function handleSignup(signupData) {
-    const mailContent = {
-      user: signupData.email,
-    };
-    const sendMail = await handleSendVerifyCode(mailContent);
-    if (!sendMail.status) {
-      showToast(sendMail.message, "info");
-      return;
-    }
-
     const res = await fetch(base_URL + "/api/v1/auth/signup", {
       method: "POST",
       headers: {
@@ -509,7 +500,16 @@
     });
 
     const data = await res.json();
-
+    const mailContent = {
+      user: signupData.email,
+    };
+    if (!res.ok) {
+      showToast(data.message, "info");
+      return;
+    } else {
+      await handleSendVerifyCode(mailContent);
+      showToast(data.message, "check-circle-2");
+    }
     return {
       success: res.ok,
       message: data.message,
