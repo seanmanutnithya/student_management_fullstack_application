@@ -393,6 +393,7 @@
     };
     try {
       const result = await handleSignup(signupData);
+
       if (result.success) {
         setLoading(signupSubmit, true);
         showToast("Account created", "check-circle-2");
@@ -490,6 +491,15 @@
     }
   }
   async function handleSignup(signupData) {
+    const mailContent = {
+      user: signupData.email,
+    };
+    const sendMail = await handleSendVerifyCode(mailContent);
+    if (!sendMail.status) {
+      showToast(sendMail.message, "info");
+      return;
+    }
+
     const res = await fetch(base_URL + "/api/v1/auth/signup", {
       method: "POST",
       headers: {
@@ -514,5 +524,7 @@
       },
       body: JSON.stringify(mailContent),
     });
+
+    return res.json();
   }
 })();

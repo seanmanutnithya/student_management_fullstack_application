@@ -1,35 +1,39 @@
 const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
 const path = require("path");
+
+const generateCode = require("../utils/generateCode");
+
 dotenv.config({ path: path.join(__dirname, "../../../.env") });
 // Create a transporter using SMTP
-
-function generateVerificationCode() {
-  const verifyCode = Math.floor(Math.random() * 9000 + 1000).toString;
-  return verifyCode;
-}
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "manutnithya08@gmail.com",
+    user: process.env.MAIL_USER,
     pass: process.env.APP_PASSWORD,
   },
 });
 
 async function sendVerificationCode(req, res) {
-  generateVerificationCode();
+  const verifyCode = generateCode();
   try {
-    const { text, html } = req.body;
+    const { user } = req.body;
     const mailOptions = {
-      from: "name.teacher@gmail.com",
-      to: "manutnithya08@gmail.com",
-      subject: "verifycation code",
-      text,
-      html,
+      from: `App Signup Code`,
+      to: process.env.ADMIN_GMAIL,
+      subject: `Verify code`,
+      html: `
+        <div style='font-family: Arial, sans-serif; padding: 20px;'>
+          <h2>Verify Your Account</h2>
+          <h3>From ${user}</h3>
+          <p>Use the code below to complete your verification:</p>
+          <h1 style='letter-spacing: 4px;'>${verifyCode}</h1>
+          <p>This code will expire in 5 minutes. If you didn't request this, you can safely ignore this email.</p>
+        </div>`,
     };
 
-    const info = await transporter.sendMail(mailOptions);
+    await transporter.sendMail(mailOptions);
     res.send({
       status: true,
       message: "send mail successfully",
