@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const path = require("path");
 
 const generateCode = require("../utils/generateCode");
+const validateVerifyCode = require("../controller/auth/validateVerifyCode.controller");
 
 dotenv.config({ path: path.join(__dirname, "../../../.env") });
 // Create a transporter using SMTP
@@ -15,10 +16,8 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-async function sendVerificationCode(req, res) {
-  const verifyCode = generateCode();
+async function sendVerificationCode(verifyCode, user) {
   try {
-    const { user } = req.body;
     const mailOptions = {
       from: `App Signup Code`,
       to: process.env.ADMIN_GMAIL,
@@ -34,15 +33,8 @@ async function sendVerificationCode(req, res) {
     };
 
     await transporter.sendMail(mailOptions);
-    res.send({
-      status: true,
-      message: "send mail successfully",
-    });
   } catch (error) {
-    return res.status(500).send({
-      status: false,
-      message: "Failed to send mail",
-    });
+    console.error(error.message);
   }
 }
 
