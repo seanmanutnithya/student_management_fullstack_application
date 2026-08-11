@@ -319,7 +319,6 @@
     };
     const data = await handleValidateOTP(content);
 
-    console.log(data);
     setTimeout(() => {
       setLoading(otpSubmit, false);
       if (data.status) {
