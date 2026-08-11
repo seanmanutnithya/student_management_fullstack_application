@@ -26,7 +26,7 @@ async function sendVerificationCode(verifyCode, user, action) {
       html: `
         <div style='font-family: Arial, sans-serif; padding: 20px;'>
           <h2>Verify Your Account</h2>
-          <h3>Request from ${user}</h3>
+          <h3>${action === "signup" ? `Request from ${user}` : "Your request code"}</h3>
           <p>Use the code below to complete your verification:</p>
           <h1 style='letter-spacing: 4px;'>${verifyCode}</h1>
           <p>This code will expire in 5 minutes. If you didn't request this, you can safely ignore this email.</p>
