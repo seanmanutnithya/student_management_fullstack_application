@@ -56,7 +56,7 @@ const validateVerifyCode = async (req, res) => {
       // remove pending code from global
       removePendingCode(email);
     }
-
+    removePendingCode(email);
     return res.status(201).send({
       status: true,
       message: "Code verified!.",
