@@ -8,6 +8,7 @@ const logs_error = require("../../helper/logs_error");
 const signup = async (req, res) => {
   try {
     const field = ({ user_name, email, user_password, phone } = req.body);
+    //  check missing values
     const missing = missingValues(field);
     if (missing.length > 0) {
       return res.status(404).send({
@@ -15,6 +16,7 @@ const signup = async (req, res) => {
       });
     }
 
+    // check is email already exists
     const index = await checkEmail(email);
     if (index !== -1) {
       return res.status(500).send({
@@ -23,14 +25,18 @@ const signup = async (req, res) => {
       });
     }
 
+    // hash password
     const password = await hashPassword(user_password);
+    // verify code otp
     const verifyCode = generateCode();
+    // save to global object
     savePendingCode(email, verifyCode, {
       user_name,
       email,
       password,
       phone,
     });
+    // send verify code to admin email
     await sendVerificationCode(verifyCode, email);
 
     return res.send({
