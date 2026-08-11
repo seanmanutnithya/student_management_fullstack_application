@@ -30,7 +30,7 @@ const signup = async (req, res) => {
     // verify code otp
     const verifyCode = generateCode();
     // save to global object
-    savePendingCode(email, verifyCode, {
+    savePendingCode(email, verifyCode, "signup", {
       user_name,
       email,
       password,

@@ -13,13 +13,13 @@ const sendOTP = async (req, res) => {
     const field = ({ email, user } = req.body);
     // check is any var empty
     await missingValues(field);
-    savePendingCode(email, otpCode, user);
+    savePendingCode(email, otpCode, "forgetPassword", user);
     await sendVerificationCode(otpCode, email, "forgetPassword");
 
     res.send({
       status: true,
       message: "code sent successfully!",
-      otpCode,
+      user,
     });
   } catch (error) {
     res.status(500).send({

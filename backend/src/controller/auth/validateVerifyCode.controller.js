@@ -42,21 +42,23 @@ const validateVerifyCode = async (req, res) => {
         message: "This account already exists.",
       });
     }
-    // query to database
-    const sql =
-      "INSERT INTO auths (user_name,email,password,phone) VALUES (?,?,?,?)";
-    await authDB.query(sql, [
-      pendingCode.user_name,
-      pendingCode.email,
-      pendingCode.password,
-      pendingCode.phone,
-    ]);
+    if (pendingCode.action === "signup") {
+      // query to database
+      const sql =
+        "INSERT INTO auths (user_name,email,password,phone) VALUES (?,?,?,?)";
+      await authDB.query(sql, [
+        pendingCode.user_name,
+        pendingCode.email,
+        pendingCode.password,
+        pendingCode.phone,
+      ]);
+    }
     // remove pending code from global
     removePendingCode(email);
 
     return res.status(201).send({
       status: true,
-      message: "Account verified and created.",
+      message: "Code verified!.",
     });
   } catch (error) {
     return res.status(500).send({ status: false, message: error.message });
