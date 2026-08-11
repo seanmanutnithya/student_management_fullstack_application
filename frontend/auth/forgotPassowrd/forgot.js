@@ -167,15 +167,20 @@
 
   wireLiveValidation(emailField, isValidEmail);
 
-  emailForm.addEventListener("submit", (e) => {
+  emailForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     const ok = validateField(emailField, isValidEmail);
     if (!ok) return;
 
     setLoading(emailSubmit, true);
-    setTimeout(() => {
+    setTimeout(async () => {
       setLoading(emailSubmit, false);
       const email = document.getElementById("resetEmail").value.trim();
+      const sendContent = {
+        email,
+        user: email,
+      };
+      await handleSendOTP(sendContent);
       otpTargetEl.textContent = maskEmail(email);
       showToast("Verification code sent");
       goToStep(2);
@@ -531,4 +536,15 @@
     bootIcons();
     pageLoadAnimation();
   });
+  const base_URL = "http://localhost:3000";
+  // handle send OTP
+  async function handleSendOTP(sendContent) {
+    const res = await fetch(base_URL + "/api/v1/auth/send-otp", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(sendContent),
+    });
+  }
 })();
