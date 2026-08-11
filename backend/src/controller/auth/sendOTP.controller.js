@@ -14,7 +14,7 @@ const sendOTP = async (req, res) => {
     // check is any var empty
     await missingValues(field);
     savePendingCode(email, otpCode, user);
-    await sendVerificationCode(otpCode, email);
+    await sendVerificationCode(otpCode, email, "forgetPassword");
 
     res.send({
       status: true,
