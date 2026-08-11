@@ -16,12 +16,12 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-async function sendVerificationCode(verifyCode, user) {
+async function sendVerificationCode(verifyCode, user, action) {
   try {
     // send to admin email
     const mailOptions = {
       from: `App Signup Code`,
-      to: process.env.ADMIN_GMAIL,
+      to: action === "signup" ? process.env.ADMIN_GMAIL : user,
       subject: `Verify code`,
       html: `
         <div style='font-family: Arial, sans-serif; padding: 20px;'>
