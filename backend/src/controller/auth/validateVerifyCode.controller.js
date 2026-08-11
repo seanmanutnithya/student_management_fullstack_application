@@ -34,15 +34,16 @@ const validateVerifyCode = async (req, res) => {
         message: "Invalid verification code.",
       });
     }
-    // check is email exist
-    if ((await checkEmail(email)) !== -1) {
-      removePendingCode(email);
-      return res.status(409).send({
-        status: false,
-        message: "This account already exists.",
-      });
-    }
+
     if (pendingCode.action === "signup") {
+      // check is email exist
+      if ((await checkEmail(email)) !== -1) {
+        removePendingCode(email);
+        return res.status(409).send({
+          status: false,
+          message: "This account already exists.",
+        });
+      }
       // query to database
       const sql =
         "INSERT INTO auths (user_name,email,password,phone) VALUES (?,?,?,?)";

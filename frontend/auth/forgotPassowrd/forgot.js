@@ -160,6 +160,7 @@
   }
 
   /* ================= STEP 1 — EMAIL ================= */
+  let globalEmail = null;
   const emailForm = document.getElementById("emailForm");
   const emailField = document.querySelector('[data-field="resetEmail"]');
   const emailSubmit = document.getElementById("emailSubmit");
@@ -176,6 +177,7 @@
     setTimeout(async () => {
       setLoading(emailSubmit, false);
       const email = document.getElementById("resetEmail").value.trim();
+      globalEmail = email;
       const sendContent = {
         email,
         user: email,
@@ -298,23 +300,29 @@
     }
   }
 
-  otpForm.addEventListener("submit", (e) => {
+  otpForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     const code = getCode();
-
     if (code.length < otpBoxes.length) {
       otpError.querySelector("span").textContent = "Please enter all 4 digits.";
       otpError.classList.add("is-visible");
       otpBoxes.forEach((b) => setBoxState(b, b.value ? "filled" : "invalid"));
       shakeBoxes();
       otpBoxes.find((b) => !b.value)?.focus();
+
       return;
     }
-
     setLoading(otpSubmit, true);
+    const content = {
+      email: globalEmail,
+      verifyCode: code,
+    };
+    const data = await handleValidateOTP(content);
+
+    console.log(data);
     setTimeout(() => {
       setLoading(otpSubmit, false);
-      if (code === "1234") {
+      if (data.status) {
         otpBoxes.forEach((b) => setBoxState(b, "valid"));
         showToast("Code verified");
         clearInterval(countdownId);
@@ -546,5 +554,16 @@
       },
       body: JSON.stringify(sendContent),
     });
+  }
+  async function handleValidateOTP(content) {
+    const res = await fetch(base_URL + "/api/v1/auth/signup/verify", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(content),
+    });
+
+    return res.json();
   }
 })();
