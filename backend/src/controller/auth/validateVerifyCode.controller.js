@@ -52,9 +52,9 @@ const validateVerifyCode = async (req, res) => {
         pendingCode.password,
         pendingCode.phone,
       ]);
+      // remove pending code from global
+      removePendingCode(email);
     }
-    // remove pending code from global
-    removePendingCode(email);
 
     return res.status(201).send({
       status: true,
