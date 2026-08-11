@@ -465,7 +465,7 @@
     (v) => v === newPasswordInput.value && v.length >= 8,
   );
 
-  resetForm.addEventListener("submit", (e) => {
+  resetForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     const pwOk = validateField(newPasswordField, (v) => v.length >= 8);
     const confirmOk = validateField(
@@ -473,7 +473,13 @@
       (v) => v === newPasswordInput.value && v.length >= 8,
     );
     if (!pwOk || !confirmOk) return;
-
+    const newPassword = newPasswordInput.value;
+    const email = globalEmail;
+    const content = {
+      email,
+      newPassword,
+    };
+    await handleResetPassword(content);
     setLoading(resetSubmit, true);
     setTimeout(() => {
       setLoading(resetSubmit, false);
@@ -556,7 +562,7 @@
     });
   }
   async function handleValidateOTP(content) {
-    const res = await fetch(base_URL + "/api/v1/auth/signup/verify", {
+    const res = await fetch(base_URL + "/api/v1/auth/otp/verify", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -565,5 +571,14 @@
     });
 
     return res.json();
+  }
+  async function handleResetPassword(content) {
+    const res = await fetch(base_URL + "/api/v1/auth/reset-password", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(content),
+    });
   }
 })();
