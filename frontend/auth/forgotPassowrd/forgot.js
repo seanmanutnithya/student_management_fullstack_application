@@ -192,7 +192,7 @@
   }
 
   document.getElementById("backToLogin").addEventListener("click", () => {
-    window.location.href = "auth.html";
+    window.location.href = "../auth.html";
   });
 
   /* ================= STEP 2 — OTP ================= */
