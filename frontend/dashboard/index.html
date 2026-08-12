@@ -63,20 +63,29 @@
             <div class="nav-submenu">
               <a href="#" class="nav-subitem is-active">All Students</a>
               <a
-                href="./studentDetail/student-detail.html  "
+                href="./student/studentDetail/student-detail.html"
                 class="nav-subitem"
                 >Student Details</a
               >
             </div>
           </div>
-
-          <button
-            class="nav-item nav-parent"
-            data-label="Teachers"
-            aria-expanded="false">
-            <i data-lucide="users"></i><span>Teachers</span>
-            <i data-lucide="chevron-down" class="chevron"></i>
-          </button>
+          <div class="nav-group is-open">
+            <button
+              class="nav-item nav-parent"
+              data-label="Teachers"
+              aria-expanded="false">
+              <i data-lucide="users"></i><span>Teachers</span>
+              <i data-lucide="chevron-down" class="chevron"></i>
+            </button>
+            <div class="nav-submenu">
+              <a href="./teacher/teacher.html" class="nav-subitem is-active"
+                >All Teachers</a
+              >
+              <!-- <a href="./studentDetail/student-detail.html" class="nav-subitem"
+                >Student Details</a
+              > -->
+            </div>
+          </div>
 
           <a href="#" class="nav-item" data-label="Library">
             <i data-lucide="book-open"></i><span>Library</span>

@@ -13,7 +13,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet" />
 
-    <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" href="../../styles.css" />
     <link rel="stylesheet" href="./student-detail.css" />
   </head>
   <body>
@@ -48,7 +48,7 @@
         </div>
 
         <nav class="sidebar-nav">
-          <a href="../../home/home.html" class="nav-item"
+          <a href="../../../home/home.html" class="nav-item"
             ><i data-lucide="home"></i><span>Home</span></a
           >
 
@@ -58,17 +58,28 @@
               <i data-lucide="chevron-down" class="chevron"></i>
             </button>
             <div class="nav-submenu">
-              <a href="../index.html" class="nav-subitem">All Students</a>
-              <a href="student-detail.html" class="nav-subitem is-active"
-                >Student Details</a
-              >
+              <a href="../../index.html" class="nav-subitem">All Students</a>
+              <a href="#" class="nav-subitem is-active">Student Details</a>
             </div>
           </div>
 
-          <button class="nav-item nav-parent" aria-expanded="false">
-            <i data-lucide="users"></i><span>Teachers</span
-            ><i data-lucide="chevron-down" class="chevron"></i>
-          </button>
+          <div class="nav-group is-open">
+            <button
+              class="nav-item nav-parent"
+              data-label="Teachers"
+              aria-expanded="false">
+              <i data-lucide="users"></i><span>Teachers</span>
+              <i data-lucide="chevron-down" class="chevron"></i>
+            </button>
+            <div class="nav-submenu">
+              <a href="../../teacher/teacher.html" class="nav-subitem is-active"
+                >All Teachers</a
+              >
+              <!-- <a href="./studentDetail/student-detail.html" class="nav-subitem"
+                >Student Details</a
+              > -->
+            </div>
+          </div>
           <a href="#" class="nav-item"
             ><i data-lucide="book-open"></i><span>Library</span></a
           >
