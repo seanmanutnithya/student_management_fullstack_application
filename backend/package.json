@@ -19,6 +19,7 @@
     "mysql2": "^3.23.2",
     "node-telegram-bot-api": "^1.2.0",
     "nodemailer": "^9.0.5",
-    "nodemon": "^3.1.14"
+    "nodemon": "^3.1.14",
+    "sequelize": "^6.37.8"
   }
 }
