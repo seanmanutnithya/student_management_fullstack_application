@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>ia Academy — Home</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet" />
+
+    <link rel="stylesheet" href="../dashboard/styles.css" />
+    <link rel="stylesheet" href="./home.css" />
+  </head>
+  <body>
+    <!-- Mobile top bar -->
+    <div class="mobile-topbar">
+      <button class="icon-btn" id="mobileMenuBtn" aria-label="Open menu">
+        <i data-lucide="menu"></i>
+      </button>
+      <div class="mobile-brand">
+        <i data-lucide="graduation-cap"></i><span>ia Academy</span>
+      </div>
+      <button class="icon-btn" aria-label="Search">
+        <i data-lucide="search"></i>
+      </button>
+    </div>
+
+    <div class="app-shell">
+      <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+      <!-- Sidebar (Home active) -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+          <div class="brand-icon"><i data-lucide="graduation-cap"></i></div>
+          <span class="brand-name">ia Academy</span>
+          <button
+            class="icon-btn sidebar-close"
+            id="sidebarCloseBtn"
+            aria-label="Close menu">
+            <i data-lucide="x"></i>
+          </button>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a href="home.html" class="nav-item is-active"
+            ><i data-lucide="home"></i><span>Home</span></a
+          >
+
+          <div class="nav-group">
+            <button class="nav-item nav-parent" aria-expanded="false">
+              <i data-lucide="graduation-cap"></i><span>Students</span
+              ><i data-lucide="chevron-down" class="chevron"></i>
+            </button>
+            <div class="nav-submenu">
+              <a href="../dashboard/index.html" class="nav-subitem"
+                >All Students</a
+              >
+              <a
+                href="../dashboard/studentDetail/student-detail.html"
+                class="nav-subitem"
+                >Student Details</a
+              >
+            </div>
+          </div>
+
+          <button class="nav-item nav-parent" aria-expanded="false">
+            <i data-lucide="users"></i><span>Teachers</span
+            ><i data-lucide="chevron-down" class="chevron"></i>
+          </button>
+          <a href="#" class="nav-item"
+            ><i data-lucide="book-open"></i><span>Library</span></a
+          >
+          <a href="#" class="nav-item"
+            ><i data-lucide="user-circle"></i><span>Account</span></a
+          >
+          <a href="#" class="nav-item"
+            ><i data-lucide="layout-grid"></i><span>Class</span></a
+          >
+          <a href="#" class="nav-item"
+            ><i data-lucide="book-marked"></i><span>Subject</span></a
+          >
+          <a href="#" class="nav-item"
+            ><i data-lucide="calendar-days"></i><span>Routine</span></a
+          >
+          <a href="#" class="nav-item"
+            ><i data-lucide="clipboard-check"></i><span>Attendance</span></a
+          >
+          <button class="nav-item nav-parent" aria-expanded="false">
+            <i data-lucide="pen-square"></i><span>Exam</span
+            ><i data-lucide="chevron-down" class="chevron"></i>
+          </button>
+          <a href="#" class="nav-item"
+            ><i data-lucide="bell-ring"></i><span>Notice</span></a
+          >
+          <a href="#" class="nav-item"
+            ><i data-lucide="bus"></i><span>Transport</span></a
+          >
+          <a href="#" class="nav-item"
+            ><i data-lucide="building-2"></i><span>Hostel</span></a
+          >
+        </nav>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div class="search-field">
+            <i data-lucide="search"></i>
+            <input
+              type="text"
+              placeholder="What do you want to find?"
+              aria-label="Search" />
+          </div>
+          <div class="topbar-actions">
+            <button class="icon-btn" aria-label="Notifications">
+              <i data-lucide="bell"></i><span class="dot-badge"></span>
+            </button>
+            <button class="icon-btn" aria-label="Messages">
+              <i data-lucide="message-square"></i>
+            </button>
+            <button class="user-chip" aria-label="Account menu">
+              <img
+                src="https://i.pravatar.cc/64?img=47"
+                alt=""
+                class="user-avatar" />
+              <span class="user-meta"
+                ><span class="user-name">Priscilla Lily</span
+                ><span class="user-role">Admin</span></span
+              >
+              <i data-lucide="chevron-down"></i>
+            </button>
+          </div>
+        </header>
+
+        <div class="page">
+          <!-- ============ Greeting bar ============ -->
+          <section class="greeting-bar">
+            <div class="greeting-text">
+              <h1 class="greeting-title" id="greetingTitle">
+                Good morning, Priscilla
+              </h1>
+              <p class="greeting-sub" id="greetingDate">
+                Loading today's date…
+              </p>
+            </div>
+            <div class="greeting-actions">
+              <button class="btn btn-secondary" id="createNoticeBtn">
+                <i data-lucide="megaphone"></i><span>Create Notice</span>
+              </button>
+              <a href="index.html" class="btn btn-primary">
+                <i data-lucide="user-plus"></i><span>Add Student</span>
+              </a>
+            </div>
+          </section>
+
+          <!-- ============ Stat cards ============ -->
+          <section class="stat-grid" id="statGrid">
+            <div class="stat-card">
+              <div class="stat-icon stat-icon--purple">
+                <i data-lucide="graduation-cap"></i>
+              </div>
+              <div class="stat-card-body">
+                <span class="stat-card-value" data-count="1248">0</span>
+                <span class="stat-card-title">Total students</span>
+              </div>
+              <span class="trend trend--up"
+                ><i data-lucide="trending-up"></i>4.2%</span
+              >
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon stat-icon--blue">
+                <i data-lucide="users"></i>
+              </div>
+              <div class="stat-card-body">
+                <span class="stat-card-value" data-count="86">0</span>
+                <span class="stat-card-title">Total teachers</span>
+              </div>
+              <span class="trend trend--up"
+                ><i data-lucide="trending-up"></i>1.8%</span
+              >
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon stat-icon--green">
+                <i data-lucide="clipboard-check"></i>
+              </div>
+              <div class="stat-card-body">
+                <span class="stat-card-value" data-count="94" data-suffix="%"
+                  >0</span
+                >
+                <span class="stat-card-title">Today's attendance</span>
+              </div>
+              <span class="trend trend--down"
+                ><i data-lucide="trending-down"></i>1.1%</span
+              >
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon stat-icon--amber">
+                <i data-lucide="wallet"></i>
+              </div>
+              <div class="stat-card-body">
+                <span class="stat-card-value" data-count="12400" data-prefix="$"
+                  >0</span
+                >
+                <span class="stat-card-title">Pending fees</span>
+              </div>
+              <span class="trend trend--down"
+                ><i data-lucide="trending-down"></i>6.4%</span
+              >
+            </div>
+          </section>
+
+          <!-- ============ Main grid: charts/lists left, activity/events right ============ -->
+          <div class="home-grid">
+            <div class="home-col-main">
+              <!-- Charts -->
+              <section class="chart-row">
+                <div class="card chart-card">
+                  <div class="card-head">
+                    <h2 class="card-title">
+                      Enrollment &amp; attendance trend
+                    </h2>
+                    <button class="select-field select-field--sm">
+                      <i data-lucide="calendar"></i><span>Last 6 months</span
+                      ><i data-lucide="chevron-down"></i>
+                    </button>
+                  </div>
+                  <div class="line-chart-wrap">
+                    <svg
+                      viewBox="0 0 560 220"
+                      class="line-chart"
+                      id="lineChart"
+                      preserveAspectRatio="none">
+                      <defs>
+                        <linearGradient
+                          id="areaGradient"
+                          x1="0"
+                          y1="0"
+                          x2="0"
+                          y2="1">
+                          <stop
+                            offset="0%"
+                            stop-color="var(--color-primary)"
+                            stop-opacity="0.25"></stop>
+                          <stop
+                            offset="100%"
+                            stop-color="var(--color-primary)"
+                            stop-opacity="0"></stop>
+                        </linearGradient>
+                      </defs>
+                      <g class="grid-lines" id="gridLines"></g>
+                      <path
+                        id="areaPath"
+                        class="area-path"
+                        fill="url(#areaGradient)"></path>
+                      <path id="linePath" class="line-path" fill="none"></path>
+                      <g id="dotsGroup"></g>
+                    </svg>
+                    <div class="line-chart-labels" id="lineChartLabels"></div>
+                  </div>
+                  <div class="chart-legend">
+                    <span
+                      ><i class="legend-dot legend-dot--primary"></i
+                      >Enrollment</span
+                    >
+                  </div>
+                </div>
+
+                <div class="card chart-card chart-card--donut">
+                  <div class="card-head">
+                    <h2 class="card-title">Class-wise distribution</h2>
+                  </div>
+                  <div class="donut-wrap">
+                    <svg
+                      viewBox="0 0 160 160"
+                      class="donut-chart"
+                      id="donutChart"></svg>
+                    <div class="donut-center">
+                      <span class="donut-center-value">1,248</span>
+                      <span class="donut-center-label">Students</span>
+                    </div>
+                  </div>
+                  <ul class="donut-legend" id="donutLegend"></ul>
+                </div>
+              </section>
+
+              <!-- Quick lists -->
+              <section class="quicklist-row">
+                <div class="card quicklist-card">
+                  <h3 class="quicklist-title">
+                    <i data-lucide="user-x"></i>Top absentees this week
+                  </h3>
+                  <ul class="quicklist" id="absenteesList"></ul>
+                </div>
+                <div class="card quicklist-card">
+                  <h3 class="quicklist-title">
+                    <i data-lucide="circle-dollar-sign"></i>Fee defaulters
+                  </h3>
+                  <ul class="quicklist" id="defaultersList"></ul>
+                </div>
+                <div class="card quicklist-card">
+                  <h3 class="quicklist-title">
+                    <i data-lucide="cake"></i>Birthdays this month
+                  </h3>
+                  <ul class="quicklist" id="birthdaysList"></ul>
+                </div>
+              </section>
+            </div>
+
+            <div class="home-col-side">
+              <!-- Recent activity -->
+              <section class="card activity-card">
+                <div class="card-head">
+                  <h2 class="card-title">Recent activity</h2>
+                  <button
+                    class="icon-btn icon-btn--ghost"
+                    title="Refresh"
+                    id="refreshActivityBtn">
+                    <i data-lucide="refresh-cw"></i>
+                  </button>
+                </div>
+                <ul class="activity-feed" id="activityFeed"></ul>
+              </section>
+
+              <!-- Upcoming events -->
+              <section class="card events-card">
+                <div class="card-head">
+                  <h2 class="card-title">Upcoming events</h2>
+                </div>
+                <ul class="events-list" id="eventsList"></ul>
+              </section>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Create Notice modal -->
+    <div class="modal-overlay" id="modalOverlay">
+      <div
+        class="modal"
+        id="noticeModal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="noticeModalTitle">
+        <div class="modal-head">
+          <h3 id="noticeModalTitle">Create Notice</h3>
+          <button class="icon-btn" id="modalCloseBtn" aria-label="Close">
+            <i data-lucide="x"></i>
+          </button>
+        </div>
+
+        <form class="modal-body" id="noticeForm" novalidate>
+          <div class="form-grid">
+            <div class="field field--full" data-field="noticeTitle">
+              <label for="noticeTitle">Notice title</label>
+              <input
+                type="text"
+                id="noticeTitle"
+                placeholder="e.g. Term 3 fee due date reminder" />
+              <span class="field-error"
+                >Please enter a title (min. 4 characters).</span
+              >
+            </div>
+
+            <div class="field">
+              <label for="noticeAudience">Audience</label>
+              <select id="noticeAudience">
+                <option value="all">Everyone</option>
+                <option value="students">Students only</option>
+                <option value="teachers">Teachers only</option>
+                <option value="parents">Parents only</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="noticeDate">Publish date</label>
+              <input type="date" id="noticeDate" />
+            </div>
+
+            <div class="field field--full" data-field="noticeMessage">
+              <label for="noticeMessage">Message</label>
+              <textarea
+                id="noticeMessage"
+                rows="4"
+                placeholder="Write the notice details…"></textarea>
+              <span class="field-error"
+                >Please enter a message (min. 10 characters).</span
+              >
+            </div>
+          </div>
+        </form>
+
+        <div class="modal-foot">
+          <button class="btn btn-secondary" id="modalCancelBtn" type="button">
+            Cancel
+          </button>
+          <button class="btn btn-primary" id="modalPublishBtn" type="button">
+            <span class="btn-label"
+              ><i data-lucide="send"></i><span>Publish notice</span></span
+            >
+            <span class="btn-spinner"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+      <i data-lucide="check-circle-2"></i>
+      <span id="toastMsg">Done</span>
+    </div>
+
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="home.js"></script>
+  </body>
+</html>
