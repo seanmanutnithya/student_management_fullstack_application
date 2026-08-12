@@ -100,8 +100,12 @@
 
   tabs.forEach((tab) => {
     tab.addEventListener("click", () => {
-      tabs.forEach((t) => t.classList.remove("is-active"));
+      tabs.forEach((t) => {
+        t.classList.remove("is-active");
+        t.setAttribute("aria-selected", "false");
+      });
       tab.classList.add("is-active");
+      tab.setAttribute("aria-selected", "true");
       moveIndicator(tab);
 
       const targetPanel = panels.find(
