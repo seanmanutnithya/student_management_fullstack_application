@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Teachers</title>
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <!-- Mobile top bar (hamburger) -->
+    <div class="mobile-topbar">
+      <button class="icon-btn" id="mobileMenuBtn" aria-label="Open menu">
+        <i data-lucide="menu"></i>
+      </button>
+      <div class="mobile-brand">
+        <i data-lucide="graduation-cap"></i>
+        <span>ia Academy</span>
+      </div>
+      <button class="icon-btn" id="mobileSearchBtn" aria-label="Search">
+        <i data-lucide="search"></i>
+      </button>
+    </div>
+
+    <div class="app-shell">
+      <!-- Sidebar overlay for mobile -->
+      <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+      <!-- Sidebar -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+          <div class="brand-icon"><i data-lucide="graduation-cap"></i></div>
+          <span class="brand-name">ia Academy</span>
+          <button
+            class="icon-btn sidebar-close"
+            id="sidebarCloseBtn"
+            aria-label="Close menu">
+            <i data-lucide="x"></i>
+          </button>
+        </div>
+
+        <nav class="sidebar-nav" id="sidebarNav">
+          <a href="../home/home.html" class="nav-item" data-label="Home">
+            <i data-lucide="home"></i><span>Home</span>
+          </a>
+
+          <div class="nav-group">
+            <button
+              class="nav-item nav-parent"
+              data-label="Students"
+              aria-expanded="true">
+              <i data-lucide="graduation-cap"></i><span>Students</span>
+              <i data-lucide="chevron-down" class="chevron"></i>
+            </button>
+            <div class="nav-submenu">
+              <a href="../index.html" class="nav-subitem">All Students</a>
+              <a
+                href="./student/studentDetail/student-detail.html"
+                class="nav-subitem"
+                >Student Details</a
+              >
+            </div>
+          </div>
+          <div class="nav-group is-open">
+            <button
+              class="nav-item nav-parent"
+              data-label="Teachers"
+              aria-expanded="false">
+              <i data-lucide="users"></i><span>Teachers</span>
+              <i data-lucide="chevron-down" class="chevron"></i>
+            </button>
+            <div class="nav-submenu">
+              <a href="#" class="nav-subitem is-active">All Teachers</a>
+              <!-- <a href="./studentDetail/student-detail.html" class="nav-subitem"
+                >Student Details</a
+              > -->
+            </div>
+          </div>
+
+          <a href="#" class="nav-item" data-label="Library">
+            <i data-lucide="book-open"></i><span>Library</span>
+          </a>
+          <a href="#" class="nav-item" data-label="Account">
+            <i data-lucide="user-circle"></i><span>Account</span>
+          </a>
+          <a href="#" class="nav-item" data-label="Class">
+            <i data-lucide="layout-grid"></i><span>Class</span>
+          </a>
+          <a href="#" class="nav-item" data-label="Subject">
+            <i data-lucide="book-marked"></i><span>Subject</span>
+          </a>
+          <a href="#" class="nav-item" data-label="Routine">
+            <i data-lucide="calendar-days"></i><span>Routine</span>
+          </a>
+          <a href="#" class="nav-item" data-label="Attendance">
+            <i data-lucide="clipboard-check"></i><span>Attendance</span>
+          </a>
+
+          <button
+            class="nav-item nav-parent"
+            data-label="Exam"
+            aria-expanded="false">
+            <i data-lucide="pen-square"></i><span>Exam</span>
+            <i data-lucide="chevron-down" class="chevron"></i>
+          </button>
+
+          <a href="#" class="nav-item" data-label="Notice">
+            <i data-lucide="bell-ring"></i><span>Notice</span>
+          </a>
+          <a href="#" class="nav-item" data-label="Transport">
+            <i data-lucide="bus"></i><span>Transport</span>
+          </a>
+          <a href="#" class="nav-item" data-label="Hostel">
+            <i data-lucide="building-2"></i><span>Hostel</span>
+          </a>
+        </nav>
+      </aside>
+    </div>
+  </body>
+</html>

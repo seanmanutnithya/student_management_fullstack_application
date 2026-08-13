@@ -994,8 +994,8 @@ input[type="checkbox"] {
   justify-content: center;
   z-index: 200;
   /* Keep the loader visible from the first paint while student data loads. */
-  opacity: 1;
-  visibility: visible;
+  opacity: 0;
+  visibility: hidden;
 }
 .spinner {
   width: 44px;

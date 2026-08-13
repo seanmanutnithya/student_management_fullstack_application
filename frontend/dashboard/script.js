@@ -643,20 +643,10 @@
   /* ---------------- Init ---------------- */
   let STUDENTS = [];
   async function init() {
-    try {
-      STUDENTS = await getAllData();
-      render();
-    } catch (error) {
-      console.error("Unable to load students:", error);
-      tbody.innerHTML = `
-        <tr>
-          <td colspan="7" class="empty-state">Unable to load students. Please try again.</td>
-        </tr>`;
-      cardsWrap.innerHTML = '<p class="empty-state">Unable to load students. Please try again.</p>';
-    } finally {
-      bootIcons();
-      runLoading(pageLoadAnimation, 250);
-    }
+    STUDENTS = await getAllData();
+    bootIcons();
+    render();
+    pageLoadAnimation();
   }
 
   document.addEventListener("DOMContentLoaded", init);
