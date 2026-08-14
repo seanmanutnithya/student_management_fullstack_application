@@ -1,21 +1,17 @@
-const { studentDB } = require("../../config/config");
+const Students = require("../../models/Students");
 const { missingValues } = require("../../helper/validate");
 const logs_error = require("../../helper/logs_error");
 const sendTelegramMessage = require("../../helper/sendTelegramMessage");
 const createStudent = async (req, res) => {
-  const mysql = `
-    INSERT INTO students (id, name, gender, std_class, phone ) VALUES
-    (?,?,?,?,?);
-  `;
   try {
-    const field = ({ id, name, gender, std_class, phone } = req.body);
+    const { id, name, gender, std_class, phone } = req.body;
+    const field = { id, name, gender, std_class, phone };
     const missing = await missingValues(field);
     if (missing.length > 0) {
       return res.status(404).send({
         message: `${missing.map(([key]) => key).join(", ")} is required!`,
       });
     }
-    await studentDB.query(mysql, [id, name, gender, std_class, phone]);
     const student = {
       id,
       name,
@@ -23,6 +19,7 @@ const createStudent = async (req, res) => {
       std_class,
       phone,
     };
+    await Students.create(student);
 
     const message = `
       🆕 <b>New Student Registered</b>
