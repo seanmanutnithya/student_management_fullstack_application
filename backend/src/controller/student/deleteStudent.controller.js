@@ -1,4 +1,4 @@
-const { studentDB } = require("../../config/config");
+const Students = require("../../models/Students");
 const { checkTargetId } = require("../../helper/validate");
 
 const logs_error = require("../../helper/logs_error");
@@ -7,34 +7,29 @@ const fetchAllData = require("../../helper/fetchAllData");
 
 const deleteStudent = async (req, res) => {
   try {
-    const sql = `DELETE FROM students WHERE students.id=?`;
-    const targetId = req.params.targetId;
-    const index = await checkTargetId(targetId);
-    if (index == -1) {
+    const { id } = req.params;
+    const student = await Students.findByPk(id);
+    if (!Students) {
       return res.status(404).send({
-        status: false,
-        message: "TargetId not found!",
+        stats: false,
+        message: "Student not found",
       });
     }
-    const students = await fetchAllData("students");
-    const student = students[index];
-
-    await studentDB.query(sql, [targetId]);
+    const result = await student.destroy(id);
 
     const message = `
     ❌ <b>Student Removed!</b>
-        <b>ID:</b> <code>${student.id}</code>
-        <b>Name:</b> ${student.name}
-        <b>Gender:</b> ${student.gender}
-        <b>Class:</b> ${student.std_class}
-        <b>Phone:</b> <code>${student.phone}</code>
-        <b>Remark:</b> ${student.remark}
+        <b>ID:</b> <code>${result.id}</code>
+        <b>Name:</b> ${result.name}
+        <b>Gender:</b> ${result.gender}
+        <b>Class:</b> ${result.std_class}
+        <b>Phone:</b> <code>${result.phone}</code>
+        <b>Remark:</b> ${result.remark}
     `.trim();
     await sendTelegramMessage(message);
     res.send({
       status: true,
       message: "Deleted student!",
-      student,
     });
   } catch (error) {
     const content = error.message;

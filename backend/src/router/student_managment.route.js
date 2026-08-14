@@ -10,7 +10,7 @@ const student_managementRoute = (app) => {
   app.get("/api/v1/student/get/:targetId", getStudentById);
   app.post("/api/v1/student/create", createStudent);
   app.put("/api/v1/student/update/:targetId", udpateStudent);
-  app.delete("/api/v1/student/delete/:targetId", deleteStudent);
+  app.delete("/api/v1/student/delete/:id", deleteStudent);
 };
 
 module.exports = student_managementRoute;
