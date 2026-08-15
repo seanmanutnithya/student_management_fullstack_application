@@ -1,17 +1,21 @@
 const fetchAllData = require("../../helper/fetchAllData");
-const { checkTargetId } = require("../../helper/validate");
-const getStudentById = async (req, res) => {
-  const targetId = req.params.targetId;
-  const students = await fetchAllData("students");
+const Students = require("../../models/Students");
 
-  const index = await checkTargetId(targetId);
-  if (index == -1) {
+const { checkTargetId, missingValues } = require("../../helper/validate");
+const getStudentById = async (req, res) => {
+  const { id } = req.params;
+  const missing = await missingValues(id);
+  if (missing.length > 0) {
     return res.status(404).send({
-      status: false,
-      message: "TargetId not found!",
+      message: `${missing.map(([key]) => key).join(", ")} is required!`,
     });
   }
-  const student = students[index];
+  const student = await Students.findByPk(id);
+  if (!student) {
+    return res.status(404).send({
+      error: "Student not found",
+    });
+  }
   res.send({
     student,
   });
