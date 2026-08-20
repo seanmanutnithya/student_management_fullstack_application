@@ -21,6 +21,7 @@
     "node-telegram-bot-api": "^1.2.0",
     "nodemailer": "^9.0.5",
     "nodemon": "^3.1.14",
+    "qrcode": "^1.5.4",
     "sequelize": "^6.37.8",
     "stripe": "^22.5.0"
   }
