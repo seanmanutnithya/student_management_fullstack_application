@@ -328,6 +328,19 @@
   color: var(--color-text-primary);
 }
 
+/* The total is displayed in the dark plan card, so remove native button
+   chrome and use the card's high-contrast summary treatment. */
+.plan-card .order-row--total {
+  width: 100%;
+  padding: var(--space-5) 0 0;
+  margin-top: var(--space-5);
+  border: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  background: transparent;
+  color: #fff;
+  text-align: left;
+}
+
 .btn-block {
   width: 100%;
   height: 48px;

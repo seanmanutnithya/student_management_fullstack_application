@@ -154,9 +154,9 @@
                 operations in one place.
               </p>
 
-              <div class="plan-price">
+              <div class="plan-price" id="">
                 <span class="plan-price-currency">$</span>
-                <span class="plan-price-value" data-count="120">0</span>
+                <span class="plan-price-value" data-count="120" id="">120</span>
                 <span class="plan-price-period">/ year</span>
               </div>
               <p class="plan-price-note">Billed annually · cancel anytime</p>
@@ -193,114 +193,12 @@
                 <span><i data-lucide="shield-check"></i>Secure checkout</span>
                 <span><i data-lucide="rotate-ccw"></i>30-day money back</span>
               </div>
-            </section>
-
-            <!-- ============ Payment form ============ -->
-            <section class="pay-card">
-              <div class="pay-card-head">
-                <h2 class="pay-title">Payment details</h2>
-                <div class="pay-secure-badge">
-                  <i data-lucide="lock"></i>Encrypted
-                </div>
-              </div>
-
-              <form id="paymentForm" novalidate>
-                <div class="field" data-field="billName">
-                  <label for="billName">Cardholder name</label>
-                  <input
-                    type="text"
-                    id="billName"
-                    placeholder="Name on card"
-                    autocomplete="cc-name" />
-                  <span class="field-error"
-                    >Please enter the cardholder's name.</span
-                  >
-                </div>
-
-                <div class="field" data-field="billEmail">
-                  <label for="billEmail">Email address</label>
-                  <div class="input-wrap">
-                    <i data-lucide="mail" class="input-icon"></i>
-                    <input
-                      type="email"
-                      id="billEmail"
-                      placeholder="you@iaacademy.edu"
-                      autocomplete="email" />
-                    <i
-                      data-lucide="check-circle-2"
-                      class="status-icon status-valid"></i>
-                    <i
-                      data-lucide="alert-circle"
-                      class="status-icon status-invalid"></i>
-                  </div>
-                  <span class="field-error">Enter a valid email address.</span>
-                </div>
-
-                <div class="field" data-field="cardElementField">
-                  <label for="cardElement">Card details</label>
-                  <div class="stripe-card-wrap" id="cardElement">
-                    <!-- Stripe Elements mounts the card input here -->
-                    <div class="stripe-fallback" id="stripeFallback">
-                      <i data-lucide="credit-card"></i>
-                      <span>Card input loads via Stripe.js</span>
-                    </div>
-                  </div>
-                  <span class="field-error" id="cardError"
-                    >Your card details look incomplete.</span
-                  >
-                </div>
-
-                <div class="field-grid-2">
-                  <div class="field" data-field="billCountry">
-                    <label for="billCountry">Country</label>
-                    <select id="billCountry">
-                      <option value="">Select country</option>
-                      <option>United States</option>
-                      <option>Cambodia</option>
-                      <option>United Kingdom</option>
-                      <option>Australia</option>
-                      <option>Singapore</option>
-                    </select>
-                  </div>
-                  <div class="field" data-field="billZip">
-                    <label for="billZip">ZIP / Postal code</label>
-                    <input type="text" id="billZip" placeholder="e.g. 12000" />
-                    <span class="field-error">Enter a valid postal code.</span>
-                  </div>
-                </div>
-
-                <div class="order-summary">
-                  <div class="order-row">
-                    <span>School Management — Pro</span><span>$120.00</span>
-                  </div>
-                  <div class="order-row">
-                    <span>Tax</span><span>$0.00</span>
-                  </div>
-                  <div class="order-row order-row--total">
-                    <span>Total due today</span><span>$120.00</span>
-                  </div>
-                </div>
-
-                <button
-                  type="submit"
-                  class="btn btn-primary btn-block"
-                  id="paySubmit">
-                  <span class="btn-label"
-                    ><i data-lucide="lock"></i><span>Pay $120.00</span></span
-                  >
-                  <span class="btn-spinner"></span>
-                </button>
-
-                <p class="pay-stripe-note">
-                  <img
-                    src="https://cdn.jsdelivr.net/gh/stripe/stripe-node@master/.github/logo-128x128.png"
-                    alt=""
-                    class="stripe-mark"
-                    onerror="this.style.display = 'none'" />
-                  Payments are securely processed by Stripe. Card details never
-                  touch our servers.
-                </p>
-              </form>
+              <button
+                type="button"
+                class="order-row order-row--total"
+                id="subscribeBtn">
+                <span>Buy Now</span><span>$120.00</span>
+              </button>
             </section>
           </div>
         </div>

@@ -35,7 +35,7 @@ const createCheckoutSession = async (req, res) => {
 
     const session = await stripeInstance.checkout.sessions.create(Data);
 
-    res.json({
+    res.send({
       message: "checkout session created successfully",
       url: session.url,
     });
