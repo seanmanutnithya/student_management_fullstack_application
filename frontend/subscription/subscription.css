@@ -327,6 +327,17 @@
   font-weight: var(--fw-bold);
   color: var(--color-text-primary);
 }
+.subscribe-button {
+  min-width: 100%;
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-md);
+  margin-top: var(--space-3);
+  font-size: var(--fs-base);
+  font-weight: var(--fw-bold);
+  color: var(--color-text-primary);
+  word-spacing: var(--space-2);
+  padding: var(--space-2) 0;
+}
 
 /* The total is displayed in the dark plan card, so remove native button
    chrome and use the card's high-contrast summary treatment. */
