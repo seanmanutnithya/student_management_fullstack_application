@@ -4,6 +4,7 @@ const {
   IndividualInfo,
   SourceInfo,
 } = require("bakong-khqr");
+const QRCode = require("qrcode");
 const stripe = require("stripe");
 const dotenv = require("dotenv");
 dotenv.config();
@@ -115,9 +116,12 @@ const generateKHQR = async (req, res) => {
     // response.data.qr contains the EMV-compliant KHQR string
     // This string can be encoded into a QR code image for customers to scan
     // with any Bakong-supported banking app (ABA, Wing, ACLEDA, etc.)
-    return res.status(200).json({
+    const QRCodeString = response.data.qr;
+    const dataUrl = await QRCode.toDataURL(QRCodeString);
+    return res.status(200).send({
       success: true,
       data: {
+        KHQRUrl: dataUrl,
         qr: response.data.qr, // The KHQR string to encode as QR image
         md5: response.data.md5, // MD5 hash for verification
         merchantName: ACCOUNT_NAME,
@@ -133,4 +137,26 @@ const generateKHQR = async (req, res) => {
     message: "Failed to generate KHQR",
   });
 };
-module.exports = { createCheckoutSession, paymentSuccess, generateKHQR };
+const verifyKHQR = async (req, res) => {
+  const { KHQRString } = req.body;
+  if (!KHQRString || KHQRString == "") {
+    return res.send({
+      success: false,
+      message: "Invalid KHQR",
+    });
+  }
+  const isValid = BakongKHQR.verify(KHQRString).isValid;
+  const decode = BakongKHQR.decode(KHQRString);
+  res.send({
+    isValid,
+    decode,
+  });
+};
+const checkPaymentStatus = async (req, res) => {};
+module.exports = {
+  createCheckoutSession,
+  paymentSuccess,
+  generateKHQR,
+  verifyKHQR,
+  checkPaymentStatus,
+};
