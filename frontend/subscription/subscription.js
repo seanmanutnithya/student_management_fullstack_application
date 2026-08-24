@@ -3,8 +3,10 @@
    No payment form or Stripe integration — "Subscribe" just
    simulates a successful subscription for UI/demo purposes.
    ============================================================ */
+// import gsap from "gsap";
+// import axios from "axios";
 (() => {
-  "use strict";
+  ("use strict");
 
   const easeOut = "power3.out";
   function bootIcons() {
@@ -106,15 +108,18 @@
 
   subscribeBtn.addEventListener("click", async () => {
     subscribeBtn.classList.add("is-loading");
-    const data = await handlePaymentWithKhqr();
-    console.log(data);
-    window.location.href = data.url;
+    const result = await handlePaymentWithKHQR();
+    const KHQRUrl = result.data.KHQRUrl;
+    handleRenderKHQR(KHQRUrl);
+    // window.location.href = data.url;
     subscribeBtn.disabled = true;
-    setTimeout(() => {
+    const success = data.success;
+    if (!success) {
       subscribeBtn.classList.remove("is-loading");
       subscribeBtn.disabled = false;
       openSuccess();
-    }, 1000);
+      return;
+    }
   });
 
   function openSuccess() {
@@ -175,7 +180,7 @@
   }
 
   const baseUrl = "http://localhost:3000";
-  async function handlePaymentWithKhqr() {
+  async function handlePaymentWithStripe() {
     const content = { price: 120 };
     const res = await fetch(baseUrl + "/api/v1/cardpayway/stripe", {
       method: "post",
@@ -185,7 +190,28 @@
     const data = res.json();
     return data;
   }
-  const buyingEle = document.getElementById("plan-price-value");
+  async function handlePaymentWithKHQR() {
+    const content = {
+      amount: 120,
+      currency: "khr",
+      billNumber: "20/08/2026",
+    };
+    const res = await fetch(baseUrl + "/api/v1/cardpayway/generate-khqr", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(content),
+    });
+
+    const data = res.json();
+    return data;
+  }
+  function handleRenderKHQR(qrUrl) {
+    const KHQRCodeEle = document.getElementById("KHQRCode");
+    KHQRCodeEle.src = qrUrl;
+  }
+  // const buyingEle = document.getElementById("plan-price-value");
 
   /* ---------------- Init ---------------- */
   document.addEventListener("DOMContentLoaded", () => {
