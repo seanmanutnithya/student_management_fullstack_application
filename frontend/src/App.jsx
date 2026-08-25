@@ -1,4 +1,4 @@
-import UserInterface from "./components/ui/userInterface";
+import UserInterface from "./ui/UserInterface";
 const App = () => {
   return (
     <>
