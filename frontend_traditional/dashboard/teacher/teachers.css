@@ -1,0 +1,262 @@
+/* ============================================================
+   TEACHERS PAGE — extends tokens defined in styles.css
+   ============================================================ */
+
+.nav-item.is-active {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+/* ---------------- Summary strip ---------------- */
+.teacher-summary {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+.summary-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  box-shadow: var(--shadow-sm);
+}
+.stat-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.stat-icon svg {
+  width: 20px;
+  height: 20px;
+}
+.stat-icon--purple {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+}
+.stat-icon--blue {
+  background: #e8f1ff;
+  color: #3b82f6;
+}
+.stat-icon--green {
+  background: var(--color-success-bg);
+  color: var(--color-success);
+}
+.stat-icon--amber {
+  background: #fef3e2;
+  color: var(--color-warning);
+}
+
+.summary-value {
+  display: block;
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-extrabold);
+}
+.summary-label {
+  display: block;
+  font-size: var(--fs-sm);
+  color: var(--color-text-secondary);
+  font-weight: var(--fw-medium);
+}
+
+/* ---------------- Mobile card list ---------------- */
+.teacher-cards {
+  display: none;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.teacher-card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.teacher-card-top {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.teacher-card-top .student-avatar {
+  width: 44px;
+  height: 44px;
+}
+.teacher-card-name {
+  font-weight: var(--fw-semibold);
+  font-size: var(--fs-base);
+}
+.teacher-card-id {
+  font-size: var(--fs-xs);
+  color: var(--color-text-muted);
+}
+.teacher-card-top .row-actions {
+  margin-left: auto;
+}
+.teacher-card-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2) var(--space-4);
+  font-size: var(--fs-sm);
+}
+.teacher-card-grid dt {
+  color: var(--color-text-muted);
+  font-size: var(--fs-xs);
+  margin-bottom: 2px;
+}
+.teacher-card-grid dd {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-weight: var(--fw-medium);
+}
+
+.subject-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+/* ---------------- Field validation states (self-contained) ---------------- */
+.input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.input-wrap .input-icon {
+  position: absolute;
+  left: 14px;
+  width: 16px;
+  height: 16px;
+  color: var(--color-text-muted);
+  pointer-events: none;
+}
+.input-wrap input {
+  padding-left: 40px !important;
+  padding-right: 40px !important;
+}
+.status-icon {
+  position: absolute;
+  right: 12px;
+  width: 16px;
+  height: 16px;
+  opacity: 0;
+  pointer-events: none;
+}
+.status-valid {
+  color: var(--color-success);
+}
+.status-invalid {
+  color: var(--color-danger);
+}
+.field.is-valid .status-valid {
+  opacity: 1;
+}
+.field.is-invalid .status-invalid {
+  opacity: 1;
+}
+.field.is-valid input {
+  border-color: var(--color-success) !important;
+}
+.field.is-invalid input {
+  border-color: var(--color-danger) !important;
+  box-shadow: 0 0 0 4px var(--color-danger-bg);
+}
+.field-error {
+  display: none;
+  font-size: var(--fs-xs);
+  color: var(--color-danger);
+  margin-top: 6px;
+}
+.field.is-invalid .field-error {
+  display: block;
+}
+
+.btn {
+  position: relative;
+}
+.btn-spinner {
+  display: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2.5px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #fff;
+}
+.btn.is-loading .btn-label {
+  opacity: 0;
+}
+.btn.is-loading .btn-spinner {
+  display: block;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: -8px 0 0 -8px;
+  animation: btn-spin 0.7s linear infinite;
+}
+.btn.is-loading {
+  pointer-events: none;
+  opacity: 0.9;
+}
+@keyframes btn-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================================
+   RESPONSIVE — iPad mirrors desktop; phone stacks
+   ============================================================ */
+@media (max-width: 1100px) {
+  .teacher-summary {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .table-wrap {
+    display: none;
+  }
+  .teacher-cards {
+    display: flex;
+  }
+  .card-head {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .card-head-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .search-field--sm {
+    width: 100%;
+  }
+  .form-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .page-head {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-4);
+  }
+  .page-head .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .teacher-summary {
+    grid-template-columns: 1fr;
+  }
+}

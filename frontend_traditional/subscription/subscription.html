@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>ia Academy — Subscription</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet" />
+
+    <link rel="stylesheet" href="../dashboard/styles.css" />
+    <link rel="stylesheet" href="subscription.css" />
+  </head>
+  <body>
+    <div class="mobile-topbar">
+      <button class="icon-btn" id="mobileMenuBtn" aria-label="Open menu">
+        <i data-lucide="menu"></i>
+      </button>
+      <div class="mobile-brand">
+        <i data-lucide="graduation-cap"></i><span>ia Academy</span>
+      </div>
+      <button class="icon-btn" aria-label="Search">
+        <i data-lucide="search"></i>
+      </button>
+    </div>
+
+    <div class="app-shell">
+      <div class="sidebar-overlay" id="sidebarOverlay"></div>
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+          <div class="brand-icon"><i data-lucide="graduation-cap"></i></div>
+          <span class="brand-name">ia Academy</span>
+          <button
+            class="icon-btn sidebar-close"
+            id="sidebarCloseBtn"
+            aria-label="Close menu">
+            <i data-lucide="x"></i>
+          </button>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a href="home.html" class="nav-item"
+            ><i data-lucide="home"></i><span>Home</span></a
+          >
+          <div class="nav-group">
+            <button class="nav-item nav-parent" aria-expanded="false">
+              <i data-lucide="graduation-cap"></i><span>Students</span
+              ><i data-lucide="chevron-down" class="chevron"></i>
+            </button>
+            <div class="nav-submenu">
+              <a href="index.html" class="nav-subitem">All Students</a>
+              <a href="student-detail.html" class="nav-subitem"
+                >Student Details</a
+              >
+            </div>
+          </div>
+          <a href="teachers.html" class="nav-item"
+            ><i data-lucide="users"></i><span>Teachers</span></a
+          >
+          <a href="#" class="nav-item"
+            ><i data-lucide="book-open"></i><span>Library</span></a
+          >
+          <a href="#" class="nav-item"
+            ><i data-lucide="user-circle"></i><span>Account</span></a
+          >
+          <a href="#" class="nav-item"
+            ><i data-lucide="layout-grid"></i><span>Class</span></a
+          >
+          <a href="#" class="nav-item"
+            ><i data-lucide="book-marked"></i><span>Subject</span></a
+          >
+          <a href="#" class="nav-item"
+            ><i data-lucide="calendar-days"></i><span>Routine</span></a
+          >
+          <a href="#" class="nav-item"
+            ><i data-lucide="clipboard-check"></i><span>Attendance</span></a
+          >
+          <button class="nav-item nav-parent" aria-expanded="false">
+            <i data-lucide="pen-square"></i><span>Exam</span
+            ><i data-lucide="chevron-down" class="chevron"></i>
+          </button>
+          <a href="#" class="nav-item"
+            ><i data-lucide="bell-ring"></i><span>Notice</span></a
+          >
+          <a href="#" class="nav-item"
+            ><i data-lucide="bus"></i><span>Transport</span></a
+          >
+          <a href="#" class="nav-item"
+            ><i data-lucide="building-2"></i><span>Hostel</span></a
+          >
+          <a href="subscription.html" class="nav-item is-active"
+            ><i data-lucide="credit-card"></i><span>Subscription</span></a
+          >
+        </nav>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div class="search-field">
+            <i data-lucide="search"></i>
+            <input
+              type="text"
+              placeholder="What do you want to find?"
+              aria-label="Search" />
+          </div>
+          <div class="topbar-actions">
+            <button class="icon-btn" aria-label="Notifications">
+              <i data-lucide="bell"></i><span class="dot-badge"></span>
+            </button>
+            <button class="icon-btn" aria-label="Messages">
+              <i data-lucide="message-square"></i>
+            </button>
+            <button class="user-chip" aria-label="Account menu">
+              <img
+                src="https://i.pravatar.cc/64?img=47"
+                alt=""
+                class="user-avatar" />
+              <span class="user-meta"
+                ><span class="user-name">Priscilla Lily</span
+                ><span class="user-role">Admin</span></span
+              >
+              <i data-lucide="chevron-down"></i>
+            </button>
+          </div>
+        </header>
+
+        <div class="page">
+          <div class="page-head">
+            <div>
+              <h1 class="page-title">Subscription</h1>
+              <p class="breadcrumb">
+                <span>Home</span><i data-lucide="chevron-right"></i
+                ><span class="is-current">Subscription</span>
+              </p>
+            </div>
+          </div>
+
+          <div class="sub-grid">
+            <!-- ============ Plan card ============ -->
+            <section class="plan-card">
+              <span class="plan-badge"
+                ><i data-lucide="sparkles"></i>Most popular</span
+              >
+
+              <h2 class="plan-name">School Management — Pro</h2>
+              <p class="plan-desc">
+                Everything your school needs to manage students, teachers, and
+                operations in one place.
+              </p>
+
+              <div class="plan-price" id="">
+                <span class="plan-price-currency">$</span>
+                <span class="plan-price-value" data-count="120" id="">120</span>
+                <span class="plan-price-period">/ year</span>
+              </div>
+              <p class="plan-price-note">Billed annually · cancel anytime</p>
+
+              <ul class="plan-features">
+                <li>
+                  <i data-lucide="check"></i>Unlimited student &amp; teacher
+                  profiles
+                </li>
+                <li>
+                  <i data-lucide="check"></i>Attendance, results &amp; fee
+                  tracking
+                </li>
+                <li>
+                  <i data-lucide="check"></i>Custom notices &amp; announcements
+                </li>
+                <li>
+                  <i data-lucide="check"></i>Role-based access for admins &amp;
+                  teachers
+                </li>
+                <li>
+                  <i data-lucide="check"></i>Data export &amp; automated backups
+                </li>
+                <li>
+                  <i data-lucide="check"></i>Priority email &amp; chat support
+                </li>
+                <li>
+                  <i data-lucide="check"></i>Free updates for the subscription
+                  period
+                </li>
+              </ul>
+
+              <div class="plan-trust">
+                <span><i data-lucide="shield-check"></i>Secure checkout</span>
+                <span><i data-lucide="rotate-ccw"></i>30-day money back</span>
+              </div>
+              <button type="button" class="subscribe-button" id="subscribeBtn">
+                <span>Buy Now $120.00</span>
+              </button>
+            </section>
+            <section class="plan-card">
+              <div class="qrcode-container">
+                <img
+                  id="KHQRCode"
+                  class="qr-img"
+                  src="https://i.pinimg.com/736x/0f/cc/03/0fcc03cfdb519e20f69e9699e2f8cdd0.jpg"
+                  alt="" />
+              </div>
+              <p class="payment-status">
+                <span class="status">Status</span>
+              </p>
+            </section>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Success overlay -->
+    <div class="success-overlay" id="successOverlay">
+      <div class="success-card">
+        <div class="success-icon"><i data-lucide="check"></i></div>
+        <h3>Payment successful</h3>
+        <p>
+          Your School Management — Pro subscription is now active. A receipt has
+          been sent to your email.
+        </p>
+        <button class="btn btn-primary btn-block" id="successCloseBtn">
+          <span>Back to dashboard</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+      <i data-lucide="check-circle-2"></i>
+      <span id="toastMsg">Done</span>
+    </div>
+
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="subscription.js"></script>
+  </body>
+</html>

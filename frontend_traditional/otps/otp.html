@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>ia Academy — Verify your identity</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet" />
+
+    <link rel="stylesheet" href="../dashboard/styles.css" />
+    <link rel="stylesheet" href="../auth/auth.css" />
+    <link rel="stylesheet" href="otp.css" />
+  </head>
+  <body>
+    <div class="auth-shell">
+      <!-- Visual / branding panel (hidden on mobile, same as login/signup) -->
+      <aside class="auth-visual">
+        <div class="auth-visual-top">
+          <div class="brand-icon"><i data-lucide="graduation-cap"></i></div>
+          <span class="brand-name brand-name--light">ia Academy</span>
+        </div>
+
+        <div class="auth-visual-body">
+          <h2>Almost there.</h2>
+          <p>
+            Verifying your identity keeps student and staff records secure — it
+            only takes a few seconds.
+          </p>
+        </div>
+
+        <div class="auth-visual-card">
+          <div class="auth-visual-card-head">
+            <div class="otp-visual-icon">
+              <i data-lucide="shield-check"></i>
+            </div>
+            <div>
+              <div class="student-name">Secure verification</div>
+              <div class="user-role">Protecting your account</div>
+            </div>
+          </div>
+          <div class="auth-visual-stat-row">
+            <div class="auth-visual-stat">
+              <span class="stat-value">256-bit</span>
+              <span class="stat-label">Encryption</span>
+            </div>
+            <div class="auth-visual-stat">
+              <span class="stat-value">4-digit</span>
+              <span class="stat-label">One-time code</span>
+            </div>
+            <div class="auth-visual-stat">
+              <span class="stat-value">60s</span>
+              <span class="stat-label">Code validity</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="auth-visual-dots" aria-hidden="true">
+          <span></span><span></span><span class="is-active"></span>
+        </div>
+      </aside>
+
+      <!-- OTP popup card -->
+      <main class="auth-main">
+        <div class="auth-card otp-card" id="authCard">
+          <div class="auth-mobile-brand">
+            <div class="brand-icon"><i data-lucide="graduation-cap"></i></div>
+            <span class="brand-name">ia Academy</span>
+          </div>
+
+          <button type="button" class="otp-back" id="otpBack">
+            <i data-lucide="arrow-left"></i><span>Back</span>
+          </button>
+
+          <div class="otp-icon-wrap">
+            <i data-lucide="mail-check"></i>
+          </div>
+
+          <h1 class="auth-title otp-title">Enter verification code</h1>
+          <p class="auth-subtitle otp-subtitle">
+            We sent a 4-digit code to
+            <strong id="otpTarget"></strong>.
+            <button type="button" class="auth-link" id="otpEditTarget">
+              Not you?
+            </button>
+          </p>
+
+          <form id="otpForm" novalidate>
+            <div class="otp-input-group" id="otpInputGroup">
+              <input
+                type="text"
+                inputmode="numeric"
+                pattern="[0-9]*"
+                maxlength="1"
+                class="otp-box"
+                data-index="0"
+                aria-label="Digit 1" />
+              <input
+                type="text"
+                inputmode="numeric"
+                pattern="[0-9]*"
+                maxlength="1"
+                class="otp-box"
+                data-index="1"
+                aria-label="Digit 2" />
+              <input
+                type="text"
+                inputmode="numeric"
+                pattern="[0-9]*"
+                maxlength="1"
+                class="otp-box"
+                data-index="2"
+                aria-label="Digit 3" />
+              <input
+                type="text"
+                inputmode="numeric"
+                pattern="[0-9]*"
+                maxlength="1"
+                class="otp-box"
+                data-index="3"
+                aria-label="Digit 4" />
+            </div>
+
+            <p class="otp-error" id="otpError">
+              <i data-lucide="alert-circle"></i>
+              <span>That code isn't right. Please try again.</span>
+            </p>
+
+            <button
+              type="submit"
+              class="btn btn-primary btn-block"
+              id="otpSubmit">
+              <span class="btn-label">Verify code</span>
+              <span class="btn-spinner"></span>
+            </button>
+          </form>
+
+          <div class="otp-resend">
+            <span id="resendIdle"
+              >Didn't receive the code?
+              <button type="button" class="auth-link" id="resendBtn" disabled>
+                Resend code
+              </button></span
+            >
+            <span id="resendTimer" class="otp-timer"
+              >Resend available in <strong id="timerValue">60</strong>s</span
+            >
+          </div>
+
+          <p class="otp-hint">
+            Demo tip: enter <strong>1234</strong> to simulate success, any other
+            code to see the error state.
+          </p>
+        </div>
+      </main>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+      <i data-lucide="check-circle-2"></i>
+      <span id="toastMsg">Verified successfully</span>
+    </div>
+
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="otp.js"></script>
+  </body>
+</html>

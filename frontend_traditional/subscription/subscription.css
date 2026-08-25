@@ -1,0 +1,501 @@
+/* ============================================================
+   SUBSCRIPTION PAGE — extends tokens defined in styles.css
+   ============================================================ */
+
+.nav-item.is-active {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+.sub-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: var(--space-6);
+  align-items: start;
+}
+
+/* ---------------- Plan card ---------------- */
+.plan-card {
+  position: relative;
+  background: linear-gradient(
+    160deg,
+    var(--color-primary) 0%,
+    var(--color-primary-active) 100%
+  );
+  border-radius: var(--radius-xl);
+  padding: var(--space-7);
+  color: #fff;
+  overflow: hidden;
+}
+.plan-card::before {
+  content: "";
+  position: absolute;
+  top: -100px;
+  right: -80px;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+}
+.plan-card::after {
+  content: "";
+  position: absolute;
+  bottom: -100px;
+  left: -60px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.plan-badge {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  margin-bottom: var(--space-5);
+}
+.plan-badge svg {
+  width: 13px;
+  height: 13px;
+}
+
+.plan-name {
+  position: relative;
+  z-index: 1;
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-extrabold);
+  letter-spacing: -0.01em;
+  margin-bottom: var(--space-2);
+}
+.plan-desc {
+  position: relative;
+  z-index: 1;
+  font-size: var(--fs-sm);
+  color: rgba(255, 255, 255, 0.82);
+  line-height: 1.6;
+  max-width: 340px;
+  margin-bottom: var(--space-6);
+}
+
+.plan-price {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+}
+.plan-price-currency {
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-bold);
+  margin-bottom: 6px;
+}
+.plan-price-value {
+  font-size: var(--fs-hero);
+  font-weight: var(--fw-extrabold);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.plan-price-period {
+  font-size: var(--fs-md);
+  color: rgba(255, 255, 255, 0.72);
+  margin-bottom: 8px;
+}
+.plan-price-note {
+  position: relative;
+  z-index: 1;
+  font-size: var(--fs-xs);
+  color: rgba(255, 255, 255, 0.68);
+  margin-top: 6px;
+  margin-bottom: var(--space-6);
+}
+
+.plan-features {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-bottom: var(--space-7);
+}
+.plan-features li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--fs-sm);
+}
+.plan-features svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  padding: 3px;
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 50%;
+}
+
+.plan-trust {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: var(--space-5);
+  padding-top: var(--space-5);
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+.plan-trust span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fs-xs);
+  color: rgba(255, 255, 255, 0.78);
+}
+.plan-trust svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* ---------------- Payment card ---------------- */
+.pay-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-7);
+}
+.pay-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-6);
+}
+.pay-title {
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-bold);
+}
+.pay-secure-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  color: var(--color-success);
+  background: var(--color-success-bg);
+  padding: 5px 10px;
+  border-radius: var(--radius-full);
+}
+.pay-secure-badge svg {
+  width: 12px;
+  height: 12px;
+}
+
+#paymentForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+.field-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+/* Field validation states (self-contained) */
+.input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.input-wrap .input-icon {
+  position: absolute;
+  left: 14px;
+  width: 16px;
+  height: 16px;
+  color: var(--color-text-muted);
+  pointer-events: none;
+}
+.input-wrap input {
+  padding-left: 40px !important;
+  padding-right: 40px !important;
+}
+.status-icon {
+  position: absolute;
+  right: 12px;
+  width: 16px;
+  height: 16px;
+  opacity: 0;
+  pointer-events: none;
+}
+.status-valid {
+  color: var(--color-success);
+}
+.status-invalid {
+  color: var(--color-danger);
+}
+.field.is-valid .status-valid {
+  opacity: 1;
+}
+.field.is-invalid .status-invalid {
+  opacity: 1;
+}
+.field.is-valid input,
+.field.is-valid select {
+  border-color: var(--color-success) !important;
+}
+.field.is-invalid input,
+.field.is-invalid select {
+  border-color: var(--color-danger) !important;
+  box-shadow: 0 0 0 4px var(--color-danger-bg);
+}
+.field-error {
+  display: none;
+  font-size: var(--fs-xs);
+  color: var(--color-danger);
+  margin-top: 6px;
+}
+.field.is-invalid .field-error {
+  display: block;
+}
+
+/* Stripe Card Element wrapper — Stripe injects an iframe here */
+.stripe-card-wrap {
+  height: 46px;
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+.stripe-card-wrap.StripeElement--focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 4px var(--color-primary-light);
+}
+.stripe-card-wrap.StripeElement--invalid {
+  border-color: var(--color-danger);
+  box-shadow: 0 0 0 4px var(--color-danger-bg);
+}
+.stripe-card-wrap.StripeElement--webkit-autofill {
+  background: var(--color-surface);
+}
+.field.is-invalid .stripe-card-wrap {
+  border-color: var(--color-danger);
+  box-shadow: 0 0 0 4px var(--color-danger-bg);
+}
+
+.stripe-fallback {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-text-muted);
+  font-size: var(--fs-sm);
+}
+.stripe-fallback svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ---------------- Order summary ---------------- */
+.order-summary {
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.order-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--fs-sm);
+  color: var(--color-text-secondary);
+}
+.order-row--total {
+  padding-top: var(--space-3);
+  margin-top: var(--space-1);
+  border-top: 1px solid var(--color-border);
+  font-size: var(--fs-base);
+  font-weight: var(--fw-bold);
+  color: var(--color-text-primary);
+}
+.subscribe-button {
+  min-width: 100%;
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-md);
+  margin-top: var(--space-3);
+  font-size: var(--fs-base);
+  font-weight: var(--fw-bold);
+  color: var(--color-text-primary);
+  padding: var(--space-2) 0;
+}
+.qrcode-container {
+  height: max-content;
+}
+.payment-status {
+  min-width: 100%;
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-md);
+  margin-top: var(--space-3);
+  font-size: var(--fs-base);
+  font-weight: var(--fw-bold);
+  color: var(--color-primary-light);
+  padding: var(--space-2) 0;
+  text-align: center;
+}
+.qr-img {
+  align-items: center;
+  margin: auto;
+  border: solid none;
+  border-radius: var(--radius-sm);
+}
+
+/* The total is displayed in the dark plan card, so remove native button
+   chrome and use the card's high-contrast summary treatment. */
+.plan-card .order-row--total {
+  width: 100%;
+  padding: var(--space-5) 0 0;
+  margin-top: var(--space-5);
+  border: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  background: transparent;
+  color: #fff;
+  text-align: left;
+}
+
+.btn-block {
+  width: 100%;
+  height: 48px;
+  position: relative;
+}
+.btn-spinner {
+  display: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2.5px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #fff;
+}
+.btn.is-loading .btn-label {
+  opacity: 0;
+}
+.btn.is-loading .btn-spinner {
+  display: block;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: -9px 0 0 -9px;
+  animation: btn-spin 0.7s linear infinite;
+}
+.btn.is-loading {
+  pointer-events: none;
+  opacity: 0.9;
+}
+@keyframes btn-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.pay-stripe-note {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 11px;
+  color: var(--color-text-muted);
+  text-align: center;
+  justify-content: center;
+  line-height: 1.5;
+}
+.stripe-mark {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   SUCCESS OVERLAY
+   ============================================================ */
+.success-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(33, 26, 46, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  z-index: 200;
+  opacity: 0;
+  visibility: hidden;
+}
+.success-card {
+  width: 100%;
+  max-width: 380px;
+  background: var(--color-surface);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-7) var(--space-6);
+  text-align: center;
+}
+.success-icon {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto var(--space-5);
+  border-radius: 50%;
+  background: var(--color-success-bg);
+  color: var(--color-success);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.success-icon svg {
+  width: 32px;
+  height: 32px;
+}
+.success-card h3 {
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-bold);
+  margin-bottom: var(--space-2);
+}
+.success-card p {
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin-bottom: var(--space-6);
+}
+
+/* ============================================================
+   RESPONSIVE — iPad mirrors desktop; phone stacks
+   ============================================================ */
+@media (max-width: 1080px) {
+  .sub-grid {
+    grid-template-columns: 1fr;
+  }
+  .plan-card {
+    padding: var(--space-6);
+  }
+}
+
+@media (max-width: 768px) {
+  .pay-card {
+    padding: var(--space-5);
+  }
+  .plan-card {
+    padding: var(--space-6) var(--space-5);
+  }
+  .field-grid-2 {
+    grid-template-columns: 1fr;
+  }
+  .plan-price-value {
+    font-size: var(--fs-2xl);
+  }
+}
