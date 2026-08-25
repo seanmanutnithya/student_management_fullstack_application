@@ -1,8 +1,8 @@
-import Navbar from "./components/Navbar/Navbar.jsx";
+import UserInterface from "./components/ui/userInterface";
 const App = () => {
   return (
     <>
-      <Navbar />
+      <UserInterface />
     </>
   );
 };
