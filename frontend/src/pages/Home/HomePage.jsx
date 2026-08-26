@@ -6,8 +6,7 @@ import StatCard from "../../components/StatCard";
 import QuickListCard from "../../components/QuickListCard";
 import ActivityFeed from "../../components/ActivityFeed";
 import EventLists from "../../components/EventsList";
-
-import Index from "../../components/Charts/Index";
+import Charts from "../../components/Charts/Charts";
 
 import { stats } from "../../assets/assets";
 
@@ -44,7 +43,7 @@ const HomePage = () => {
           <div className="home-grid">
             <div className="home-col-main">
               {/* <!-- Charts --> */}
-              <Index />
+              <Charts />
               {/* <!-- Quick lists --> */}
               <QuickListCard />
             </div>

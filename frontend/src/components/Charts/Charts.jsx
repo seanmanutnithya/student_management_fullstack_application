@@ -1,6 +1,6 @@
 import LineChart from "./LineChart";
 import DonutChart from "./DonutChart";
-const Index = () => {
+const Charts = () => {
   return (
     <section className="chart-row">
       <LineChart />
@@ -9,4 +9,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default Charts;
