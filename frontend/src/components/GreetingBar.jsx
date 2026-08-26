@@ -1,9 +1,11 @@
-import { useEffect } from "react";
-import { getCurrentDate } from "../funcs/getCurrentDate";
+import { useState } from "react";
+import { useCurrentDate } from "../hooks/useCurrentDate";
+import { Megaphone, UserPlus } from "lucide-react";
+import NoticeModal from "./NoticeModal";
+import Toast from "./Toast";
 const GreetingBar = () => {
-  useEffect(() => {
-    getCurrentDate();
-  }, []);
+  useCurrentDate();
+  const [modalOpen, setModalOpen] = useState(false);
   return (
     <section className="greeting-bar">
       <div className="greeting-text">
@@ -15,12 +17,20 @@ const GreetingBar = () => {
         </p>
       </div>
       <div className="greeting-actions">
-        <button className="btn btn-secondary" id="createNoticeBtn">
-          <i data-lucide="megaphone"></i>
-          <span>Create Notice</span>
+        <button
+          className="btn btn-secondary"
+          id="createNoticeBtn"
+          onClick={() => setModalOpen(true)}>
+          <Megaphone />
+          Create Notice
         </button>
-        <a href="../dashboard/index.html" className="btn btn-primary">
-          <i data-lucide="user-plus"></i>
+        <NoticeModal
+          isOpen={modalOpen}
+          onClose={() => setModalOpen(false)}
+        />
+        <Toast />
+        <a href="#" className="btn btn-primary">
+          <UserPlus />
           <span>Add Student</span>
         </a>
       </div>
