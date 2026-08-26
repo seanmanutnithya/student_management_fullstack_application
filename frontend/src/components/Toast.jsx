@@ -1,9 +1,9 @@
-import React from "react";
+import { CheckCircle2 } from "lucide-react";
 
 const Toast = () => {
   return (
     <div className="toast" id="toast">
-      <i data-lucide="check-circle-2"></i>
+      <CheckCircle2 />
       <span id="toastMsg">Done</span>
     </div>
   );
