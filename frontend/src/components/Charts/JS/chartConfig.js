@@ -7,7 +7,7 @@ export const LINE_CHART_CONFIG = {
   padBottom: 16,
 };
 export const DONUT_CHART_CONFIG = {
-  r: 60,
-  cx: 80,
-  cy: 80,
+  radius: 60,
+  circleX: 80,
+  circleY: 80,
 };
