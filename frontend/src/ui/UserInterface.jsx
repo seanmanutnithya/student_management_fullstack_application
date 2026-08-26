@@ -1,5 +1,5 @@
 import Navbar from "../components/Navbar/Navbar.jsx";
-import HomePage from "../components/Home/HomePage.jsx";
+import HomePage from "../pages/Home/HomePage.jsx";
 const UserInterface = () => {
   return (
     <div className="app-shell">

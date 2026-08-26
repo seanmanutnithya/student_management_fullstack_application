@@ -1,13 +1,13 @@
 import "./HomePage.css";
 
-import TopBar from "../TopBar";
-import GreetingBar from "../GreetingBar";
-import StatCard from "../StatCard";
-import QuickListCard from "../QuickListCard";
-import ActivityFeed from "../ActivityFeed";
-import EventLists from "../EventsList";
+import TopBar from "../../components/TopBar";
+import GreetingBar from "../../components/GreetingBar";
+import StatCard from "../../components/StatCard";
+import QuickListCard from "../../components/QuickListCard";
+import ActivityFeed from "../../components/ActivityFeed";
+import EventLists from "../../components/EventsList";
 
-import Index from "../Charts/Index";
+import Index from "../../components/Charts/Index";
 
 import { stats } from "../../assets/assets";
 
