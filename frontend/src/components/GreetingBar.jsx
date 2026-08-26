@@ -1,4 +1,9 @@
+import { useEffect } from "react";
+import { getCurrentDate } from "../funcs/getCurrentDate";
 const GreetingBar = () => {
+  useEffect(() => {
+    getCurrentDate();
+  }, []);
   return (
     <section className="greeting-bar">
       <div className="greeting-text">
