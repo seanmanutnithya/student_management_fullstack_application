@@ -1,6 +1,7 @@
 /* ============================================================
    DESIGN TOKENS — change values here to restyle the whole app
    ============================================================ */
+@import "tailwindcss";
 :root {
   /* -- Brand / semantic colors -- */
   --color-primary: #7c4dff;
