@@ -1,14 +1,13 @@
+import { useDebugValue } from "react";
 import { sections } from "../assets/quickListCardAssets";
 
 const QuickList = ({ icon: Icon, title, data, id }) => {
   return (
     <div className="card quicklist-card" id={id}>
-      {data.map((d, idx) => (
-        <h3 className="quicklist-title" key={idx}>
-          <Icon />
-          {title}
-        </h3>
-      ))}
+      <h3 className="quicklist-title" key={id}>
+        <Icon />
+        {title}
+      </h3>
 
       <ul className="quicklist" id="absenteesList">
         {data.map((d, idx) => (
