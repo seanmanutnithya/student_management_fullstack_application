@@ -1,6 +1,14 @@
-import React from "react";
+import { useEffect } from "react";
+import { Send, X } from "lucide-react";
+import { renderPopsupModal } from "./Modal/renderPopsupModal";
+const NoticeModal = ({ isOpen, onClose }) => {
+  useEffect(() => {
+    if (!isOpen) return undefined;
 
-const NoticeModal = () => {
+    return renderPopsupModal(onClose);
+  }, [isOpen, onClose]);
+
+  if (!isOpen) return null;
   return (
     <div className="modal-overlay" id="modalOverlay">
       <div
@@ -12,7 +20,7 @@ const NoticeModal = () => {
         <div className="modal-head">
           <h3 id="noticeModalTitle">Create Notice</h3>
           <button className="icon-btn" id="modalCloseBtn" aria-label="Close">
-            <i data-lucide="x"></i>
+            <X />
           </button>
         </div>
 
@@ -70,7 +78,7 @@ const NoticeModal = () => {
             id="modalPublishBtn"
             type="button">
             <span className="btn-label">
-              <i data-lucide="send"></i>
+              <Send />
               <span>Publish notice</span>
             </span>
             <span className="btn-spinner"></span>
