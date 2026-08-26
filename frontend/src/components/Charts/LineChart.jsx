@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import renderLineChart from "./JS/renderLineChart";
+import { Calendar, ChevronDown } from "lucide-react";
 const LineChart = () => {
   useEffect(() => {
     renderLineChart();
@@ -9,9 +10,9 @@ const LineChart = () => {
       <div className="card-head">
         <h2 className="card-title">Enrollment &amp; attendance trend</h2>
         <button className="select-field select-field--sm">
-          <i data-lucide="calendar"></i>
+          <Calendar />
           <span>Last 6 months</span>
-          <i data-lucide="chevron-down"></i>
+          <ChevronDown />
         </button>
       </div>
       <div className="line-chart-wrap">
