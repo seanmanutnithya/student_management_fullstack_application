@@ -1,3 +1,4 @@
+import { RefreshCw } from "lucide-react";
 import { activities } from "../assets/assets";
 const ActivityFeed = () => {
   return (
@@ -8,7 +9,7 @@ const ActivityFeed = () => {
           className="icon-btn icon-btn--ghost"
           title="Refresh"
           id="refreshActivityBtn">
-          <i data-lucide="refresh-cw"></i>
+          <RefreshCw />
         </button>
       </div>
       <ul className="activity-feed" id="activityFeed">
