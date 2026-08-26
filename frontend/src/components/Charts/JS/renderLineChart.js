@@ -1,6 +1,6 @@
 import { LINE_CHART_CONFIG } from "./chartConfig";
 import { data } from "./mockData";
-import { computeLineGeometry } from "./computeLineGeometry";
+import { computeLineGeometry } from "./computeGeometry";
 
 function renderLineChart() {
   const { points, linePath, areaPath } = computeLineGeometry(
