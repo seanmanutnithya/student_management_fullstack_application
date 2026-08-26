@@ -13,7 +13,7 @@ import { stats } from "../../assets/assets";
 const HomePage = () => {
   return (
     <>
-      <div className="sidebar-overlay" id="sidebarOverlay"></div>
+      <div className="sidebar-overlay " id="sidebarOverlay"></div>
 
       <main className="main">
         {/* top bar */}
