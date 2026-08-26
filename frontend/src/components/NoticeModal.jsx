@@ -77,7 +77,7 @@ const NoticeModal = ({ isOpen, onClose }) => {
             className="btn btn-primary"
             id="modalPublishBtn"
             type="button">
-            <span className="btn-label">
+            <span className="btn-label flex items-center gap-2">
               <Send />
               <span>Publish notice</span>
             </span>
