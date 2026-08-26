@@ -33,7 +33,13 @@ const QuickListCard = () => {
   return (
     <section className="quicklist-row">
       {sections.map((s, idx) => (
-        <QuickList icon={s.icon} title={s.title} data={s.data} id={s.id} />
+        <QuickList
+          icon={s.icon}
+          title={s.title}
+          data={s.data}
+          id={s.id}
+          key={idx}
+        />
       ))}
     </section>
   );
