@@ -3,10 +3,11 @@ import "./HomePage.css";
 import TopBar from "../TopBar";
 import GreetingBar from "../GreetingBar";
 import StatCard from "../StatCard";
-import EnrollmentChart from "../EnrollmentChart";
 import QuickListCard from "../QuickListCard";
 import ActivityFeed from "../ActivityFeed";
 import EventLists from "../EventsList";
+
+import Index from "../Charts/Index";
 
 import { stats } from "../../assets/assets";
 
@@ -43,7 +44,7 @@ const HomePage = () => {
           <div className="home-grid">
             <div className="home-col-main">
               {/* <!-- Charts --> */}
-              <EnrollmentChart />
+              <Index />
               {/* <!-- Quick lists --> */}
               <QuickListCard />
             </div>
