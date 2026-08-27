@@ -1,7 +1,7 @@
 import { segments } from "./mockData";
 import { DONUT_CHART_CONFIG } from "./chartConfig";
 import { computeCircleGeometry } from "./computeGeometry";
-
+import gsap from "gsap";
 function renderDonutChart() {
   const { radius: r, circleX: cx, circleY: cy } = DONUT_CHART_CONFIG;
   const { total, circumference } = computeCircleGeometry(
@@ -32,7 +32,7 @@ function renderDonutChart() {
     circle.dataset.gap = circumference - dash;
     svg.appendChild(circle);
 
-    if (window.gsap) {
+    if (gsap) {
       gsap.fromTo(
         circle,
         { strokeDasharray: `0 ${circumference}` },
