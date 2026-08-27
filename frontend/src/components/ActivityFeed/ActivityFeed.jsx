@@ -1,6 +1,22 @@
 import { RefreshCw } from "lucide-react";
-import { activities } from "../assets/assets";
+import { activities } from "../../assets/assets";
+import { useState } from "react";
+import { showToast } from "../../hooks/useToast";
+import Toast from "../Toast";
 const ActivityFeed = () => {
+  const [items, setItems] = useState(activities);
+  const [isSpinning, setIsSpinning] = useState(false);
+
+  async function handleRefresh(isSpinning) {
+    if (isSpinning) return;
+    setIsSpinning(true);
+    try {
+      showToast("Activity feed refreshed");
+    } catch (error) {
+      setTimeout(() => setIsSpinning(false), 500);
+    }
+  }
+
   return (
     <section className="card activity-card">
       <div className="card-head">
@@ -8,8 +24,10 @@ const ActivityFeed = () => {
         <button
           className="icon-btn icon-btn--ghost"
           title="Refresh"
-          id="refreshActivityBtn">
-          <RefreshCw />
+          id="refreshActivityBtn"
+          onClick={() => handleRefresh(isSpinning)}
+          disabled={isSpinning}>
+          <RefreshCw className={isSpinning ? "btn-spin" : ""} />
         </button>
       </div>
       <ul className="activity-feed" id="activityFeed">
