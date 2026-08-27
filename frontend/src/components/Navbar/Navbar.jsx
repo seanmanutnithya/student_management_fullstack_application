@@ -1,10 +1,15 @@
 import { navbarAssets } from "./assets";
 import Branding from "./Branding";
+import { pageLoadAnimation } from "../../animation/pageLoadAnimation";
+import { useEffect } from "react";
 const Navbar = () => {
+  useEffect(() => {
+    pageLoadAnimation();
+  }, []);
   return (
     <>
       <div className="app-shell">
-        {/* <!-- Sidebar (Home active) --> */}
+        {/* <!-- Sidebar  (Home active) --> */}
         <aside className="sidebar" id="sidebar">
           <Branding />
           <nav className="sidebar-nav">
