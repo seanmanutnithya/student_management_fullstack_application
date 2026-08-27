@@ -1,6 +1,7 @@
 import { LINE_CHART_CONFIG } from "./chartConfig";
 import { data } from "./mockData";
 import { computeLineGeometry } from "./computeGeometry";
+import gsap from "gsap";
 
 function renderLineChart() {
   const { points, linePath, areaPath } = computeLineGeometry(
@@ -50,7 +51,7 @@ function renderLineChart() {
   const areaPathEl = document.getElementById("areaPath");
   const length = linePathEl.getTotalLength();
 
-  if (window.gsap) {
+  if (gsap) {
     gsap.set(linePathEl, { strokeDasharray: length, strokeDashoffset: length });
     gsap.set(areaPathEl, { opacity: 0 });
     gsap.to(linePathEl, {
