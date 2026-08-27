@@ -1,5 +1,4 @@
 import { CheckCircle2 } from "lucide-react";
-
 const Toast = () => {
   return (
     <div className="toast" id="toast">

@@ -553,6 +553,7 @@
   pointer-events: none;
   opacity: 0.9;
 }
+
 @keyframes btn-spin {
   to {
     transform: rotate(360deg);

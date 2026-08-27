@@ -2,15 +2,25 @@ import "./HomePage.css";
 
 import TopBar from "../../components/TopBar";
 import GreetingBar from "../../components/GreetingBar";
-import StatCard from "../../components/StatCard";
+import StatCard from "../../components/StatCard/StatCard";
 import QuickListCard from "../../components/QuickListCard";
-import ActivityFeed from "../../components/ActivityFeed";
+import ActivityFeed from "../../components/ActivityFeed/ActivityFeed";
 import EventLists from "../../components/EventsList";
 import Charts from "../../components/Charts/Charts";
+import Toast from "../../components/Toast";
 
+import { showToast } from "../../hooks/useToast";
 import { stats } from "../../assets/assets";
 
+import { wireHoverScale } from "../../animation/wireHoverScale";
+
+import { useEffect, useState } from "react";
+
 const HomePage = () => {
+  useEffect(() => {
+    wireHoverScale(".icon-btn", 1.08);
+  }, []);
+
   return (
     <>
       <div className="sidebar-overlay " id="sidebarOverlay"></div>
@@ -62,6 +72,7 @@ const HomePage = () => {
       {/* <!-- Create Notice modal --> */}
 
       {/* <!-- Toast --> */}
+      <Toast />
     </>
   );
 };
