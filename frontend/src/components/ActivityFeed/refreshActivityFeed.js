@@ -1,6 +1,6 @@
 import gsap from "gsap";
 import { showToast } from "../../hooks/useToast";
-export function refreshActivityFeed({ onRefresh }) {
+export function refreshActivityFeed() {
   document
     .getElementById("refreshActivityBtn")
     .addEventListener("click", (e) => {

@@ -4,7 +4,6 @@ import { useState } from "react";
 import { showToast } from "../../hooks/useToast";
 import Toast from "../Toast";
 const ActivityFeed = () => {
-  const [items, setItems] = useState(activities);
   const [isSpinning, setIsSpinning] = useState(false);
 
   async function handleRefresh(isSpinning) {
@@ -25,8 +24,7 @@ const ActivityFeed = () => {
           className="icon-btn icon-btn--ghost"
           title="Refresh"
           id="refreshActivityBtn"
-          onClick={() => handleRefresh(isSpinning)}
-          disabled={isSpinning}>
+          onClick={() => handleRefresh(isSpinning)}>
           <RefreshCw className={isSpinning ? "btn-spin" : ""} />
         </button>
       </div>

@@ -1012,6 +1012,9 @@ input[type="checkbox"] {
   border-top-color: var(--color-primary);
   animation: spin 0.7s linear infinite;
 }
+.btn-spin {
+  animation: spin 0.5s linear;
+}
 @keyframes spin {
   to {
     transform: rotate(360deg);
