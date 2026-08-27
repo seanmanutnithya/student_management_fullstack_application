@@ -1,7 +1,8 @@
 import { TrendingDown, TrendingUp } from "lucide-react";
 import { useEffect } from "react";
-import { pageLoadAnimation } from "../animation/pageLoadAnimation";
+import { pageLoadAnimation } from "../../animation/pageLoadAnimation";
 import { animateCounters } from "./animateCounter";
+import { wireHoverScale } from "../../animation/wireHoverScale";
 const StatCard = ({
   Icon,
   colorClass,
@@ -14,6 +15,7 @@ const StatCard = ({
 }) => {
   useEffect(() => {
     pageLoadAnimation(() => animateCounters());
+    wireHoverScale(".stat-card", 1.015);
   }, []);
   return (
     <div className="stat-card">
