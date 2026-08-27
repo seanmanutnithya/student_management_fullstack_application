@@ -35,8 +35,7 @@ export function renderPopsupModal(onClose) {
       onClose,
     );
   const handleOverlayClick = (e) => {
-    if (e.target === modalOverlay)
-      close();
+    if (e.target === modalOverlay) close();
   };
 
   const publish = () => {
