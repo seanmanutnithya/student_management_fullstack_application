@@ -7,7 +7,8 @@ const GreetingBar = () => {
   useCurrentDate();
   const [modalOpen, setModalOpen] = useState(false);
   return (
-    <section className="greeting-bar">
+    <>
+      <section className="greeting-bar">
       <div className="greeting-text">
         <h1 className="greeting-title" id="greetingTitle">
           Good morning, Priscilla
@@ -24,17 +25,16 @@ const GreetingBar = () => {
           <Megaphone />
           Create Notice
         </button>
-        <NoticeModal
-          isOpen={modalOpen}
-          onClose={() => setModalOpen(false)}
-        />
+
         <Toast />
         <a href="#" className="btn btn-primary">
           <UserPlus />
           <span>Add Student</span>
         </a>
       </div>
-    </section>
+      </section>
+      <NoticeModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
+    </>
   );
 };
 
