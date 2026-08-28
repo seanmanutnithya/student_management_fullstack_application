@@ -400,6 +400,11 @@ p {
   height: 18px;
   flex-shrink: 0;
 }
+.nav-item.is-active {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  font-weight: var(--fw-semibold);
+}
 .nav-item:hover {
   background: var(--color-primary-light);
   color: var(--color-primary);
