@@ -1,5 +1,5 @@
 import { validateField } from "./validateField";
-import { setFieldState } from "../components/Modal/setFeildState";
+import { setFieldState } from "@/components/Modal/setFeildState";
 export function wireLiveValidation(fieldEl, validatorFn) {
   const input = fieldEl.querySelector("input, textarea");
   const validateOnBlur = () => validateField(fieldEl, validatorFn);
