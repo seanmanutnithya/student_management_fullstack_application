@@ -1,10 +1,13 @@
 import { navbarAssets } from "./assets";
 import Branding from "./Branding";
-import { pageLoadAnimation } from "../../animation/pageLoadAnimation";
+import { pageLoadAnimation } from "@/animation/pageLoadAnimation";
+import { navbarLoadAnimation } from "@/animation/navBarLoadAnimation";
 import { useEffect } from "react";
+import { Link, NavLink } from "react-router-dom";
 const Navbar = () => {
   useEffect(() => {
     pageLoadAnimation();
+    navbarLoadAnimation();
   }, []);
   return (
     <>
@@ -23,22 +26,30 @@ const Navbar = () => {
                       aria-expanded="false">
                       <Icon />
                       <span>{Title}</span>
-                      <i className="chevron">
-                        <item.chevron />
-                      </i>
+                      <item.chevron />
                     </button>
                     <div className="nav-submenu">
                       {item.groupItems.map((sub, subIdx) => (
-                        <a key={subIdx} className="nav-subitem">
+                        <NavLink
+                          to={sub.to}
+                          key={subIdx}
+                          className={({ isActive }) =>
+                            `nav-subitem ${isActive ? "is-active" : ""}`
+                          }>
                           {sub.title}
-                        </a>
+                        </NavLink>
                       ))}
                     </div>
                   </div>
-                : <a href="" className="nav-item" key={idx}>
+                : <NavLink
+                    to={item.to}
+                    className={({ isActive }) =>
+                      `nav-item ${isActive ? "is-active" : ""} `
+                    }
+                    key={idx}>
                     <Icon />
                     <span>{Title}</span>
-                  </a>;
+                  </NavLink>;
             })}
           </nav>
         </aside>
