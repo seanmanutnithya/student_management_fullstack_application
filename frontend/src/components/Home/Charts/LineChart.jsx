@@ -1,7 +1,9 @@
 import { useEffect } from "react";
-import renderLineChart from "./JS/renderLineChart";
 import { Calendar, ChevronDown } from "lucide-react";
-import { pageLoadAnimation } from "../../animation/pageLoadAnimation";
+
+import renderLineChart from "./JS/renderLineChart";
+import { pageLoadAnimation } from "@/animation/pageLoadAnimation";
+
 const LineChart = () => {
   useEffect(() => {
     pageLoadAnimation(() => renderLineChart());

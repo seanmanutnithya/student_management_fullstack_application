@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
-import { useCurrentDate } from "../hooks/useCurrentDate";
 import { Megaphone, UserPlus } from "lucide-react";
+
+import { useCurrentDate } from "@/hooks/useCurrentDate";
+import { wireHoverScale } from "@/animation/wireHoverScale";
+
 import NoticeModal from "./NoticeModal";
-import { wireHoverScale } from "../animation/wireHoverScale";
+
 const GreetingBar = () => {
   useCurrentDate();
   const [modalOpen, setModalOpen] = useState(false);

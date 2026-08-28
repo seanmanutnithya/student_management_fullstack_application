@@ -1,8 +1,9 @@
 import { RefreshCw } from "lucide-react";
-import { activities } from "../../assets/assets";
 import { useState } from "react";
-import { showToast } from "../../hooks/useToast";
-import Toast from "../Toast";
+
+import { activities } from "@/assets/assets";
+import { showToast } from "@/hooks/useToast";
+
 const ActivityFeed = () => {
   const [isSpinning, setIsSpinning] = useState(false);
 

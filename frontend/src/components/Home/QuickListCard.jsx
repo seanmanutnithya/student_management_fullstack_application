@@ -1,4 +1,4 @@
-import { sections } from "../assets/quickListCardAssets";
+import { sections } from "@/assets/quickListCardAssets";
 
 const QuickList = ({ icon: Icon, title, data, id }) => {
   return (

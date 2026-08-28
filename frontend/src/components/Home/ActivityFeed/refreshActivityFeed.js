@@ -1,5 +1,5 @@
 import gsap from "gsap";
-import { showToast } from "../../hooks/useToast";
+import { showToast } from "@/hooks/useToast";
 export function refreshActivityFeed() {
   document
     .getElementById("refreshActivityBtn")
