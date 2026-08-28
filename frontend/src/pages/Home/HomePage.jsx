@@ -1,20 +1,19 @@
 import "./HomePage.css";
 
-import TopBar from "../../components/TopBar";
-import GreetingBar from "../../components/GreetingBar";
-import StatCard from "../../components/StatCard/StatCard";
-import QuickListCard from "../../components/QuickListCard";
-import ActivityFeed from "../../components/ActivityFeed/ActivityFeed";
-import EventLists from "../../components/EventsList";
-import Charts from "../../components/Charts/Charts";
-import Toast from "../../components/Toast";
+import TopBar from "@/components/Navbar/TopBar";
+import GreetingBar from "@/components/Home/GreetingBar";
+import StatCard from "@/components/StatCard/StatCard";
+import QuickListCard from "@/components/Home/QuickListCard";
+import ActivityFeed from "@/components/Home/ActivityFeed/ActivityFeed";
+import EventLists from "@/components/Home/EventsList";
+import Charts from "@/components/Home/Charts/Charts";
+import Toast from "@/components/Toast";
 
-import { showToast } from "../../hooks/useToast";
-import { stats } from "../../assets/assets";
+import { stats } from "@/assets/assets";
 
-import { wireHoverScale } from "../../animation/wireHoverScale";
+import { wireHoverScale } from "@/animation/wireHoverScale";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 const HomePage = () => {
   useEffect(() => {
