@@ -1,5 +1,6 @@
-import { navbarAssets } from "./assets";
-import Branding from "./Branding";
+import { navLinks } from "@/assets/data/navLinks";
+
+import Branding from "../Navbar/Branding";
 import { NavLink } from "react-router-dom";
 const Navbar = () => {
   return (
@@ -9,7 +10,7 @@ const Navbar = () => {
         <aside className="sidebar" id="sidebar">
           <Branding />
           <nav className="sidebar-nav">
-            {navbarAssets.map((item, idx) => {
+            {navLinks.map((item, idx) => {
               const Icon = item.icon;
               const Title = item.title;
               return item.isGroup ?

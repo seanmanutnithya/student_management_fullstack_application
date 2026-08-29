@@ -1,5 +1,5 @@
-import TableHead from "./Tables/TableHead";
-import TableBody from "./Tables/TableBody";
+import TableHead from "./TableHead";
+import TableBody from "./TableBody";
 
 const Table = () => {
   return (

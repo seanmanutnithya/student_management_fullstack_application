@@ -1,4 +1,3 @@
-import { usePageLoadAnimation } from "@/animation/usePageLoadAnimation";
 import { GraduationCap, Menu, Search } from "lucide-react";
 import React from "react";
 

@@ -1,21 +1,20 @@
 import "./HomePage.css";
 
-import TopBar from "@/components/Navbar/TopBar";
-import GreetingBar from "@/components/Home/GreetingBar";
-import StatCard from "@/components/StatCard/StatCard";
-import QuickListCard from "@/components/Home/QuickListCard";
-import ActivityFeed from "@/components/Home/ActivityFeed/ActivityFeed";
-import EventLists from "@/components/Home/EventsList";
-import Charts from "@/components/Home/Charts/Charts";
+import TopBar from "@/components/layout/TopBar";
+import GreetingBar from "@/components/features/home/components/GreetingBar";
+import StatCard from "@/components/cards/StatCard";
+import QuickListCard from "@/components/features/home/components/QuickListCard";
+import ActivityFeed from "@/components/features/home/components/ActivityFeed";
+import EventLists from "@/components/features/home/components/EventsList";
+import Charts from "@/components/features/home/components/Charts";
 import Toast from "@/components/Toast";
 
-import { stats } from "@/assets/assets";
+import { stats } from "@/assets/data/stats";
+import { wireHoverScale } from "@/animation/hover";
 
-import { wireHoverScale } from "@/animation/wireHoverScale";
-
-import { usePageLoadAnimation } from "@/animation/usePageLoadAnimation";
-import renderDonutChart from "@/components/Home/Charts/JS/renderDonutChart";
-import renderLineChart from "@/components/Home/Charts/JS/renderLineChart";
+import { usePageLoadAnimation } from "@/animation/pageLoadAnimation";
+import renderDonutChart from "@/components/features/home/utils/renderDonutChart";
+import renderLineChart from "@/components/features/home/utils/renderLineChart";
 
 const HomePage = () => {
   const containerRef = usePageLoadAnimation(() => {

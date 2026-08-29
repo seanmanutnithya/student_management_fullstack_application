@@ -1,7 +1,7 @@
-import Actions from "../Actions";
-import students from "../../../../../database/data.json";
+import Actions from "./Actions";
+import students from "../../../../../../database/data.json";
 import { useRef } from "react";
-import { wireRowSelection } from "../JS/wireRowSelection";
+import { wireRowSelection } from "../hooks/wireRowSelection";
 const TableBody = () => {
   const selectBoxRef = useRef(null);
   const handleSelectBox = () => wireRowSelection(selectBoxRef.current);

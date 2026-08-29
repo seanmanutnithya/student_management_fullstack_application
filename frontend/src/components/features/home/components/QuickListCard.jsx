@@ -1,5 +1,4 @@
 import { sections } from "@/assets/quickListCardAssets";
-
 const QuickList = ({ icon: Icon, title, data, id }) => {
   return (
     <div className="card quicklist-card" id={id}>

@@ -1,9 +1,9 @@
-import PageHead from "@/components/AllStudent/PageHead";
+import PageHead from "@/components/features/students/components/PageHead";
 import "../../index.css";
-import Table from "@/components/AllStudent/Table";
-import TopBar from "@/components/Navbar/TopBar";
+import Table from "@/components/features/students/components/Table";
+import TopBar from "@/components/layout/TopBar";
 import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
-import CardHead from "@/components/AllStudent/CardHead";
+import CardHead from "@/components/features/students/components/CardHead";
 
 const AllStudents = () => {
   return (

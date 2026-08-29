@@ -14,7 +14,7 @@ import {
   Building2,
   ChevronDown,
 } from "lucide-react";
-export const navbarAssets = [
+export const navLinks = [
   {
     to: "/",
     icon: House,

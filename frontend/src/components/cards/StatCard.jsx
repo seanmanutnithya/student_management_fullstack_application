@@ -1,7 +1,4 @@
-import { usePageLoadAnimation } from "@/animation/usePageLoadAnimation";
 import { TrendingDown, TrendingUp } from "lucide-react";
-import { animateCounters } from "./animateCounter";
-import { wireHoverScale } from "@/animation/wireHoverScale";
 
 const StatCard = ({
   Icon,

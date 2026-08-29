@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { selectAll } from "../JS/syncSelectAll";
+import { selectAll } from "../hooks/syncSelectAll";
 const TableHead = () => {
   const selectAllRef = useRef(null);
   const handleSelectAll = () => {

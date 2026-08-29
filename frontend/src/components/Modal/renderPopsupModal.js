@@ -1,8 +1,8 @@
 import { closeModal } from "./closeModal";
 import { openModal } from "./openModal";
 import { showToast } from "@/hooks/useToast";
-import { wireLiveValidation } from "@/helper/wireLiveValidation";
-import { validateField } from "@/helper/validateField";
+import { wireLiveValidation } from "@/utils/wireLiveValidation";
+import { validateField } from "@/utils/validateField";
 
 export function renderPopsupModal(onClose) {
   const noticeTitleField = document.querySelector('[data-field="noticeTitle"]');

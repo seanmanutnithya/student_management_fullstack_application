@@ -1,10 +1,10 @@
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useRef } from "react";
-import renderDonutChart from "@/components/Home/Charts/JS/renderDonutChart";
-import { animateCounters } from "@/components/StatCard/animateCounter";
-import { wireHoverScale } from "./wireHoverScale";
 
+import renderDonutChart from "@/components/features/home/utils/renderDonutChart";
+import { animateCounters } from "@/components/StatCard/animateCounter";
+import { wireHoverScale } from "./hover";
 export function usePageLoadAnimation(onComplete) {
   const ref = useRef(null);
   useGSAP(

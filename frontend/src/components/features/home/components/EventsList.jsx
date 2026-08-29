@@ -1,4 +1,4 @@
-import { events } from "@/assets/assets";
+import { events } from "@/assets/data/stats";
 const EventsList = () => {
   return (
     <section className="card events-card">

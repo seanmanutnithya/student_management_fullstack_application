@@ -1,7 +1,7 @@
 import { RefreshCw } from "lucide-react";
 import { useState } from "react";
 
-import { activities } from "@/assets/assets";
+import { activities } from "@/assets/data/stats";
 import { showToast } from "@/hooks/useToast";
 
 const ActivityFeed = () => {

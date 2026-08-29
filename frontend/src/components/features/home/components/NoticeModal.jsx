@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Send, X } from "lucide-react";
 
-import { renderPopsupModal } from "../Modal/renderPopsupModal";
+import { renderPopsupModal } from "../../../Modal/renderPopsupModal";
 
 const NoticeModal = ({ isOpen, onClose }) => {
   useEffect(() => {
