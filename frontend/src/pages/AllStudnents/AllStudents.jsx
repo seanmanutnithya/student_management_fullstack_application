@@ -2,16 +2,7 @@ import PageHead from "@/components/AllStudent/PageHead";
 import "../../index.css";
 import Table from "@/components/AllStudent/Table";
 import TopBar from "@/components/Navbar/TopBar";
-import {
-  Calendar,
-  ChevronDown,
-  ChevronLeft,
-  ChevronRight,
-  Plus,
-  Search,
-  Trash,
-  Trash2,
-} from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 import CardHead from "@/components/AllStudent/CardHead";
 
 const AllStudents = () => {

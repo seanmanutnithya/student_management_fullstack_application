@@ -1,6 +1,10 @@
 import Actions from "../Actions";
 import students from "../../../../../database/data.json";
+import { useRef } from "react";
+import { wireRowSelection } from "../JS/wireRowSelection";
 const TableBody = () => {
+  const selectBoxRef = useRef(null);
+  const handleSelectBox = () => wireRowSelection(selectBoxRef.current);
   return (
     <tbody id="studentsTbody">
       {/* <!-- rows injected by script.js --> */}
@@ -11,6 +15,8 @@ const TableBody = () => {
               type="checkbox"
               className="row-check"
               aria-label={`Select ${s.name}`}
+              ref={selectBoxRef}
+              onChange={handleSelectBox}
             />
           </td>
           <td>
