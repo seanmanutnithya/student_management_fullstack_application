@@ -14,22 +14,23 @@ export function showToast(message) {
     gsap.killTweensOf(toastEl);
     gsap.fromTo(
       toastEl,
-      { y: 24, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.32, ease: "back.out(1.6)" },
+      { xPercent: -50, y: 24, opacity: 0 },
+      {
+        xPercent: -50,
+        y: 0,
+        opacity: 1,
+        duration: 0.32,
+        ease: "back.out(1.6)",
+      },
     );
-  } else {
-    toastEl.style.opacity = 1;
   }
   toastTimer = setTimeout(() => {
-    if (gsap) {
-      gsap.to(toastEl, {
-        y: 24,
-        opacity: 0,
-        duration: 0.25,
-        ease: "power2.in",
-      });
-    } else {
-      toastEl.style.opacity = 0;
-    }
+    gsap.to(toastEl, {
+      xPercent: -50,
+      y: 24,
+      opacity: 0,
+      duration: 0.25,
+      ease: "power2.in",
+    });
   }, 2600);
 }
