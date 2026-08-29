@@ -1,58 +1,14 @@
-import { useEffect, useReducer, useRef } from "react";
-import { MinusCircle, Send, X } from "lucide-react";
+import { useEffect } from "react";
+import { Send, X } from "lucide-react";
 
 import { renderPopsupModal } from "../Modal/renderPopsupModal";
 
 const NoticeModal = ({ isOpen, onClose }) => {
-  const overlayRef = useRef(null);
-  const modalRef = useRef(null);
-
   useEffect(() => {
-    const overlay = overlayRef.current;
-    const modal = modalRef.current;
-
-    if (!overlay || !modal) return;
-
-    if (isOpen) {
-      overlay.style.visibility = "visible";
-      overlay.style.pointer = "auto";
-      document.body.style.overflow = "hidden";
-
-      gsap.to(overlay, { opacity: 1, duration: 0.2, overwrite: "auto" });
-      gsap.fromTo(
-        modal,
-        { y: 24, opacity: 0, scale: 0.97 },
-        {
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          duration: 0.32,
-          ease: "power1.out",
-          overwrite: "auto",
-        },
-      );
-    } else {
-      document.body.style.overflow = "";
-      gsap.to(modal, {
-        y: 16,
-        opacity: 0,
-        scale: 0.98,
-        duration: 0.2,
-        ease: "power2.in",
-        overwrite: "auto",
-      });
-      gsap.to(overlay, {
-        opacity: 0,
-        duration: 0.22,
-        delay: 0.03,
-        overwrite: "auto",
-        onComplete: () => {
-          overlay.style.visibility = "hidden";
-          overlay.style.pointerEvents = "none";
-        },
-      });
-    }
-  }, [isOpen]);
+    if (!isOpen) return;
+    const cleanup = renderPopsupModal(onClose);
+    return cleanup;
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
   return (
