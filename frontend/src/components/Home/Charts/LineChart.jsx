@@ -1,13 +1,5 @@
-import { useEffect } from "react";
 import { Calendar, ChevronDown } from "lucide-react";
-
-import renderLineChart from "./JS/renderLineChart";
-import { pageLoadAnimation } from "@/animation/pageLoadAnimation";
-
 const LineChart = () => {
-  useEffect(() => {
-    pageLoadAnimation(() => renderLineChart());
-  });
   return (
     <div className="card chart-card">
       <div className="card-head">

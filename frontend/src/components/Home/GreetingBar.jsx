@@ -1,17 +1,13 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Megaphone, UserPlus } from "lucide-react";
 
 import { useCurrentDate } from "@/hooks/useCurrentDate";
-import { wireHoverScale } from "@/animation/wireHoverScale";
-
 import NoticeModal from "./NoticeModal";
 
 const GreetingBar = () => {
   useCurrentDate();
   const [modalOpen, setModalOpen] = useState(false);
-  useEffect(() => {
-    wireHoverScale(".btn", 1.03);
-  }, []);
+
   return (
     <>
       <section className="greeting-bar">

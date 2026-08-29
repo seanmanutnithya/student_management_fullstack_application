@@ -13,18 +13,24 @@ import { stats } from "@/assets/assets";
 
 import { wireHoverScale } from "@/animation/wireHoverScale";
 
-import { useEffect } from "react";
+import { usePageLoadAnimation } from "@/animation/usePageLoadAnimation";
+import renderDonutChart from "@/components/Home/Charts/JS/renderDonutChart";
+import renderLineChart from "@/components/Home/Charts/JS/renderLineChart";
 
 const HomePage = () => {
-  useEffect(() => {
+  const containerRef = usePageLoadAnimation(() => {
+    wireHoverScale(".btn", 1.035);
     wireHoverScale(".icon-btn", 1.08);
-  }, []);
+    wireHoverScale(".row-action-btn", 1.12);
+    wireHoverScale(".page-btn", 1.08);
 
+    renderDonutChart();
+    renderLineChart();
+  });
   return (
     <>
       <div className="sidebar-overlay " id="sidebarOverlay"></div>
-
-      <main className="main">
+      <main className="main" ref={containerRef}>
         {/* top bar */}
         <TopBar />
         <div className="page">

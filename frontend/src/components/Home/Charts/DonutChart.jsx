@@ -1,10 +1,4 @@
-import { useEffect } from "react";
-import renderDonutChart from "./JS/renderDonutChart";
-import { pageLoadAnimation } from "@/animation/pageLoadAnimation";
 const DonutChart = () => {
-  useEffect(() => {
-    pageLoadAnimation(() => renderDonutChart());
-  }, []);
   return (
     <div className="card chart-card chart-card--donut">
       <div className="card-head">
