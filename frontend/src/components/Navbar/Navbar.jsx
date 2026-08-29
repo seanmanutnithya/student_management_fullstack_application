@@ -1,14 +1,7 @@
 import { navbarAssets } from "./assets";
 import Branding from "./Branding";
-import { pageLoadAnimation } from "@/animation/pageLoadAnimation";
-import { navbarLoadAnimation } from "@/animation/navBarLoadAnimation";
-import { useEffect } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 const Navbar = () => {
-  useEffect(() => {
-    pageLoadAnimation();
-    navbarLoadAnimation();
-  }, []);
   return (
     <>
       <div className="app-shell">

@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 export const navbarAssets = [
   {
-    to: "/home",
+    to: "/",
     icon: House,
     title: "Home",
     isGroup: false,
