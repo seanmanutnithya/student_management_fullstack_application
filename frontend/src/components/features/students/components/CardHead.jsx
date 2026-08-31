@@ -1,6 +1,8 @@
 import React from "react";
 import { Trash2, ChevronDown, Search, Calendar } from "lucide-react";
+import { useStudent } from "../context/StudentContext";
 const CardHead = () => {
+  const { requestDeleteSelected } = useStudent();
   return (
     <div className="card-head">
       <h2 className="card-title">Students Information</h2>
@@ -22,7 +24,8 @@ const CardHead = () => {
           className="icon-btn icon-btn--ghost"
           id="deleteSelectestudnetIDBtn"
           title="Delete selected"
-          aria-label="Delete selected">
+          aria-label="Delete selected"
+          onClick={() => requestDeleteSelected()}>
           <Trash2 />
         </button>
       </div>
