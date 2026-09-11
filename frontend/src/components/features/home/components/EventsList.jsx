@@ -1,10 +1,8 @@
 import { events } from "@/assets/data/stats";
+import { Card } from "@/components/ui";
 const EventsList = () => {
   return (
-    <section className="card events-card">
-      <div className="card-head">
-        <h2 className="card-title">Upcoming events</h2>
-      </div>
+    <Card className="events-card" title="Upcoming events">
       <ul className="events-list" id="eventsList">
         {events.map((e, idx) => (
           <li className="event-item" key={idx}>
@@ -19,7 +17,7 @@ const EventsList = () => {
           </li>
         ))}
       </ul>
-    </section>
+    </Card>
   );
 };
 

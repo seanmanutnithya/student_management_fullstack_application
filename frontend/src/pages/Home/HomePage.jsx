@@ -7,7 +7,6 @@ import QuickListCard from "@/components/features/home/components/QuickListCard";
 import ActivityFeed from "@/components/features/home/components/ActivityFeed";
 import EventLists from "@/components/features/home/components/EventsList";
 import Charts from "@/components/features/home/components/Charts";
-import Toast from "@/components/Toast";
 
 import { stats } from "@/assets/data/stats";
 import { wireHoverScale } from "@/animation/hover";
@@ -38,18 +37,17 @@ const HomePage = () => {
           {/* <!-- ============ Stat cards ============ --> */}
           <section className="stat-grid" id="statGrid">
             {stats.map((s, idx) => (
-              <div key={idx}>
-                <StatCard
-                  Icon={s.icon}
-                  colorClass={s.colorClass}
-                  value={s.value}
-                  prefix={s.prefix}
-                  suffix={s.suffix}
-                  label={s.label}
-                  trend={s.trend}
-                  trendDirection={s.trendDirection}
-                />
-              </div>
+              <StatCard
+                key={idx}
+                Icon={s.icon}
+                colorClass={s.colorClass}
+                value={s.value}
+                prefix={s.prefix}
+                suffix={s.suffix}
+                label={s.label}
+                trend={s.trend}
+                trendDirection={s.trendDirection}
+              />
             ))}
           </section>
           {/* <!-- ============ Main grid: charts/lists left, activity/events right ============ --> */}
@@ -72,11 +70,6 @@ const HomePage = () => {
           </div>
         </div>
       </main>
-
-      {/* <!-- Create Notice modal --> */}
-
-      {/* <!-- Toast --> */}
-      <Toast />
     </>
   );
 };

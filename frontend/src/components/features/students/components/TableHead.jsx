@@ -1,26 +1,20 @@
-import React, { useRef } from "react";
-import { selectAll } from "../hooks/syncSelectAll";
+import { useStudent } from "@/context/StudentContext";
 const TableHead = () => {
-  const selectAllRef = useRef(null);
-  const handleSelectAll = () => {
-    selectAll(selectAllRef.current);
-  };
+  const { isAllSelected, selectAll } = useStudent();
   return (
     <thead>
       <tr>
         <th className="col-check">
           <input
             type="checkbox"
-            id="selectAll"
-            aria-label="Select all"
-            ref={selectAllRef}
-            onChange={handleSelectAll}
+            checked={isAllSelected}
+            onChange={(e) => selectAll(e.target.checked)}
           />
         </th>
         <th>Students Name</th>
         <th>ID</th>
         <th>Gender</th>
-        <th>className</th>
+        <th>Class</th>
         <th>Phone</th>
         <th>Remark</th>
         <th className="col-action">Action</th>
@@ -28,5 +22,4 @@ const TableHead = () => {
     </thead>
   );
 };
-
 export default TableHead;

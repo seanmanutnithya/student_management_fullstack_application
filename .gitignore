@@ -12,6 +12,7 @@ frontend/package-lock.json
 
 #database
 database/
+frontend_traditional/
 
 #my note
 note/
@@ -19,4 +20,4 @@ note/
 #logs error
 backend/logs
 
-aboutMe.md
+aboutMe.md 

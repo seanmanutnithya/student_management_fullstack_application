@@ -1,5 +1,6 @@
+import { Link } from "react-router-dom";
 import Actions from "./Actions";
-import { useStudent } from "../context/StudentContext";
+import { useStudent } from "@/context/StudentContext";
 
 const TableBody = () => {
   const { students, selectedIds, toggleSelect } = useStudent();
@@ -9,7 +10,7 @@ const TableBody = () => {
       {students.map((s, idx) => (
         <tr
           data-index={idx}
-          className={selectedIds.includes(s.id) ? "is-selected" : ""}
+          className={`table-row${selectedIds.includes(s.id) ? " is-selected" : ""}`}
           key={s.id}>
           <td className="col-check">
             <input
@@ -25,12 +26,14 @@ const TableBody = () => {
               <span className="student-name">{s.name}</span>
             </div>
           </td>
-          <td>{s.ids}</td>
+          <td>{s.id}</td>
           <td>{s.gender}</td>
           <td>{s.std_class}</td>
           <td>{s.phone}</td>
           <td>{s.remark == null ? "" : s.remark}</td>
-          <Actions name={s.name} id={s.id} />
+          <td className="col-action">
+            <Actions name={s.name} id={s.id} />
+          </td>
         </tr>
       ))}
     </tbody>

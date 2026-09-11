@@ -1,49 +1,40 @@
-import students from "../../../../../../database/data.json";
-import { Pencil, Trash2 } from "lucide-react";
+import { useStudent } from "@/context/StudentContext";
+import Actions from "./Actions";
 
 const StudentCards = () => {
+  const { students, selectedIds, toggleSelect } = useStudent();
+
   return (
     <div className="student-cards" id="studentCards">
-      {students.map((s, idx) => (
-        <div className="student-card" data-index={idx} key={idx}>
+      {students.map((s) => (
+        <div className="student-card" key={s.id}>
           <div className="student-card-top">
             <input
               type="checkbox"
               className="row-check"
               aria-label={`Select ${s.name}`}
+              checked={selectedIds.includes(s.id)}
+              onChange={() => toggleSelect(s.id)}
             />
             <div>
               <div className="student-card-name">{s.name}</div>
               <div className="student-card-roll">
-                Roll {s.std_class} · Class {s.std_class}
+                Roll {s.id} · Class {s.std_class}
               </div>
             </div>
-            <div className="row-actions">
-              <button
-                className="row-action-btn edit"
-                title={`Edit ${s.name}`}
-                aria-label={`Edit ${s.name}`}>
-                <Pencil />
-              </button>
-              <button
-                className="row-action-btn delete"
-                title={`Delete ${s.name}`}
-                aria-label={`Delete ${s.name}`}>
-                <Trash2 />
-              </button>
-            </div>
+            <Actions name={s.name} id={s.id} />
           </div>
           <dl className="student-card-grid">
             <div>
-              <dt>Address</dt>
+              <dt>Gender</dt>
               <dd>{s.gender}</dd>
             </div>
             <div>
-              <dt>Date of birth</dt>
+              <dt>Phone</dt>
               <dd>{s.phone}</dd>
             </div>
             <div>
-              <dt>Phone</dt>
+              <dt>Remark</dt>
               <dd>{s.remark ?? ""}</dd>
             </div>
           </dl>

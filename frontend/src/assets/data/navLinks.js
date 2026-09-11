@@ -21,16 +21,17 @@ export const navLinks = [
     title: "Home",
     isGroup: false,
   },
-  {
-    icon: GraduationCap,
-    title: "Students",
-    isGroup: true,
-    groupItems: [
-      { title: "All Students", to: "/allstudents" },
-      { title: "Student Details", to: "/studentdetails" },
-    ],
-    chevron: ChevronDown,
-  },
+  { to: "/allstudents", icon: Users, title: "All Students", isGroup: false },
+  // {
+  //   icon: GraduationCap,
+  //   title: "Students",
+  //   isGroup: true,
+  //   groupItems: [
+  //     { title: "All Students", to: "/allstudents" },
+  //     { title: "Student Detail", to: "/studentdetail" },
+  //   ],
+  //   chevron: ChevronDown,
+  // },
   {
     icon: Users,
     title: "Teacher",

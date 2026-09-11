@@ -1,93 +1,121 @@
-import { useEffect } from "react";
-import { Send, X } from "lucide-react";
+import { useState } from "react";
+import { Send } from "lucide-react";
+import { Modal, Button, Field, TextField, useToast } from "@/components/ui";
 
-import { renderPopsupModal } from "../../../Modal/renderPopsupModal";
+const today = () => new Date().toISOString().slice(0, 10);
 
 const NoticeModal = ({ isOpen, onClose }) => {
-  useEffect(() => {
-    if (!isOpen) return;
-    const cleanup = renderPopsupModal(onClose);
-    return cleanup;
-  }, [isOpen, onClose]);
+  const { toast } = useToast();
+  const [title, setTitle] = useState("");
+  const [audience, setAudience] = useState("all");
+  const [date, setDate] = useState(today);
+  const [message, setMessage] = useState("");
+  const [touched, setTouched] = useState({ title: false, message: false });
+  const [publishing, setPublishing] = useState(false);
+
+  const titleValid = title.trim().length >= 4;
+  const messageValid = message.trim().length >= 10;
+
+  const resetAndClose = () => {
+    setTitle("");
+    setAudience("all");
+    setDate(today());
+    setMessage("");
+    setTouched({ title: false, message: false });
+    onClose?.();
+  };
+
+  const handlePublish = () => {
+    setTouched({ title: true, message: true });
+    if (!titleValid || !messageValid) return;
+    setPublishing(true);
+    setTimeout(() => {
+      setPublishing(false);
+      toast.success("Notice published successfully");
+      resetAndClose();
+    }, 900);
+  };
 
   if (!isOpen) return null;
+
   return (
-    <div className="modal-overlay" id="modalOverlay">
-      <div
-        className="modal"
-        id="noticeModal"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="noticeModalTitle">
-        <div className="modal-head">
-          <h3 id="noticeModalTitle">Create Notice</h3>
-          <button className="icon-btn" id="modalCloseBtn" aria-label="Close">
-            <X />
-          </button>
-        </div>
-
-        <form className="modal-body" id="noticeForm" noValidate>
-          <div className="form-grid">
-            <div className="field field--full" data-field="noticeTitle">
-              <label htmlFor="noticeTitle">Notice title</label>
-              <input
-                type="text"
-                id="noticeTitle"
-                placeholder="e.g. Term 3 fee due date reminder"
-              />
-              <span className="field-error">
-                Please enter a title (min. 4 characters).
-              </span>
-            </div>
-
-            <div className="field">
-              <label htmlFor="noticeAudience">Audience</label>
-              <select id="noticeAudience">
-                <option value="all">Everyone</option>
-                <option value="students">Students only</option>
-                <option value="teachers">Teachers only</option>
-                <option value="parents">Parents only</option>
-              </select>
-            </div>
-
-            <div className="field">
-              <label htmlFor="noticeDate">Publish date</label>
-              <input type="date" id="noticeDate" />
-            </div>
-
-            <div className="field field--full" data-field="noticeMessage">
-              <label htmlFor="noticeMessage">Message</label>
-              <textarea
-                id="noticeMessage"
-                rows="4"
-                placeholder="Write the notice details…"></textarea>
-              <span className="field-error">
-                Please enter a message (min. 10 characters).
-              </span>
-            </div>
-          </div>
-        </form>
-
-        <div className="modal-foot">
-          <button
-            className="btn btn-secondary"
-            id="modalCancelBtn"
-            type="button">
+    <Modal
+      open={isOpen}
+      onClose={resetAndClose}
+      title="Create Notice"
+      titleId="noticeModalTitle"
+      overlayId="modalOverlay"
+      footer={
+        <>
+          <Button variant="secondary" onClick={resetAndClose}>
             Cancel
-          </button>
-          <button
-            className="btn btn-primary"
-            id="modalPublishBtn"
-            type="button">
-            <span className="btn-label flex items-center gap-2">
-              <Send />
-              <span>Publish notice</span>
-            </span>
-            <span className="btn-spinner"></span>
-          </button>
-        </div>
-      </div>
-    </div>
+          </Button>
+          <Button icon={Send} loading={publishing} onClick={handlePublish}>
+            Publish notice
+          </Button>
+        </>
+      }>
+      <form
+        className="form-grid"
+        id="noticeForm"
+        noValidate
+        onSubmit={(e) => e.preventDefault()}>
+        <TextField
+          id="noticeTitle"
+          className="field--full"
+          label="Notice title"
+          placeholder="e.g. Term 3 fee due date reminder"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          onBlur={() => setTouched((t) => ({ ...t, title: true }))}
+          error={
+            touched.title && !titleValid ?
+              "Please enter a title (min. 4 characters)."
+            : null
+          }
+        />
+
+        <Field label="Audience" htmlFor="noticeAudience">
+          <select
+            id="noticeAudience"
+            value={audience}
+            onChange={(e) => setAudience(e.target.value)}>
+            <option value="all">Everyone</option>
+            <option value="students">Students only</option>
+            <option value="teachers">Teachers only</option>
+            <option value="parents">Parents only</option>
+          </select>
+        </Field>
+
+        <Field label="Publish date" htmlFor="noticeDate">
+          <input
+            type="date"
+            id="noticeDate"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+          />
+        </Field>
+
+        <Field
+          className="field--full"
+          label="Message"
+          htmlFor="noticeMessage"
+          error={
+            touched.message && !messageValid ?
+              "Please enter a message (min. 10 characters)."
+            : null
+          }>
+          <textarea
+            id="noticeMessage"
+            rows="4"
+            placeholder="Write the notice details…"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            onBlur={() => setTouched((t) => ({ ...t, message: true }))}
+          />
+        </Field>
+      </form>
+    </Modal>
   );
 };
 

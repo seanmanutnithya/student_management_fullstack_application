@@ -8,6 +8,9 @@ import {
   UserCheck,
   CircleDollarSign,
   BellRing,
+  Award,
+  CheckCircle2,
+  CalendarClock,
 } from "lucide-react";
 const events = [
   {
@@ -66,6 +69,31 @@ const stats = [
     trendDirection: "down",
   },
 ];
+const studentDetailStat = [
+  {
+    ring: true,
+    value: 96,
+    label: "Last 30 days",
+  },
+  {
+    icon: Award,
+    colorClass: "purple",
+    value: "A-",
+    label: "Overall grade",
+  },
+  {
+    icon: CheckCircle2,
+    colorClass: "green",
+    value: "Paid",
+    label: "Fee status",
+  },
+  {
+    icon: CalendarClock,
+    colorClass: "amber",
+    value: "2 yrs",
+    label: "At this school",
+  },
+];
 const activities = [
   {
     type: "student",
@@ -111,4 +139,4 @@ const activities = [
   },
 ];
 
-export { stats, events, activities };
+export { stats, events, activities, studentDetailStat };

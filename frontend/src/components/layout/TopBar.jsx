@@ -1,4 +1,6 @@
 import { Bell, ChevronDown, MessageSquare, Search } from "lucide-react";
+import { IconButton } from "@/components/ui";
+
 const TopBar = () => {
   return (
     <div>
@@ -12,13 +14,10 @@ const TopBar = () => {
           />
         </div>
         <div className="topbar-actions">
-          <button className="icon-btn" aria-label="Notifications">
-            <Bell />
+          <IconButton icon={Bell} label="Notifications">
             <span className="dot-badge"></span>
-          </button>
-          <button className="icon-btn" aria-label="Messages">
-            <MessageSquare />
-          </button>
+          </IconButton>
+          <IconButton icon={MessageSquare} label="Messages" />
           <button className="user-chip" aria-label="Account menu">
             <img
               src="https://i.pravatar.cc/64?img=47"
