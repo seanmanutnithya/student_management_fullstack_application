@@ -2,7 +2,7 @@ import { ChevronDown, Search, Calendar, Trash2 } from "lucide-react";
 import { useStudent } from "@/context/StudentContext";
 import { CardHeader, IconButton } from "@/components/ui";
 const CardHead = () => {
-  const { requestDeleteSelected } = useStudent();
+  const { requestDeleteSelected, query, setQuery } = useStudent();
   return (
     <CardHeader
       title="Students Information"
@@ -12,8 +12,10 @@ const CardHead = () => {
             <Search />
             <input
               type="text"
-              placeholder="Search by name or roll"
+              placeholder="Search by namel"
               aria-label="Search students"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
             />
           </div>
           <button className="select-field" id="dateFilterBtn">

@@ -3,11 +3,11 @@ import Actions from "./Actions";
 import { useStudent } from "@/context/StudentContext";
 
 const TableBody = () => {
-  const { students, selectedIds, toggleSelect } = useStudent();
+  const { students, selectedIds, toggleSelect, nameResult } = useStudent();
   return (
     <tbody id="studentsTbody">
       {/* <!-- rows injected by script.js --> */}
-      {students.map((s, idx) => (
+      {nameResult.map((s, idx) => (
         <tr
           data-index={idx}
           className={`table-row${selectedIds.includes(s.id) ? " is-selected" : ""}`}

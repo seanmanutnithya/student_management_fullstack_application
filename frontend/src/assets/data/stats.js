@@ -6,9 +6,11 @@ import {
   UserPlus,
   Megaphone,
   UserCheck,
+  UserCog,
   CircleDollarSign,
   BellRing,
   Award,
+  BookMarked,
   CheckCircle2,
   CalendarClock,
 } from "lucide-react";
@@ -139,4 +141,17 @@ const activities = [
   },
 ];
 
-export { stats, events, activities, studentDetailStat };
+// `key` reads the matching count off the summary derived in TeacherContext.
+const teacherSummaryCards = [
+  { key: "total", icon: Users, colorClass: "purple", label: "Total teachers" },
+  { key: "fullTime", icon: UserCheck, colorClass: "green", label: "Full-time" },
+  { key: "partTime", icon: UserCog, colorClass: "amber", label: "Part-time" },
+  {
+    key: "departments",
+    icon: BookMarked,
+    colorClass: "blue",
+    label: "Departments",
+  },
+];
+
+export { stats, events, activities, studentDetailStat, teacherSummaryCards };

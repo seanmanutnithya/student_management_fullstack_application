@@ -105,6 +105,7 @@ export function StudentProvider({ children }) {
   const [openStudent, setOpenStudent] = useState(null);
   const [detailOpen, setDetailOpen] = useState(false);
   const [studentImages, setStudentImages] = useState({});
+  const [query, setQuery] = useState("");
 
   const gridRef = useRef(null);
   const tabElRef = useRef(null);
@@ -129,6 +130,27 @@ export function StudentProvider({ children }) {
     guardianName: "",
     guardianPhone: "",
   };
+
+  const scoreMatch = (studentData, query) => {
+    const q = query.toLowerCase();
+    const name = studentData.name.toLowerCase();
+
+    if (name === q) return 100;
+    if (name.startsWith(q)) return 80;
+    if (name.includes(q)) return 60;
+    if (studentData.name.toLowerCase().includes(q)) return 40;
+    return 0;
+  };
+
+  const nameResult = useMemo(() => {
+    if (!query.trim()) return studentData;
+    return studentData
+      .map((std) => ({ std, score: scoreMatch(std, query) }))
+      .filter((r) => r.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .map((r) => r.std);
+  }, [studentData, query]);
+
   const [formData, setFormData] = useState(regEmptyForm);
 
   const handleChange = (e) => {
@@ -268,7 +290,8 @@ export function StudentProvider({ children }) {
       toast.info("Please fill in all required fields");
       return;
     }
-    const finalId = editingId !== null ? editingId : data.id || Date.now().toString();
+    const finalId =
+      editingId !== null ? editingId : data.id || Date.now().toString();
     if (data.avatar?.startsWith("data:")) {
       persistAvatar(finalId, data.avatar);
     }
@@ -387,6 +410,10 @@ export function StudentProvider({ children }) {
       errors,
       studentImages,
       setStudentImages,
+
+      query,
+      setQuery,
+      nameResult,
     }),
     [
       gridRef,
@@ -433,6 +460,10 @@ export function StudentProvider({ children }) {
 
       studentImages,
       setStudentImages,
+
+      query,
+      setQuery,
+      nameResult,
     ],
   );
 
