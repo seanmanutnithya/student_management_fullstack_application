@@ -7,4 +7,5 @@ export { default as Card } from "./Card/Card";
 export { default as CardHeader } from "./Card/CardHeader";
 export { default as Modal } from "./Modal/Modal";
 export { default as Pagination } from "./DataTable/Pagination";
+export { default as AvatarUpload } from "./Avatar/AvatarUpload";
 export { ToastProvider, useToast } from "./Toast/ToastProvider";

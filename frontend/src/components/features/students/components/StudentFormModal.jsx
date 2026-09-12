@@ -1,6 +1,7 @@
 import { Save } from "lucide-react";
 import { useStudent } from "@/context/StudentContext";
-import { Modal, Button, TextField } from "@/components/ui";
+import { Modal, Button, TextField, AvatarUpload } from "@/components/ui";
+import { resolveAvatarSrc } from "@/utils/avatar";
 
 const StudentFormModal = () => {
   const {
@@ -11,6 +12,7 @@ const StudentFormModal = () => {
     formRef,
     handleChange,
     handleSave,
+    handleAvatarUpload,
     errors,
   } = useStudent();
   const fields = [
@@ -109,6 +111,10 @@ const StudentFormModal = () => {
         id="studentForm"
         ref={formRef}
         onSubmit={(e) => e.preventDefault()}>
+        <AvatarUpload
+          onChange={handleAvatarUpload}
+          initialSrc={resolveAvatarSrc(formData.avatar)}
+        />
         {fields.map((field, idx) => (
           <TextField
             key={idx}

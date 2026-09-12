@@ -4,7 +4,7 @@ const personalInfo = {
   title: "Personal information",
   items: [
     { dt: "Date of birth", dd: "03/04/2000" },
-    { dt: "Gender", dd: "Female" },
+    { dt: "Gender", dd: "Male" },
     { dt: "Blood group", dd: "O+" },
     { dt: "Admission date", dd: "18/08/2023" },
     { dt: "Previous school", dd: "Bethel High School" },

@@ -8,11 +8,93 @@ import { useNavigate } from "react-router-dom";
 
 const StudentContext = createContext(null);
 
+const AVATAR_STORAGE_KEY = "studentAvatars";
+
+const loadStoredAvatars = () => {
+  try {
+    return JSON.parse(localStorage.getItem(AVATAR_STORAGE_KEY)) || {};
+  } catch {
+    return {};
+  }
+};
+
+const withStoredAvatars = (list) => {
+  const stored = loadStoredAvatars();
+  return list.map((s) => (stored[s.id] ? { ...s, avatar: stored[s.id] } : s));
+};
+
+const persistAvatar = (id, dataUrl) => {
+  const stored = loadStoredAvatars();
+  if (dataUrl) stored[id] = dataUrl;
+  else delete stored[id];
+  localStorage.setItem(AVATAR_STORAGE_KEY, JSON.stringify(stored));
+};
+
+export function useAvatarUpload({ onChange, initialSrc = null } = {}) {
+  const [preview, setPreview] = useState(initialSrc);
+  const [isDragging, setIsDragging] = useState(false);
+  const inputRef = useRef(null);
+
+  const handleFile = useCallback(
+    (file) => {
+      if (!file || !file.type.startsWith("image/")) return;
+      const url = URL.createObjectURL(file);
+      setPreview((prev) => {
+        if (prev?.startsWith("blob:")) URL.revokeObjectURL(prev);
+        return url;
+      });
+      onChange?.(file);
+    },
+    [onChange],
+  );
+
+  const handleInputChange = (e) => {
+    handleFile(e.target.files?.[0]);
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = () => setIsDragging(false);
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setIsDragging(false);
+    handleFile(e.dataTransfer.files?.[0]);
+  };
+
+  const handleRemove = (e) => {
+    e.stopPropagation();
+    if (preview?.startsWith("blob:")) URL.revokeObjectURL(preview);
+    setPreview(null);
+    onChange?.(null);
+    if (inputRef.current) inputRef.current.value = "";
+  };
+
+  const triggerPick = () => inputRef.current?.click();
+
+  return {
+    preview,
+    isDragging,
+    inputRef,
+    handleInputChange,
+    handleDragOver,
+    handleDragLeave,
+    handleDrop,
+    handleRemove,
+    triggerPick,
+  };
+}
+
 export function StudentProvider({ children }) {
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  const [students, setStudents] = useState(studentData);
+  const [students, setStudents] = useState(() =>
+    withStoredAvatars(studentData),
+  );
   const [selectedIds, setSelectedIds] = useState([]);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [pendingDeleteIds, setPendingDeleteIds] = useState(null);
@@ -22,6 +104,7 @@ export function StudentProvider({ children }) {
   const [errors, setErrors] = useState({});
   const [openStudent, setOpenStudent] = useState(null);
   const [detailOpen, setDetailOpen] = useState(false);
+  const [studentImages, setStudentImages] = useState({});
 
   const gridRef = useRef(null);
   const tabElRef = useRef(null);
@@ -104,7 +187,7 @@ export function StudentProvider({ children }) {
   };
   const openAddStudent = () => {
     setIsDetailForm(true);
-    setFormData({ ...regEmptyForm, ...detailEmptyForm });
+    setFormData({ ...regEmptyForm, ...detailEmptyForm, avatar: null });
     setModalOpen(true);
   };
   const openDetail = (id) => {
@@ -114,6 +197,37 @@ export function StudentProvider({ children }) {
   const closeDetail = () => {
     setDetailOpen(false);
     setOpenStudent(null);
+  };
+  const updateStudentAvatar = (id, dataUrl) => {
+    persistAvatar(id, dataUrl);
+    setStudents((prev) =>
+      prev.map((s) => (s.id === id ? { ...s, avatar: dataUrl } : s)),
+    );
+    setOpenStudent((prev) =>
+      prev && prev.id === id ? { ...prev, avatar: dataUrl } : prev,
+    );
+  };
+
+  const handleAvatarChange = (file) => {
+    if (!openStudent) return;
+    if (!file) {
+      updateStudentAvatar(openStudent.id, null);
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => updateStudentAvatar(openStudent.id, reader.result);
+    reader.readAsDataURL(file);
+  };
+
+  const handleAvatarUpload = (file) => {
+    if (!file) {
+      setFormData((prev) => ({ ...prev, avatar: null }));
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () =>
+      setFormData((prev) => ({ ...prev, avatar: reader.result }));
+    reader.readAsDataURL(file);
   };
   const openEdit = (id) => {
     setErrors({});
@@ -154,10 +268,15 @@ export function StudentProvider({ children }) {
       toast.info("Please fill in all required fields");
       return;
     }
+    const finalId = editingId !== null ? editingId : data.id || Date.now().toString();
+    if (data.avatar?.startsWith("data:")) {
+      persistAvatar(finalId, data.avatar);
+    }
+
     setStudents((prev) =>
       editingId !== null ?
         prev.map((s) => (s.id === editingId ? { ...s, ...data } : s))
-      : [...prev, { ...data, id: data.id || Date.now().toString() }],
+      : [...prev, { ...data, id: finalId }],
     );
 
     toast.success(editingId !== null ? "Saved" : "Added");
@@ -259,10 +378,15 @@ export function StudentProvider({ children }) {
       closeDetail,
       openStudent,
       detailOpen,
+      updateStudentAvatar,
+      handleAvatarChange,
+      handleAvatarUpload,
 
       handleChange,
       handleSave,
       errors,
+      studentImages,
+      setStudentImages,
     }),
     [
       gridRef,
@@ -299,10 +423,16 @@ export function StudentProvider({ children }) {
       openDetail,
       closeDetail,
       openStudent,
+      updateStudentAvatar,
+      handleAvatarChange,
+      handleAvatarUpload,
 
       handleChange,
       handleSave,
       errors,
+
+      studentImages,
+      setStudentImages,
     ],
   );
 

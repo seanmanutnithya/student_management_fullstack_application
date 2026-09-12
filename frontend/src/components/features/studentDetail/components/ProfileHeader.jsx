@@ -1,10 +1,10 @@
 import React from "react";
-import { Save, Phone, Pencil, Trash2, Mail } from "lucide-react";
-import { Modal } from "@/components/ui";
+import { Save, Pencil, Trash2 } from "lucide-react";
+import { AvatarUpload, Modal } from "@/components/ui";
 import { useStudent } from "@/context/StudentContext";
 import { Button } from "@/components/ui";
 import StudentDetailFormModal from "./StudentDetailFormModal";
-import stu001 from "@/./assets/imgs/stu001.jpg";
+import { resolveAvatarSrc } from "@/utils/avatar";
 const ProfileHeader = () => {
   const {
     modalOpen,
@@ -14,7 +14,7 @@ const ProfileHeader = () => {
     setIsDetailForm,
     requestDeleteSingle,
     openStudent,
-    detailOpen,
+    handleAvatarChange,
   } = useStudent();
   const handleDelete = () => {
     requestDeleteSingle(openStudent.id);
@@ -27,12 +27,12 @@ const ProfileHeader = () => {
       <section className="card profile-header" id="profileHeader">
         <div className="profile-header-main">
           <div className="profile-avatar-wrap">
-            <img
-              src={stu001}
-              alt=""
-              className="profile-avatar"
-              id="profileAvatar"
+            <AvatarUpload
+              key={openStudent.id}
+              onChange={handleAvatarChange}
+              initialSrc={resolveAvatarSrc(openStudent.avatar)}
             />
+
             <span className="status-badge status-badge--active">Active</span>
           </div>
           <div className="profile-header-info">

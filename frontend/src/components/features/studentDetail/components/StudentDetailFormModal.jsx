@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { useStudent } from "@/context/StudentContext";
-import { Field, TextField } from "@/components/ui";
-import stu001 from "@/./assets/imgs/stu001.jpg";
+import { Field, TextField, AvatarUpload } from "@/components/ui";
+import { resolveAvatarSrc } from "@/utils/avatar";
 const StudentDetailFormModal = ({ student }) => {
-  const { formRef, formData, handleChange, errors } = useStudent();
+  const { formRef, formData, handleChange, handleAvatarUpload, errors } =
+    useStudent();
   const fields = [
     {
       id: "eiditName",
@@ -95,16 +96,11 @@ const StudentDetailFormModal = ({ student }) => {
       ref={formRef}
       onSubmit={(e) => e.preventDefault()}>
       <div className="upload-field">
-        <div className="upload-preview" id="uploadPreview">
-          <img src={stu001} alt="" />
-        </div>
-        <div className="upload-controls">
-          <label className="btn btn-secondary btn-sm" htmlFor="editPhoto">
-            <span>Upload photo</span>
-          </label>
-          <input type="file" id="editPhoto" accept="image/*" hidden />
-          <p className="field-hint">PNG or JPG, up to 5MB</p>
-        </div>
+        <AvatarUpload
+          onChange={handleAvatarUpload}
+          initialSrc={resolveAvatarSrc(formData.avatar)}
+        />
+        <p className="field-hint">PNG or JPG, up to 5MB</p>
       </div>
       <div className="form-grid">
         {fields.map((field, idx) => (

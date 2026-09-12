@@ -1,4 +1,5 @@
 import "./HomePage.css";
+import { useEffect } from "react";
 
 import TopBar from "@/components/layout/TopBar";
 import GreetingBar from "@/components/features/home/components/GreetingBar";
@@ -25,6 +26,16 @@ const HomePage = () => {
     renderDonutChart();
     renderLineChart();
   });
+
+  useEffect(() => {
+    document.documentElement.classList.add("hide-scrollbar");
+    document.body.classList.add("hide-scrollbar");
+    return () => {
+      document.documentElement.classList.remove("hide-scrollbar");
+      document.body.classList.remove("hide-scrollbar");
+    };
+  }, []);
+
   return (
     <>
       <div className="sidebar-overlay " id="sidebarOverlay"></div>
