@@ -53,6 +53,20 @@ p {
   outline-offset: 2px;
 }
 
+/* Opt-in utility: hide the native scrollbar without blocking scrolling
+   (wheel/trackpad/touch/keyboard all still work). Applied per page via
+   the useHideScrollbar hook — the viewport scrollbar is painted against
+   <html>, not <body>, so both carry the class. */
+html.hide-scrollbar,
+body.hide-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* old Edge/IE */
+}
+html.hide-scrollbar::-webkit-scrollbar,
+body.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome/Safari/new Edge */
+}
+
 /* Respect reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   * {

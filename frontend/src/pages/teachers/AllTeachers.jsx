@@ -13,6 +13,7 @@ import TeacherCards from "@/components/features/teachers/components/TeacherCards
 import TeacherFormModal from "@/components/features/teachers/components/TeacherFormModal";
 import { Modal, Pagination } from "@/components/ui";
 import { useTeachersPageAnimation } from "@/animation/teachersPageAnimation";
+import { useHideScrollbar } from "@/hooks/useHideScrollbar";
 import { useTeachers } from "@/context/TeacherContext";
 import TeacherDetail from "./TeacherDetail";
 
@@ -32,6 +33,7 @@ const AllTeachers = () => {
   } = useTeachers();
 
   useTeachersPageAnimation();
+  useHideScrollbar();
 
   useEffect(() => {
     if (id) openDetail(id);

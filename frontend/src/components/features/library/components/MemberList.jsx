@@ -12,7 +12,12 @@ const MemberList = () => {
             className={`member-row${m.id === selectedStudentId ? " is-active" : ""}`}
             aria-current={m.id === selectedStudentId}
             onClick={() => setSelectedStudentId(m.id)}>
-            <img className="student-avatar" src={m.avatar} alt="" loading="lazy" />
+            <img
+              className="student-avatar"
+              src={m.avatar}
+              alt=""
+              loading="lazy"
+            />
             <span className="member-row-text">
               <span className="member-row-name">{m.name}</span>
               <span className="cell-sub">{m.std_class}</span>

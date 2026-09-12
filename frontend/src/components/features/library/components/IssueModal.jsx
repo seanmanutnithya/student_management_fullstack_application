@@ -81,8 +81,8 @@ const IssueModal = () => {
               onChange={(e) => setIssueStudentId(e.target.value)}>
               {memberRows.map((m) => (
                 <option key={m.id} value={m.id}>
-                  {m.name} — {m.std_class} ({m.activeCount}/
-                  {MAX_ACTIVE_BORROWS} borrowed)
+                  {m.name} — {m.std_class} ({m.activeCount}/{MAX_ACTIVE_BORROWS}{" "}
+                  borrowed)
                 </option>
               ))}
             </select>

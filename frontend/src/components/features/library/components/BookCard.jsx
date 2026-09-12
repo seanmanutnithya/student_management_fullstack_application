@@ -44,9 +44,7 @@ const BookCard = ({ book }) => {
         <div>
           <dt>Holds</dt>
           <dd>
-            {book.queue.length ?
-              `${book.queue.length} waiting`
-            : "None queued"}
+            {book.queue.length ? `${book.queue.length} waiting` : "None queued"}
           </dd>
         </div>
       </dl>
@@ -76,19 +74,19 @@ const BookCard = ({ book }) => {
         </Button>
         <div className="book-card-tools">
           {book.pdfUrl && (
-            <Button
-              size="sm"
-              variant="secondary"
-              icon={FileDown}
-              title={`Download ${book.title} (PDF)`}
+            <button
+              className="row-action-btn edit"
+              title={`Download ${book.title}`}
+              aria-label={`Download ${book.title}`}
               onClick={() =>
                 toast.info(
-                  "PDF download is a UI placeholder — no file attached.",
+                  "PDF download is a UI placeholder - no file attached.",
                 )
               }>
-              PDF
-            </Button>
+              <FileDown />
+            </button>
           )}
+
           <button
             className="row-action-btn delete"
             title={`Delete ${book.title}`}

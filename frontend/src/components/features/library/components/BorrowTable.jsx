@@ -5,7 +5,8 @@ import { formatDate, formatMoney } from "@/utils/format";
 import StatusPill from "./StatusPill";
 
 const dueNote = (record) => {
-  if (record.status === "returned") return `Returned ${formatDate(record.returnDate)}`;
+  if (record.status === "returned")
+    return `Returned ${formatDate(record.returnDate)}`;
   if (record.status === "overdue") return `${record.lateDays} day(s) late`;
   if (record.daysLeft === 0) return "Due today";
   return `${record.daysLeft} day(s) left`;

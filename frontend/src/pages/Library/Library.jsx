@@ -12,11 +12,13 @@ import PageHead from "@/components/features/library/components/PageHead";
 import SummaryStrip from "@/components/features/library/components/SummaryStrip";
 import { useLibraryPageAnimation } from "@/animation/libraryPageAnimation";
 import { useLibrary } from "@/context/LibraryContext";
+import { useHideScrollbar } from "@/hooks/useHideScrollbar";
 
 const Library = () => {
   const { activeTab } = useLibrary();
 
   useLibraryPageAnimation();
+  useHideScrollbar();
 
   return (
     <>

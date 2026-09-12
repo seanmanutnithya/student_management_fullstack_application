@@ -33,17 +33,15 @@ const ConfirmDialog = () => {
         <Trash2 />
       </div>
       <h3 id="bookConfirmTitle">
-        Delete {pendingDeleteBook ? `"${pendingDeleteBook.title}"` : "this book"}
-        ?
+        Delete{" "}
+        {pendingDeleteBook ? `"${pendingDeleteBook.title}"` : "this book"}?
       </h3>
       <p>
         This action can't be undone. All {pendingDeleteBook?.copiesTotal ?? 0}{" "}
         copies leave the catalog
         {history > 0 &&
           `, along with ${history} past loan record${history === 1 ? "" : "s"}`}
-        {holds > 0 &&
-          ` and ${holds} queued hold${holds === 1 ? "" : "s"}`}
-        .
+        {holds > 0 && ` and ${holds} queued hold${holds === 1 ? "" : "s"}`}.
       </p>
     </Modal>
   );

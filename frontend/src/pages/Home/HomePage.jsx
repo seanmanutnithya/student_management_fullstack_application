@@ -1,5 +1,4 @@
 import "./HomePage.css";
-import { useEffect } from "react";
 
 import TopBar from "@/components/layout/TopBar";
 import GreetingBar from "@/components/features/home/components/GreetingBar";
@@ -13,6 +12,7 @@ import { stats } from "@/assets/data/stats";
 import { wireHoverScale } from "@/animation/hover";
 
 import { usePageLoadAnimation } from "@/animation/pageLoadAnimation";
+import { useHideScrollbar } from "@/hooks/useHideScrollbar";
 import renderDonutChart from "@/components/features/home/utils/renderDonutChart";
 import renderLineChart from "@/components/features/home/utils/renderLineChart";
 
@@ -27,14 +27,7 @@ const HomePage = () => {
     renderLineChart();
   });
 
-  useEffect(() => {
-    document.documentElement.classList.add("hide-scrollbar");
-    document.body.classList.add("hide-scrollbar");
-    return () => {
-      document.documentElement.classList.remove("hide-scrollbar");
-      document.body.classList.remove("hide-scrollbar");
-    };
-  }, []);
+  useHideScrollbar();
 
   return (
     <>

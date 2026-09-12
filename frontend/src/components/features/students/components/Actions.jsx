@@ -14,18 +14,18 @@ const Actions = ({ name, id }) => {
         <Pencil />
       </button>
       <button
+        className="row-action-btn openDetail edit"
+        title={`Open detail ${name}`}
+        aria-label={`Open detail ${name}`}
+        onClick={() => navigate(`/allstudents/studentdetail/${id}`)}>
+        <SquareArrowOutUpRight />
+      </button>
+      <button
         className="row-action-btn delete"
         title={`Delete ${name}`}
         aria-label={`Delete ${name}`}
         onClick={() => requestDeleteSingle(id)}>
         <Trash2 />
-      </button>
-      <button
-        className="row-action-btn openDetail"
-        title={`Open detail ${name}`}
-        aria-label={`Open detail ${name}`}
-        onClick={() => navigate(`/allstudents/studentdetail/${id}`)}>
-        <SquareArrowOutUpRight />
       </button>
     </div>
   );

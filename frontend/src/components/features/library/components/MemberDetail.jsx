@@ -55,8 +55,8 @@ const MemberDetail = () => {
         <div className="member-head-text">
           <h3>{selectedStudent.name}</h3>
           <p className="cell-sub">
-            {selectedStudent.id} · {selectedStudent.std_class} ·{" "}
-            {historyCount} past loans
+            {selectedStudent.id} · {selectedStudent.std_class} · {historyCount}{" "}
+            past loans
           </p>
         </div>
         <Button size="sm" icon={BookUp} onClick={issueForStudent}>
@@ -130,8 +130,7 @@ const MemberDetail = () => {
                 <span className="loan-title">
                   {h.book?.title}
                   <span className="cell-sub">
-                    #{h.position} in queue · placed{" "}
-                    {formatDate(h.reservedDate)}
+                    #{h.position} in queue · placed {formatDate(h.reservedDate)}
                   </span>
                 </span>
                 <StatusPill status="reserved" />

@@ -47,7 +47,10 @@ const BookFormModal = () => {
           </Button>
         </>
       }>
-      <form id="bookForm" ref={bookFormRef} onSubmit={(e) => e.preventDefault()}>
+      <form
+        id="bookForm"
+        ref={bookFormRef}
+        onSubmit={(e) => e.preventDefault()}>
         <div className="form-grid">
           <TextField
             id="bTitle"
