@@ -39,7 +39,7 @@ const signup = async (req, res) => {
     // send verify code to admin email
     await sendVerificationCode(verifyCode, email, "signup");
 
-    return res.send({
+    return res.status(200).json({
       status: true,
       message: "Verification code sent. Please check your email.",
     });

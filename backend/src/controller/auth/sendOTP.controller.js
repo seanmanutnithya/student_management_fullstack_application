@@ -16,13 +16,13 @@ const sendOTP = async (req, res) => {
     savePendingCode(email, otpCode, "forgetPassword", user);
     await sendVerificationCode(otpCode, email, "forgetPassword");
 
-    res.send({
+    res.status(200).json({
       status: true,
       message: "code sent successfully!",
       user,
     });
   } catch (error) {
-    res.status(500).send({
+    res.status(500).json({
       status: false,
       message: "Failed to send code!",
     });
