@@ -1,6 +1,6 @@
 import { SearchX } from "lucide-react";
 
-import { useStaggerReveal } from "@/animation/libraryPageAnimation";
+import { useStaggerReveal } from "@/animation/reveal";
 import { useLibrary } from "@/context/LibraryContext";
 import BookCard from "./BookCard";
 import CatalogToolbar from "./CatalogToolbar";

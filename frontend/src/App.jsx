@@ -9,6 +9,7 @@ import HomePage from "./pages/Home/HomePage.jsx";
 import AllStudents from "./pages/students/AllStudents.jsx";
 import AllTeachers from "./pages/teachers/AllTeachers.jsx";
 import Library from "./pages/Library/Library.jsx";
+import Account from "./pages/account/Account.jsx";
 import StudentDetail from "./pages/StudentDetails/StudentDetail.jsx";
 import AuthPage from "./pages/auth/AuthPage.jsx";
 import { ToastProvider } from "./components/ui";
@@ -89,6 +90,16 @@ const App = () => {
                       <ProtectedRoute>
                         <DashboardLayout>
                           <Library />
+                        </DashboardLayout>
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/account"
+                    element={
+                      <ProtectedRoute>
+                        <DashboardLayout>
+                          <Account />
                         </DashboardLayout>
                       </ProtectedRoute>
                     }

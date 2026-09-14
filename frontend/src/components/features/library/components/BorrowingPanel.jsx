@@ -1,7 +1,7 @@
 import { Search, SearchX } from "lucide-react";
 
 import { recordFilterOptions } from "@/assets/data/libraryAssets";
-import { useStaggerReveal } from "@/animation/libraryPageAnimation";
+import { useStaggerReveal } from "@/animation/reveal";
 import { Pagination } from "@/components/ui";
 import { useLibrary } from "@/context/LibraryContext";
 import { formatMoney } from "@/utils/format";

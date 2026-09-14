@@ -1,4 +1,4 @@
-import { useStaggerReveal } from "@/animation/libraryPageAnimation";
+import { useStaggerReveal } from "@/animation/reveal";
 import { useLibrary } from "@/context/LibraryContext";
 import MemberDetail from "./MemberDetail";
 import MemberList from "./MemberList";

@@ -361,31 +361,6 @@ body {
   box-shadow: 0 0 0 4px var(--color-danger-bg);
 }
 
-.visibility-toggle {
-  position: absolute;
-  right: 10px;
-  width: 30px;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  background: transparent;
-  border-radius: var(--radius-sm);
-  color: var(--color-text-muted);
-  transition:
-    color var(--transition-fast),
-    background var(--transition-fast);
-}
-.visibility-toggle:hover {
-  color: var(--color-primary);
-  background: var(--color-primary-light);
-}
-.visibility-toggle svg {
-  width: 17px;
-  height: 17px;
-}
-
 .field-error {
   display: none;
   align-items: center;
@@ -400,35 +375,6 @@ body {
 }
 
 /* ---------------- Password strength ---------------- */
-.password-strength {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  margin-top: calc(-1 * var(--space-2));
-}
-.password-strength-bar {
-  flex: 1;
-  height: 5px;
-  border-radius: var(--radius-full);
-  background: var(--color-border);
-  overflow: hidden;
-}
-.password-strength-bar span {
-  display: block;
-  height: 100%;
-  width: 0%;
-  border-radius: var(--radius-full);
-  background: var(--color-danger);
-  transition:
-    width var(--transition-base),
-    background var(--transition-base);
-}
-.password-strength-label {
-  font-size: var(--fs-xs);
-  color: var(--color-text-muted);
-  white-space: nowrap;
-}
-
 /* ---------------- Checkbox / rows ---------------- */
 .auth-row {
   display: flex;

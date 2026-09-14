@@ -2,7 +2,13 @@ import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Lock, Phone, User, Mail } from "lucide-react";
 import { useAuther } from "@/context/AuthContext";
-import { Button, TextField, PasswordField, useToast } from "@/components/ui";
+import {
+  Button,
+  TextField,
+  PasswordField,
+  PasswordStrength,
+  useToast,
+} from "@/components/ui";
 import { shake } from "@/animation/shake";
 import RoleSwitch from "./RoleSwitch";
 
@@ -17,7 +23,6 @@ const SignupForm = ({ isActive, onSwitchToLogin, role, onRoleChange }) => {
     clearAuthError,
     isEmailValid,
     isPhoneValid,
-    getPasswordStrength,
   } = useAuther();
 
   const [name, setName] = useState("");
@@ -35,7 +40,6 @@ const SignupForm = ({ isActive, onSwitchToLogin, role, onRoleChange }) => {
     terms: false,
   });
 
-  const strength = getPasswordStrength(password);
   const nameValid = name.trim().length > 0;
   const emailValid = isEmailValid(email);
   const phoneValid = isPhoneValid(phone);
@@ -192,20 +196,7 @@ const SignupForm = ({ isActive, onSwitchToLogin, role, onRoleChange }) => {
         />
       </div>
 
-      <div className="password-strength">
-        <div className="password-strength-bar">
-          <span
-            style={{
-              width: `${strength.percent}%`,
-              backgroundColor: strength.color,
-              display: "block",
-              height: "100%",
-              transition: "width 0.3s, background-color 0.3s",
-            }}
-          />
-        </div>
-        <span className="password-strength-label">{strength.label}</span>
-      </div>
+      <PasswordStrength value={password} />
 
       <label className="checkbox-field checkbox-field--terms">
         <input
