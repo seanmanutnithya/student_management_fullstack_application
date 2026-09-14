@@ -11,7 +11,10 @@ import { shake } from "@/animation/shake";
 import { useCallback, useMemo, useRef } from "react";
 import gsap from "gsap";
 import { useNavigate } from "react-router-dom";
-import { handleFetchAllStudentData } from "@/services/studentService";
+import {
+  handleCreateStudent,
+  handleFetchAllStudentData,
+} from "@/services/studentService";
 
 const StudentContext = createContext(null);
 
@@ -244,7 +247,7 @@ export function StudentProvider({ children }) {
     setConfirmOpen(false);
     setPendingDeleteIds(null);
   };
-  const openAddStudent = () => {
+  const openAddStudent = async () => {
     setIsDetailForm(true);
     setFormData({ ...regEmptyForm, ...detailEmptyForm, avatar: null });
     setModalOpen(true);
@@ -300,7 +303,8 @@ export function StudentProvider({ children }) {
     setEditingId(null);
     setModalOpen(false);
   };
-  const saveStudent = (data, ref) => {
+
+  const saveStudent = async (data, ref) => {
     const requiredFields =
       isDetailForm ?
         [
@@ -341,6 +345,7 @@ export function StudentProvider({ children }) {
     );
 
     toast.success(editingId !== null ? "Saved" : "Added");
+    await handleCreateStudent(data);
     closeModal();
   };
 

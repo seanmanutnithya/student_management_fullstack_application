@@ -5,3 +5,11 @@ export async function handleFetchAllStudentData() {
 
   return res.data;
 }
+
+export async function handleCreateStudent({ studentData }) {
+  const res = await api.post("/student/create", {
+    studentData,
+  });
+  console.log(res.data);
+  return res.data;
+}
