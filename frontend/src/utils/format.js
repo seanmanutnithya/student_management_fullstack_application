@@ -21,6 +21,17 @@ export function toIsoDate(value) {
   return `${d.getFullYear()}-${month}-${day}`;
 }
 
+/* <input type="date"> only accepts yyyy-MM-dd. A MySQL DATE column arrives
+   as a Date object (or an ISO timestamp once it crosses JSON), and the input
+   silently renders blank for anything else — so normalise before binding.
+   Timestamps convert via their *local* calendar date: mysql2 builds a Date
+   at local midnight, and slicing the UTC string would shift the day. */
+export function toDateInputValue(value) {
+  if (!value) return "";
+  const date = parseDate(value);
+  return Number.isNaN(date.getTime()) ? "" : toIsoDate(date);
+}
+
 export function formatDate(value) {
   if (!value) return "—";
   return parseDate(value).toLocaleDateString(undefined, {

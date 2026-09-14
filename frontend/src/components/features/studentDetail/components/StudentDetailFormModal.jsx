@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useStudent } from "@/context/StudentContext";
 import { Field, TextField, AvatarUpload } from "@/components/ui";
 import { resolveAvatarSrc } from "@/utils/avatar";
+import { toDateInputValue } from "@/utils/format";
 const StudentDetailFormModal = ({ student }) => {
   const { formRef, formData, handleChange, handleAvatarUpload, errors } =
     useStudent();
@@ -121,7 +122,7 @@ const StudentDetailFormModal = ({ student }) => {
           name={"dob"}
           label={"Date of birth"}
           type="date"
-          value={formData.dob}
+          value={toDateInputValue(formData.dob)}
           error={errors.dob ? "Date of birth is requried" : ""}
           onChange={handleChange}
         />

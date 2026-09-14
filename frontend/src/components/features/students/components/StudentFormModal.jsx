@@ -2,6 +2,7 @@ import { Save } from "lucide-react";
 import { useStudent } from "@/context/StudentContext";
 import { Modal, Button, TextField, AvatarUpload } from "@/components/ui";
 import { resolveAvatarSrc } from "@/utils/avatar";
+import { toDateInputValue } from "@/utils/format";
 
 const StudentFormModal = () => {
   const {
@@ -132,7 +133,7 @@ const StudentFormModal = () => {
           name={"dob"}
           type="date"
           label={"Date of birth"}
-          value={formData.dob}
+          value={toDateInputValue(formData.dob)}
           onChange={handleChange}
         />
         <TextField
