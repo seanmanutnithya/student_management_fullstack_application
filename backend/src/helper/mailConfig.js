@@ -5,7 +5,7 @@ const path = require("path");
 const generateCode = require("../utils/generateCode");
 const validateVerifyCode = require("../controller/auth/validateVerifyCode.controller");
 
-dotenv.config({ path: path.join(__dirname, "../../../.env") });
+dotenv.config({ path: path.join(__dirname, "../../.env") });
 
 // Create a transporter using SMTP
 const transporter = nodemailer.createTransport({

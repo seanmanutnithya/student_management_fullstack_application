@@ -1,7 +1,7 @@
 const path = require("path");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
-dotenv.config({ path: path.resolve(__dirname, "../../../.env") });
+dotenv.config({ path: path.resolve(__dirname, "../../.env") });
 
 const validate_token = () => {
   const secret_token = process.env.SECRET_TOKEN;
