@@ -1,9 +1,9 @@
-import { Link } from "react-router-dom";
 import Actions from "./Actions";
 import { useStudent } from "@/context/StudentContext";
 
 const TableBody = () => {
-  const { students, selectedIds, toggleSelect, nameResult } = useStudent();
+  const { selectedIds, toggleSelect, nameResult } = useStudent();
+
   return (
     <tbody id="studentsTbody">
       {/* <!-- rows injected by script.js --> */}

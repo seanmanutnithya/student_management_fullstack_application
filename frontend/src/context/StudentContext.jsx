@@ -1,10 +1,17 @@
-import { createContext, useContext, useDebugValue, useState } from "react";
-import studentData from "../../../database/data.json";
+import {
+  createContext,
+  useContext,
+  useDebugValue,
+  useEffect,
+  useState,
+} from "react";
+// import studentData from "../../../database/data.json";
 import { useToast } from "@/components/ui";
 import { shake } from "@/animation/shake";
 import { useCallback, useMemo, useRef } from "react";
 import gsap from "gsap";
 import { useNavigate } from "react-router-dom";
+import { handleFetchAllStudentData } from "@/services/studentService";
 
 const StudentContext = createContext(null);
 
@@ -89,6 +96,7 @@ export function useAvatarUpload({ onChange, initialSrc = null } = {}) {
 }
 
 export function StudentProvider({ children }) {
+  const [studentData, setStudentData] = useState([]);
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -131,6 +139,35 @@ export function StudentProvider({ children }) {
     guardianPhone: "",
   };
 
+  useEffect(() => {
+    let cancelled = false;
+
+    async function fetchStudent() {
+      try {
+        const data = await handleFetchAllStudentData();
+        if (!cancelled) setStudentData(data?.students ?? []);
+      } catch (error) {
+        // A dead API used to reject silently here, leaving the page blank
+        // with no clue why. Surface it instead.
+        if (cancelled) return;
+        setStudentData([]);
+        console.error("Failed to load students", error);
+        toast.error("Couldn't load students — check the API is running.");
+      }
+    }
+
+    fetchStudent();
+    return () => {
+      cancelled = true;
+    };
+  }, [toast]);
+
+  /* `students` is seeded from `studentData`, which starts empty and only
+     fills once the fetch resolves — a useState initialiser runs once, so
+     without this the list stayed empty no matter what arrived. */
+  useEffect(() => {
+    setStudents(withStoredAvatars(studentData));
+  }, [studentData]);
   const scoreMatch = (studentData, query) => {
     const q = query.toLowerCase();
     const name = studentData.name.toLowerCase();
@@ -255,7 +292,8 @@ export function StudentProvider({ children }) {
     setErrors({});
     setEditingId(id);
     setModalOpen(true);
-    const student = students.find((s) => s.id === id);
+    const student = studentData.find((s) => s.id === id);
+    console.log(student);
     setFormData({ ...regEmptyForm, ...detailEmptyForm, ...student });
   };
   const closeModal = () => {
