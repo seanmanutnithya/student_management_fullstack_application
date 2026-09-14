@@ -4,8 +4,10 @@ const logs_error = require("../../helper/logs_error");
 const getAllUsers = async (req, res) => {
   try {
     const users = await fetchAllData("auths");
-    res.send({
-      users,
+    res.status(200).json({
+      success: true,
+      message: "Users retrieved successfully",
+      data: users,
     });
   } catch (error) {
     const content = error.message;
