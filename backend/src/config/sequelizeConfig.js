@@ -1,14 +1,14 @@
 const { Sequelize } = require("sequelize");
 const path = require("path");
 const dotenv = require("dotenv");
-dotenv.config({ path: path.join(__dirname, "../../../.env") });
+dotenv.config({ path: path.join(__dirname, "../../.env") });
 
 const sequelizeStudentDb = new Sequelize(
   process.env.STUDENT_DB_NAME,
   process.env.STUDENT_DB_USER,
   process.env.STUDENT_DB_PASSWORD || "",
   {
-    host: process.env.STUDENT_DB_HOST,
+    host: process.env.STUDENT_HOST,
     port: process.env.STUDENT_DB_PORT,
     dialect: "mysql",
     logging: false,
@@ -26,7 +26,7 @@ const sequelizeAuthDb = new Sequelize(
   process.env.AUTH_DB_USER,
   process.env.AUTH_DB_PASSWORD || "",
   {
-    host: process.env.AUTH_DB_HOST,
+    host: process.env.AUTH_HOST,
     port: process.env.AUTH_DB_PORT,
     dialect: "mysql",
     logging: false,
