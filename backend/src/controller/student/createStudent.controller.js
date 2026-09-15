@@ -8,7 +8,7 @@ const createStudent = async (req, res) => {
     const field = { id, name, gender, std_class, phone };
     const missing = await missingValues(field);
     if (missing.length > 0) {
-      return res.status(404).send({
+      return res.status(400).send({
         message: `${missing.map(([key]) => key).join(", ")} is required!`,
       });
     }

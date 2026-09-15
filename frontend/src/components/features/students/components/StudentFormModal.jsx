@@ -90,6 +90,7 @@ const StudentFormModal = () => {
       error: errors.email,
     },
   ];
+  
   return (
     <Modal
       open={modalOpen}

@@ -15,30 +15,21 @@ import {
   handleCreateStudent,
   handleFetchAllStudentData,
 } from "@/services/studentService";
+import {
+  persistAvatar as persistAvatarTo,
+  withStoredAvatars as withStoredAvatarsFrom,
+} from "@/utils/avatarStorage";
+import { fileToThumbnailDataUrl } from "@/utils/image";
 
 const StudentContext = createContext(null);
 
 const AVATAR_STORAGE_KEY = "studentAvatars";
 
-const loadStoredAvatars = () => {
-  try {
-    return JSON.parse(localStorage.getItem(AVATAR_STORAGE_KEY)) || {};
-  } catch {
-    return {};
-  }
-};
+const withStoredAvatars = (list) =>
+  withStoredAvatarsFrom(AVATAR_STORAGE_KEY, list);
 
-const withStoredAvatars = (list) => {
-  const stored = loadStoredAvatars();
-  return list.map((s) => (stored[s.id] ? { ...s, avatar: stored[s.id] } : s));
-};
-
-const persistAvatar = (id, dataUrl) => {
-  const stored = loadStoredAvatars();
-  if (dataUrl) stored[id] = dataUrl;
-  else delete stored[id];
-  localStorage.setItem(AVATAR_STORAGE_KEY, JSON.stringify(stored));
-};
+const persistAvatar = (id, dataUrl) =>
+  persistAvatarTo(AVATAR_STORAGE_KEY, id, dataUrl);
 
 export function useAvatarUpload({ onChange, initialSrc = null } = {}) {
   const [preview, setPreview] = useState(initialSrc);
@@ -183,13 +174,13 @@ export function StudentProvider({ children }) {
   };
 
   const nameResult = useMemo(() => {
-    if (!query.trim()) return studentData;
-    return studentData
+    if (!query.trim()) return students;
+    return students
       .map((std) => ({ std, score: scoreMatch(std, query) }))
       .filter((r) => r.score > 0)
       .sort((a, b) => b.score - a.score)
       .map((r) => r.std);
-  }, [studentData, query]);
+  }, [students, query]);
 
   const [formData, setFormData] = useState(regEmptyForm);
 
@@ -202,8 +193,9 @@ export function StudentProvider({ children }) {
   };
 
   const handleSave = () => {
-    saveStudent(formData, formRef);
-    // turn form data to empty
+    saveStudent(formData, formRef).catch((error) =>
+      console.error("Unexpected error saving student", error),
+    );
   };
 
   const toggleSelect = (index) => {
@@ -270,33 +262,45 @@ export function StudentProvider({ children }) {
     );
   };
 
-  const handleAvatarChange = (file) => {
+  const handleAvatarChange = async (file) => {
     if (!openStudent) return;
     if (!file) {
       updateStudentAvatar(openStudent.id, null);
       return;
     }
-    const reader = new FileReader();
-    reader.onload = () => updateStudentAvatar(openStudent.id, reader.result);
-    reader.readAsDataURL(file);
+    try {
+      updateStudentAvatar(openStudent.id, await fileToThumbnailDataUrl(file));
+    } catch (error) {
+      console.error("Could not read avatar", error);
+      toast.error("Couldn't read that image.");
+    }
   };
 
-  const handleAvatarUpload = (file) => {
+  const handleAvatarUpload = async (file) => {
     if (!file) {
       setFormData((prev) => ({ ...prev, avatar: null }));
       return;
     }
-    const reader = new FileReader();
-    reader.onload = () =>
-      setFormData((prev) => ({ ...prev, avatar: reader.result }));
-    reader.readAsDataURL(file);
+    try {
+      const avatar = await fileToThumbnailDataUrl(file);
+      setFormData((prev) => ({ ...prev, avatar }));
+    } catch (error) {
+      console.error("Could not read avatar", error);
+      toast.error("Couldn't read that image.");
+    }
   };
   const openEdit = (id) => {
+    // `students` is the list to read: it carries the locally cached avatar and
+    // any student added this session. `studentData` is the raw server response,
+    // which has neither — spreading a miss from it silently blanks the form.
+    const student = students.find((s) => s.id === id);
+    if (!student) {
+      toast.error("Couldn't find that student.");
+      return;
+    }
     setErrors({});
     setEditingId(id);
     setModalOpen(true);
-    const student = studentData.find((s) => s.id === id);
-    console.log(student);
     setFormData({ ...regEmptyForm, ...detailEmptyForm, ...student });
   };
   const closeModal = () => {
@@ -334,6 +338,24 @@ export function StudentProvider({ children }) {
     }
     const finalId =
       editingId !== null ? editingId : data.id || Date.now().toString();
+
+    // Editing has no update endpoint wired up yet; posting here would try to
+    // re-create a row that already owns this primary key.
+    if (editingId === null) {
+      try {
+        await handleCreateStudent({ ...data, id: finalId });
+      } catch (error) {
+        console.error("Failed to create student", error);
+        toast.error(
+          error?.response?.data?.message ??
+            "Couldn't save student — check the API is running.",
+        );
+        return;
+      }
+    }
+
+    // Avatars are only cached in this browser, so a failed write is worth a
+    // warning but not the student record.
     if (data.avatar?.startsWith("data:")) {
       persistAvatar(finalId, data.avatar);
     }
@@ -345,7 +367,6 @@ export function StudentProvider({ children }) {
     );
 
     toast.success(editingId !== null ? "Saved" : "Added");
-    await handleCreateStudent(data);
     closeModal();
   };
 
