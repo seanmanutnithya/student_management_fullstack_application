@@ -126,7 +126,13 @@ const StudentFormModal = () => {
             placeholder={field.placeholder}
             value={field.value}
             onChange={handleChange}
-            error={field.error ? `${field.label} is required.` : null}
+            error={
+              // `true` is the required-field flag; a string is a specific
+              // message from the server, such as a duplicate ID.
+              field.error === true ?
+                `${field.label} is required.`
+              : field.error || null
+            }
           />
         ))}
         <TextField

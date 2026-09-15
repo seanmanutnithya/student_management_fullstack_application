@@ -26,6 +26,14 @@ const StudentContext = createContext(null);
 
 const AVATAR_STORAGE_KEY = "studentAvatars";
 
+// The API reports which columns clashed; these turn that into copy a teacher
+// can act on. Anything not listed falls back to the server's own message.
+const DUPLICATE_FIELD_MESSAGES = {
+  id: "This student ID is already registered.",
+  phone: "This phone number is already registered.",
+  email: "This email is already registered.",
+};
+
 const withStoredAvatars = (list) =>
   withStoredAvatarsFrom(AVATAR_STORAGE_KEY, list);
 
@@ -242,6 +250,7 @@ export function StudentProvider({ children }) {
     setPendingDeleteIds(null);
   };
   const openAddStudent = async () => {
+    setErrors({});
     setIsDetailForm(true);
     setFormData({ ...regEmptyForm, ...detailEmptyForm, avatar: null });
     setModalOpen(true);
@@ -345,12 +354,30 @@ export function StudentProvider({ children }) {
     // re-create a row that already owns this primary key.
     if (editingId === null) {
       try {
-        const res = await handleCreateStudent({ ...data });
+        await handleCreateStudent({ ...data });
       } catch (error) {
         console.error("Failed to create student", error);
+        const { message, fields, reason } = error?.response?.data ?? {};
+
+        // Mark the offending inputs so they go red through the same
+        // `.field.is-invalid` styling the required-field check uses. `true`
+        // keeps the field's own "is required" copy; a string replaces it.
+        if (fields?.length) {
+          setErrors((prev) => ({
+            ...prev,
+            ...Object.fromEntries(
+              fields.map((key) => [
+                key,
+                reason === "missing" ? true
+                : (DUPLICATE_FIELD_MESSAGES[key] ?? message ?? true),
+              ]),
+            ),
+          }));
+        }
+
+        if (ref?.current) shake(ref.current);
         toast.error(
-          error?.response?.data?.message ??
-            "Couldn't save student — check the API is running.",
+          message ?? "Couldn't save student — check the API is running.",
         );
         return;
       }
