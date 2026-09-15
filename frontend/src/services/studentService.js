@@ -40,3 +40,16 @@ export async function handleDeleteStudent(id) {
   const res = await api.delete(`/student/delete/${id}`);
   return res.data;
 }
+
+export async function handleEditStudent(id, studentData) {
+  const body = Object.fromEntries(
+    STUDENT_COLUMNS.filter((key) => studentData?.[key] != null).map((key) => [
+      key,
+      studentData[key],
+    ]),
+  );
+
+  // The route is registered with app.put — a POST here 404s.
+  const res = await api.put(`/student/update/${id}`, body);
+  return res.data;
+}

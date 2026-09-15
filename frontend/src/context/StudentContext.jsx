@@ -10,10 +10,11 @@ import { useToast } from "@/components/ui";
 import { shake } from "@/animation/shake";
 import { useCallback, useMemo, useRef } from "react";
 import gsap from "gsap";
-import { useNavigate } from "react-router-dom";
+import { UNSAFE_ErrorResponseImpl, useNavigate } from "react-router-dom";
 import {
   handleCreateStudent,
   handleDeleteStudent,
+  handleEditStudent,
   handleFetchAllStudentData,
 } from "@/services/studentService";
 import {
@@ -231,17 +232,22 @@ export function StudentProvider({ children }) {
     setConfirmOpen(true);
   };
   const confirmDelete = async () => {
-    if (pendingDeleteIds !== null) {
-      setStudents((prev) => prev.filter((s) => s.id !== pendingDeleteIds));
-      setSelectedIds((prev) => prev.filter((id) => id !== pendingDeleteIds));
-      toast.success("Student deleted");
-    } else {
-      setStudents((prev) => prev.filter((s) => !selectedIds.includes(s.id)));
-      setSelectedIds([]);
-      toast.success("Students deleted");
+    try {
+      const res = await handleDeleteStudent(pendingDeleteIds);
+      console.log(res.status);
+      setConfirmOpen(false);
+      if (pendingDeleteIds !== null && res.status) {
+        setStudents((prev) => prev.filter((s) => s.id !== pendingDeleteIds));
+        setSelectedIds((prev) => prev.filter((id) => id !== pendingDeleteIds));
+        toast.success(res.message);
+      } else {
+        setStudents((prev) => prev.filter((s) => !selectedIds.includes(s.id)));
+        setSelectedIds([]);
+        toast.success("Students deleted");
+      }
+    } catch (error) {
+      console.error(error.message);
     }
-    const res = await handleDeleteStudent(pendingDeleteIds);
-    setConfirmOpen(false);
     setPendingDeleteIds(null);
     navigate("/allstudents");
   };
@@ -350,37 +356,39 @@ export function StudentProvider({ children }) {
     const finalId =
       editingId !== null ? editingId : data.id || Date.now().toString();
 
-    // Editing has no update endpoint wired up yet; posting here would try to
-    // re-create a row that already owns this primary key.
-    if (editingId === null) {
-      try {
-        await handleCreateStudent({ ...data });
-      } catch (error) {
-        console.error("Failed to create student", error);
-        const { message, fields, reason } = error?.response?.data ?? {};
+    // Both paths reject the same way, so they share one reporter: mark the
+    // offending inputs red, shake the form, and surface the server's message.
+    const reportSaveError = (error) => {
+      console.error("Failed to save student", error);
+      const { message, fields, reason } = error?.response?.data ?? {};
 
-        // Mark the offending inputs so they go red through the same
-        // `.field.is-invalid` styling the required-field check uses. `true`
-        // keeps the field's own "is required" copy; a string replaces it.
-        if (fields?.length) {
-          setErrors((prev) => ({
-            ...prev,
-            ...Object.fromEntries(
-              fields.map((key) => [
-                key,
-                reason === "missing" ? true
-                : (DUPLICATE_FIELD_MESSAGES[key] ?? message ?? true),
-              ]),
-            ),
-          }));
-        }
-
-        if (ref?.current) shake(ref.current);
-        toast.error(
-          message ?? "Couldn't save student — check the API is running.",
-        );
-        return;
+      // `true` keeps the field's own "is required" copy; a string replaces it.
+      if (fields?.length) {
+        setErrors((prev) => ({
+          ...prev,
+          ...Object.fromEntries(
+            fields.map((key) => [
+              key,
+              reason === "missing" ? true : (
+                (DUPLICATE_FIELD_MESSAGES[key] ?? message ?? true)
+              ),
+            ]),
+          ),
+        }));
       }
+
+      if (ref?.current) shake(ref.current);
+      toast.error(
+        message ?? "Couldn't save student — check the API is running.",
+      );
+    };
+
+    try {
+      if (editingId !== null) await handleEditStudent(editingId, data);
+      else await handleCreateStudent(data);
+    } catch (error) {
+      reportSaveError(error);
+      return;
     }
 
     // Avatars are only cached in this browser, so a failed write is worth a
