@@ -1,9 +1,22 @@
 import api from "./axiosInstance";
 
-// createStudent.controller.js reads these off req.body directly, and the
-// Students model has no column for the rest of the form — including `avatar`,
-// which would otherwise ship a base64 blob on every create.
-const STUDENT_COLUMNS = ["id", "name", "gender", "std_class", "phone", "remark"];
+// createStudent.controller.js reads these off req.body directly. All but
+// `remark` are NOT NULL in the students table, so every one has to be sent.
+// `avatar` is deliberately absent: that column is a varchar(200) for a filename,
+// and the form holds a base64 data URL that neither fits nor belongs on the wire.
+const STUDENT_COLUMNS = [
+  "id",
+  "name",
+  "gender",
+  "std_class",
+  "phone",
+  "dob",
+  "email",
+  "address",
+  "guardianName",
+  "guardianPhone",
+  "remark",
+];
 
 export async function handleFetchAllStudentData() {
   const res = await api.get("/student/get/all");
@@ -20,5 +33,10 @@ export async function handleCreateStudent(studentData) {
   );
 
   const res = await api.post("/student/create", body);
+  return res.data;
+}
+
+export async function handleDeleteStudent(id) {
+  const res = await api.delete(`/student/delete/${id}`);
   return res.data;
 }

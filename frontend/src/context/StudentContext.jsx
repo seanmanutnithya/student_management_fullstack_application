@@ -13,6 +13,7 @@ import gsap from "gsap";
 import { useNavigate } from "react-router-dom";
 import {
   handleCreateStudent,
+  handleDeleteStudent,
   handleFetchAllStudentData,
 } from "@/services/studentService";
 import {
@@ -192,8 +193,8 @@ export function StudentProvider({ children }) {
     : null;
   };
 
-  const handleSave = () => {
-    saveStudent(formData, formRef).catch((error) =>
+  const handleSave = async () => {
+    await saveStudent(formData, formRef).catch((error) =>
       console.error("Unexpected error saving student", error),
     );
   };
@@ -221,7 +222,7 @@ export function StudentProvider({ children }) {
     setPendingDeleteIds(null);
     setConfirmOpen(true);
   };
-  const confirmDelete = () => {
+  const confirmDelete = async () => {
     if (pendingDeleteIds !== null) {
       setStudents((prev) => prev.filter((s) => s.id !== pendingDeleteIds));
       setSelectedIds((prev) => prev.filter((id) => id !== pendingDeleteIds));
@@ -231,6 +232,7 @@ export function StudentProvider({ children }) {
       setSelectedIds([]);
       toast.success("Students deleted");
     }
+    const res = await handleDeleteStudent(pendingDeleteIds);
     setConfirmOpen(false);
     setPendingDeleteIds(null);
     navigate("/allstudents");
@@ -343,7 +345,7 @@ export function StudentProvider({ children }) {
     // re-create a row that already owns this primary key.
     if (editingId === null) {
       try {
-        await handleCreateStudent({ ...data, id: finalId });
+        const res = await handleCreateStudent({ ...data });
       } catch (error) {
         console.error("Failed to create student", error);
         toast.error(

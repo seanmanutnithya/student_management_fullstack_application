@@ -23,7 +23,8 @@ const AllStudents = () => {
   const containerRef = useRef(null);
   const navigate = useNavigate();
   const { id } = useParams();
-  const { students, detailOpen, openDetail, closeDetail } = useStudent();
+  const { students, detailOpen, openDetail, closeDetail, nameResult } =
+    useStudent();
 
   useEffect(() => {
     if (id) {
@@ -36,39 +37,55 @@ const AllStudents = () => {
     total: students.length,
     pageSize: 10,
   });
+  // Page chrome is in the DOM from the first paint, so this runs once on mount.
   useGSAP(
     () => {
-      const tl = gsap.timeline({ defaults: { ease: "power1.out" } });
-      tl.fromTo(
-        ".topbar, .mobile-topbar",
-        { opacity: 0, y: -8 },
-        { opacity: 1, y: 0, duration: 0.3 },
-      )
+      gsap
+        .timeline({ defaults: { ease: "power1.out" } })
+        .fromTo(
+          ".topbar, .mobile-topbar",
+          { opacity: 0, y: -8 },
+          { opacity: 1, y: 0, duration: 0.3 },
+        )
         .fromTo(
           ".card",
           { opacity: 0, y: 16 },
           { opacity: 1, y: 0, duration: 0.4, stagger: 0.08 },
           "-=0.1",
-        )
-        .fromTo(
-          ".table-row",
-          { opacity: 0, x: -8 },
-          {
-            opacity: 1,
-            x: 0,
-            duration: 0.25,
-            stagger: 0.03,
-            onComplete: () => {
-              wireHoverScale(".btn", 1.035);
-              wireHoverScale(".icon-btn", 1.08);
-              wireHoverScale(".row-action-btn", 1.12);
-              wireHoverScale(".page-btn", 1.08);
-            },
-          },
-          "-=0.2",
         );
+
+      wireHoverScale(".btn", 1.035);
+      wireHoverScale(".icon-btn", 1.08);
+      wireHoverScale(".page-btn", 1.08);
     },
     { scope: containerRef },
+  );
+
+  /* Rows only exist once the fetch resolves, so they cannot be animated from
+     the mount timeline above — that is what warned "target .table-row not
+     found". Keying on a boolean rather than the list itself means the entrance
+     plays when rows first appear, and filtering down to a smaller (still
+     non-empty) result does not restart it mid-keystroke. */
+  const hasRows = nameResult.length > 0;
+
+  useGSAP(
+    () => {
+      if (!hasRows) return;
+      gsap.fromTo(
+        ".table-row",
+        { opacity: 0, x: -8 },
+        {
+          opacity: 1,
+          x: 0,
+          duration: 0.25,
+          stagger: 0.03,
+          ease: "power1.out",
+        },
+      );
+      wireHoverScale(".row-action-btn", 1.12);
+      wireHoverScale(".page-btn", 1.08);
+    },
+    { dependencies: [hasRows], scope: containerRef },
   );
   return (
     <>

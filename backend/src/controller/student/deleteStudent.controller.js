@@ -10,7 +10,7 @@ const deleteStudent = async (req, res) => {
     const { id } = req.params;
     const student = await Students.findByPk(id);
     if (!Students) {
-      return res.status(404).send({
+      return res.status(404).json({
         stats: false,
         message: "Student not found",
       });
@@ -27,14 +27,14 @@ const deleteStudent = async (req, res) => {
         <b>Remark:</b> ${result.remark}
     `.trim();
     await sendTelegramMessage(message);
-    res.send({
+    res.status(200).json({
       status: true,
       message: "Deleted student!",
     });
   } catch (error) {
     const content = error.message;
     logs_error(content + "\n");
-    res.status(500).send({
+    res.status(500).json({
       status: false,
       message: content,
     });
