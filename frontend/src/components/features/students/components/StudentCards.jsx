@@ -2,11 +2,11 @@ import { useStudent } from "@/context/StudentContext";
 import Actions from "./Actions";
 
 const StudentCards = () => {
-  const { students, selectedIds, toggleSelect } = useStudent();
+  const { pagedStudents, selectedIds, toggleSelect } = useStudent();
 
   return (
     <div className="student-cards" id="studentCards">
-      {students.map((s) => (
+      {pagedStudents.map((s) => (
         <div className="student-card" key={s.id}>
           <div className="student-card-top">
             <input

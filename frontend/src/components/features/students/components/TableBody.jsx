@@ -2,12 +2,12 @@ import Actions from "./Actions";
 import { useStudent } from "@/context/StudentContext";
 
 const TableBody = () => {
-  const { selectedIds, toggleSelect, nameResult } = useStudent();
+  const { selectedIds, toggleSelect, pagedStudents } = useStudent();
 
   return (
     <tbody id="studentsTbody">
       {/* <!-- rows injected by script.js --> */}
-      {nameResult.map((s, idx) => (
+      {pagedStudents.map((s, idx) => (
         <tr
           data-index={idx}
           className={`table-row${selectedIds.includes(s.id) ? " is-selected" : ""}`}

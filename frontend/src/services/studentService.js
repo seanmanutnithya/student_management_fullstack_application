@@ -41,6 +41,16 @@ export async function handleDeleteStudent(id) {
   return res.data;
 }
 
+export async function handleMultipleDelete(selectedIds) {
+  const res = await Promise.allSettled(
+    selectedIds.map((id) => handleDeleteStudent(id)),
+  );
+  return res.map((r, i) => ({
+    id: selectedIds[i],
+    ok: r.status === "fulfilled" && r.value?.status === true,
+  }));
+}
+
 export async function handleEditStudent(id, studentData) {
   const body = Object.fromEntries(
     STUDENT_COLUMNS.filter((key) => studentData?.[key] != null).map((key) => [

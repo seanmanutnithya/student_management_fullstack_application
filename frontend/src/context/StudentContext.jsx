@@ -1,31 +1,29 @@
-import {
-  createContext,
-  useContext,
-  useDebugValue,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 // import studentData from "../../../database/data.json";
 import { useToast } from "@/components/ui";
 import { shake } from "@/animation/shake";
 import { useCallback, useMemo, useRef } from "react";
 import gsap from "gsap";
-import { UNSAFE_ErrorResponseImpl, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   handleCreateStudent,
   handleDeleteStudent,
   handleEditStudent,
   handleFetchAllStudentData,
+  handleMultipleDelete,
 } from "@/services/studentService";
 import {
   persistAvatar as persistAvatarTo,
   withStoredAvatars as withStoredAvatarsFrom,
 } from "@/utils/avatarStorage";
 import { fileToThumbnailDataUrl } from "@/utils/image";
+import { usePagination } from "@/hooks/usePagination";
 
 const StudentContext = createContext(null);
 
 const AVATAR_STORAGE_KEY = "studentAvatars";
+
+const PAGE_SIZE = 20;
 
 // The API reports which columns clashed; these turn that into copy a teacher
 // can act on. Anything not listed falls back to the server's own message.
@@ -175,11 +173,16 @@ export function StudentProvider({ children }) {
   const scoreMatch = (studentData, query) => {
     const q = query.toLowerCase();
     const name = studentData.name.toLowerCase();
+    const id = studentData.id.toLowerCase();
 
-    if (name === q) return 100;
-    if (name.startsWith(q)) return 80;
-    if (name.includes(q)) return 60;
-    if (studentData.name.toLowerCase().includes(q)) return 40;
+    if (name === q || id === q) return 100;
+    if (name.startsWith(q) || id.startsWith(q)) return 80;
+    if (name.includes(q) || id.includes(q)) return 60;
+    if (
+      studentData.name.toLowerCase().includes(q) ||
+      studentData.id.toLowerCase().includes(q)
+    )
+      return 40;
     return 0;
   };
 
@@ -191,6 +194,23 @@ export function StudentProvider({ children }) {
       .sort((a, b) => b.score - a.score)
       .map((r) => r.std);
   }, [students, query]);
+
+  /* Pagination slices `nameResult`, never `students`: the search scores the
+     whole list first, so a match on page 9 is still found from page 1. */
+  const { page, pageCount, pageStart, pageEnd, setPage } = usePagination({
+    total: nameResult.length,
+    pageSize: PAGE_SIZE,
+  });
+
+  const pagedStudents = useMemo(
+    () => nameResult.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE),
+    [nameResult, page],
+  );
+
+  // A new search restarts at the first page of its own results.
+  useEffect(() => {
+    setPage(1);
+  }, [query]);
 
   const [formData, setFormData] = useState(regEmptyForm);
 
@@ -214,41 +234,54 @@ export function StudentProvider({ children }) {
     );
   };
   const selectAll = (checked) => {
-    setSelectedIds(checked ? students.map((s) => s.id) : []);
+    setSelectedIds(checked ? nameResult.map((s) => s.id) : []);
   };
   const isAllSelected =
-    students.length > 0 && selectedIds.length == students.length;
+    nameResult.length > 0 &&
+    nameResult.every((s) => selectedIds.includes(s.id));
 
-  const requestDeleteSingle = (index) => {
-    setPendingDeleteIds(index);
+  const requestDeleteSingle = (id) => {
+    setPendingDeleteIds([id]);
     setConfirmOpen(true);
   };
   const requestDeleteSelected = () => {
-    if (selectedIds.length == 0) {
+    if (selectedIds.length === 0) {
       toast.info("Select student to delete first");
       return;
     }
-    setPendingDeleteIds(null);
+    setPendingDeleteIds([...selectedIds]);
     setConfirmOpen(true);
   };
   const confirmDelete = async () => {
-    try {
-      const res = await handleDeleteStudent(pendingDeleteIds);
-      console.log(res.status);
-      setConfirmOpen(false);
-      if (pendingDeleteIds !== null && res.status) {
-        setStudents((prev) => prev.filter((s) => s.id !== pendingDeleteIds));
-        setSelectedIds((prev) => prev.filter((id) => id !== pendingDeleteIds));
-        toast.success(res.message);
-      } else {
-        setStudents((prev) => prev.filter((s) => !selectedIds.includes(s.id)));
-        setSelectedIds([]);
-        toast.success("Students deleted");
-      }
-    } catch (error) {
-      console.error(error.message);
-    }
+    const ids = pendingDeleteIds ?? [];
+    if (ids.length === 0) return;
+
+    setConfirmOpen(false);
     setPendingDeleteIds(null);
+
+    const results = await Promise.allSettled(
+      ids.map((id) => handleDeleteStudent(id)),
+    );
+
+    const deleted = ids.filter(
+      (_, i) => results[i].status === "fulfilled" && results[i].value?.status,
+    );
+
+    if (deleted.length > 0) {
+      setStudents((prev) => prev.filter((s) => !deleted.includes(s.id)));
+      setSelectedIds((prev) => prev.filter((id) => !deleted.includes(id)));
+      toast.success(
+        deleted.length === 1 ?
+          "Student Deleted"
+        : `${deleted.length} students deleted`,
+      );
+    }
+    const failedCount = ids.length - deleted.length;
+    if (failedCount > 0) {
+      toast.error(
+        `Couldn't delete ${failedCount} student${failedCount === 1 ? "" : "s"}`,
+      );
+    }
     navigate("/allstudents");
   };
   const cancelDelete = () => {
@@ -515,6 +548,15 @@ export function StudentProvider({ children }) {
       query,
       setQuery,
       nameResult,
+
+      pagedStudents,
+      page,
+      pageCount,
+      pageStart,
+      pageEnd,
+      setPage,
+      pageSize: PAGE_SIZE,
+      resultCount: nameResult.length,
     }),
     [
       gridRef,
@@ -565,6 +607,13 @@ export function StudentProvider({ children }) {
       query,
       setQuery,
       nameResult,
+
+      pagedStudents,
+      page,
+      pageCount,
+      pageStart,
+      pageEnd,
+      setPage,
     ],
   );
 

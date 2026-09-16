@@ -7,7 +7,6 @@ import CardHead from "@/components/features/students/components/CardHead";
 import ConfirmDialog from "@/components/features/students/components/ConfirmDialog";
 import StudentFormModal from "@/components/features/students/components/StudentFormModal";
 import { Pagination } from "@/components/ui";
-import { usePagination } from "@/hooks/usePagination";
 import { useStudent } from "@/context/StudentContext";
 import { ChevronDown } from "lucide-react";
 
@@ -23,8 +22,19 @@ const AllStudents = () => {
   const containerRef = useRef(null);
   const navigate = useNavigate();
   const { id } = useParams();
-  const { students, detailOpen, openDetail, closeDetail, nameResult } =
-    useStudent();
+  const {
+    detailOpen,
+    openDetail,
+    closeDetail,
+    pagedStudents,
+    page,
+    pageCount,
+    pageStart,
+    pageEnd,
+    setPage,
+    pageSize,
+    resultCount,
+  } = useStudent();
 
   useEffect(() => {
     if (id) {
@@ -33,10 +43,6 @@ const AllStudents = () => {
       closeDetail();
     }
   }, [id]);
-  const { page, pageCount, pageStart, pageEnd, setPage } = usePagination({
-    total: students.length,
-    pageSize: 10,
-  });
   // Page chrome is in the DOM from the first paint, so this runs once on mount.
   useGSAP(
     () => {
@@ -66,7 +72,7 @@ const AllStudents = () => {
      found". Keying on a boolean rather than the list itself means the entrance
      plays when rows first appear, and filtering down to a smaller (still
      non-empty) result does not restart it mid-keystroke. */
-  const hasRows = nameResult.length > 0;
+  const hasRows = pagedStudents.length > 0;
 
   useGSAP(
     () => {
@@ -85,7 +91,7 @@ const AllStudents = () => {
       wireHoverScale(".row-action-btn", 1.12);
       wireHoverScale(".page-btn", 1.08);
     },
-    { dependencies: [hasRows], scope: containerRef },
+    { dependencies: [hasRows, page], scope: containerRef },
   );
   return (
     <>
@@ -108,7 +114,7 @@ const AllStudents = () => {
                 <strong>
                   {pageStart}–{pageEnd}
                 </strong>{" "}
-                of <strong>{students.length}</strong> students
+                of <strong>{resultCount}</strong> students
               </span>
               <nav
                 className="pagination"
@@ -122,7 +128,7 @@ const AllStudents = () => {
                 <button
                   className="select-field select-field--sm"
                   id="pageSizeBtn">
-                  <span>10 / page</span>
+                  <span>{pageSize} / page</span>
                   <ChevronDown />
                 </button>
               </nav>
