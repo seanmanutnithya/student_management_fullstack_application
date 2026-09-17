@@ -9,11 +9,11 @@ import {
 import gsap from "gsap";
 import { useNavigate } from "react-router-dom";
 
-import teacherData from "../../../database/teachers.json";
 import { useToast } from "@/components/ui";
 import { shake } from "@/animation/shake";
 import { usePagination } from "@/hooks/usePagination";
 import { EMAIL_RE, PHONE_RE } from "@/lib/validations";
+import { getAllTeachers } from "@/services/TeacherService";
 
 const TeacherContext = createContext(null);
 
@@ -55,6 +55,14 @@ const emptyForm = {
   address: "",
   avatar: null,
 };
+
+const handleGetAllTeachers = async () => {
+  const res = await getAllTeachers();
+
+  return res.teachers;
+};
+
+const teacherData = await handleGetAllTeachers();
 
 const isValidPhone = (value) => {
   const digits = String(value).replace(/[^\d]/g, "");
