@@ -1,0 +1,200 @@
+/* ============================================================
+   DESIGN TOKENS — change values here to restyle the whole app
+   Source of truth: DESIGN_SYSTEM.md
+   ============================================================ */
+:root {
+  /* ---- §1 Brand (verbatim from DESIGN_SYSTEM.md) ---- */
+  --color-green: #7ed957; /* action only — CTAs, active states */
+  --color-deep-green: #0b3b2e; /* dark surface / body text */
+  --color-black: #000000; /* true-black detail only — never body text */
+  --color-peach: #fbf0dc; /* warm neutral background */
+
+  /* ---- Semantic aliases ----
+     The app addresses color through these names at ~1400 call sites.
+     Each one resolves to a brand token or a documented tint of one.
+     No new grays: every neutral is --color-deep-green at reduced
+     strength, per §1 "tint grays from --color-deep-green". */
+
+  /* Action. Green is the only accent — §4 rule 5, §4 rule 6 (~10%). */
+  --color-primary: var(--color-green);
+  --color-primary-hover: color-mix(
+    in srgb,
+    var(--color-green) 88%,
+    var(--color-deep-green)
+  );
+  --color-primary-active: color-mix(
+    in srgb,
+    var(--color-green) 76%,
+    var(--color-deep-green)
+  );
+  --color-primary-light: color-mix(in srgb, var(--color-green) 18%, #ffffff);
+  --color-primary-soft: color-mix(in srgb, var(--color-green) 38%, #ffffff);
+
+  /* Surfaces.
+     DOCUMENTED EXTENSION: white is not a §1 token, but the app layers
+     cards on a page and peach-on-peach leaves them invisible. White is
+     the one added value; everything on it is deep-green tinted. */
+  --color-bg: var(--color-peach); /* page — the 60% */
+  --color-surface: #ffffff; /* raised card — the 30% */
+  --color-surface-alt: color-mix(
+    in srgb,
+    var(--color-deep-green) 4%,
+    #ffffff
+  );
+  --color-surface-dark: var(--color-deep-green); /* inverted sections */
+  --color-on-dark: var(--color-peach);
+
+  /* Text. Deep green, never pure black (§1 usage rules).
+     Verified: primary 12.5:1 on white / 11.1:1 on peach,
+     secondary 8.0 / 7.1, muted 5.3 / 4.7 — all pass AA. */
+  --color-text-primary: var(--color-deep-green);
+  --color-text-secondary: color-mix(
+    in srgb,
+    var(--color-deep-green) 85%,
+    #ffffff
+  );
+  --color-text-muted: color-mix(
+    in srgb,
+    var(--color-deep-green) 72%,
+    #ffffff
+  );
+  /* Text ON the green action color. Deep green, NOT white:
+     white on #7ED957 is 1.76:1 (fails); deep green is 7.12:1. */
+  --color-text-on-primary: var(--color-deep-green);
+
+  /* Borders. --color-border is decorative (dividers, card edges).
+     --color-border-strong carries 3:1 and is what interactive
+     control boundaries must use (§4 rule 11 / WCAG 1.4.11). */
+  --color-border: color-mix(in srgb, var(--color-deep-green) 14%, #ffffff);
+  --color-border-strong: color-mix(
+    in srgb,
+    var(--color-deep-green) 60%,
+    #ffffff
+  );
+
+  /* ---- Status — DOCUMENTED EXTENSION ----
+     DESIGN_SYSTEM.md defines no status colors, but attendance,
+     fees, maintenance and results all depend on them. Retuned to
+     sit with peach/deep-green, and deliberately pulled away from
+     #7ED957 so status never reads as the brand action color.
+     All three pass AA on white, on peach, and on their own tint. */
+  --color-success: #0f6f45;
+  --color-success-bg: color-mix(in srgb, #0f6f45 12%, #ffffff);
+  --color-danger: #b93321;
+  --color-danger-bg: color-mix(in srgb, #b93321 12%, #ffffff);
+  --color-danger-hover: color-mix(
+    in srgb,
+    #b93321 85%,
+    var(--color-deep-green)
+  );
+  --color-warning: #8f5e0c;
+  --color-warning-bg: color-mix(in srgb, #8f5e0c 12%, #ffffff);
+
+  /* Neutral category. The app carries a 5-hue categorical set
+     (amber/green/red/blue/purple); the first three map to the status
+     colors above, and the remaining two resolve to deep-green tints
+     rather than new hues — §1 "tint grays from --color-deep-green".
+     Two weights, because one does not fit both jobs:
+       -bg   pale, for pills sitting beside the status pills
+       -fill heavier, for heatmap/matrix cells where a pale tint
+             would be mistaken for an empty cell */
+  --color-neutral: var(--color-deep-green);
+  --color-neutral-bg: color-mix(in srgb, var(--color-deep-green) 12%, #ffffff);
+  --color-neutral-fill: color-mix(
+    in srgb,
+    var(--color-deep-green) 40%,
+    #ffffff
+  );
+
+  --color-avatar-ring: #ffffff;
+
+  /* ---- §2 Typography ----
+     One family. Google Sans Flex is a variable font and is NOT on the
+     public Google Fonts CSS API — drop licensed files into
+     /public/fonts and uncomment the @font-face block in base.css.
+     Until then this falls through to system-ui, which is the intended
+     graceful degradation, not a second typeface. */
+  --font-family: "Google Sans Flex", system-ui, -apple-system, sans-serif;
+  --font-sans: var(--font-family); /* §2 alias */
+
+  /* Type scale — §2 exactly. Six steps, no more. */
+  --text-display: 48px; /* hero headline, one per screen */
+  --text-h1: 32px; /* page / section titles */
+  --text-h2: 24px; /* subsection titles, stat values */
+  --text-body: 16px; /* default body */
+  --text-small: 14px; /* secondary text, metadata */
+  --text-caption: 12px; /* labels, timestamps — sentence case */
+
+  /* Legacy size names mapped onto the six §2 steps.
+     The app's 13px and 18px steps have no slot in the scale and
+     collapse into 14px and 24px respectively. */
+  --fs-xs: var(--text-caption); /* 12 → 12 */
+  --fs-sm: var(--text-small); /* 13 → 14 */
+  --fs-base: var(--text-small); /* 14 → 14 */
+  --fs-md: var(--text-body); /* 16 → 16 */
+  --fs-lg: var(--text-h2); /* 18 → 24 */
+  --fs-xl: var(--text-h2); /* 22 → 24 */
+  --fs-2xl: var(--text-h1); /* 28 → 32 */
+  --fs-hero: var(--text-display); /* 40 → 48 */
+
+  /* Weights — §2 pairs a weight to each step. */
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --fw-extrabold: 700; /* §2 tops out at 700 */
+
+  --leading-body: 1.5;
+  --leading-tight: 1.25;
+  --measure: 80ch; /* §2 line length cap */
+
+  /* ---- §3 Spacing — 8pt grid, verbatim ----
+     Call sites were remapped by pixel value, not by token number,
+     so the app keeps its density instead of doubling. */
+  --space-0: 0px;
+  --space-1: 8px; /* xs  — icon-to-label */
+  --space-2: 16px; /* sm  — field gaps, inline spacing */
+  --space-3: 24px; /* md  — card padding, small section gaps */
+  --space-4: 32px; /* lg  — component-to-component */
+  --space-5: 40px; /* xl  — section padding (mobile) */
+  --space-6: 48px; /* 2xl — section padding (tablet) */
+  --space-7: 64px; /* 3xl — section padding (desktop) */
+  --space-8: 80px; /* 4xl — large section breaks */
+  --space-9: 96px; /* 5xl — hero / major section spacing */
+  --space-10: 128px; /* 6xl — page-level rhythm */
+
+  /* ---- Radius ----
+     DESIGN_SYSTEM.md specifies no radius scale. Kept as-is and
+     assigned BY COMPONENT ROLE rather than uniformly, which is the
+     §5 anti-pattern about identical rounded cards everywhere. */
+  --radius-sm: 8px; /* controls: inputs, buttons, chips */
+  --radius-md: 12px; /* data containers: tables, panels */
+  --radius-lg: 16px; /* raised cards */
+  --radius-xl: 20px; /* modals, drawers */
+  --radius-full: 999px; /* pills, avatars only */
+
+  /* ---- Shadow — tinted from deep green, never neutral black ----
+     §5 calls out the generic rgba(0,0,0,.1) card shadow. */
+  --shadow-sm: 0 1px 2px rgba(11, 59, 46, 0.06);
+  --shadow-md: 0 8px 24px rgba(11, 59, 46, 0.08);
+  --shadow-lg: 0 16px 40px rgba(11, 59, 46, 0.14);
+  --shadow-primary: 0 8px 20px rgba(11, 59, 46, 0.18);
+
+  /* ---- Focus ring ----
+     §6 asks for a green focus ring, but #7ED957 is 1.76:1 on white
+     and 1.56:1 on peach — it cannot carry the 3:1 that §4 rule 11
+     requires. Resolved as a double ring: green inner (brand signal)
+     + deep-green outer (the ring that actually carries contrast).
+     Passes on white, peach and green surfaces alike. */
+  --focus-ring: 0 0 0 2px var(--color-green), 0 0 0 4px var(--color-deep-green);
+  --focus-ring-on-dark: 0 0 0 2px var(--color-deep-green),
+    0 0 0 4px var(--color-green);
+
+  /* ---- Layout ---- */
+  --sidebar-width: 264px;
+  --topbar-height: 76px;
+  --mobile-topbar-height: 60px;
+  --tap-target: 44px; /* §4 rule 11 minimum */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 220ms cubic-bezier(0.4, 0, 0.2, 1);
+}

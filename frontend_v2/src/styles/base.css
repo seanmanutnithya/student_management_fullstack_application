@@ -1,0 +1,142 @@
+/* ============================================================
+   RESET / BASE
+   ============================================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html,
+body {
+  height: 100%;
+}
+/* §2 — Google Sans Flex is a variable font and is NOT served by the
+   public Google Fonts CSS API. Drop the licensed .woff2 into
+   /public/fonts and uncomment to activate; until then the stack in
+   --font-family falls through to system-ui.
+
+@font-face {
+  font-family: "Google Sans Flex";
+  src: url("/fonts/GoogleSansFlex.woff2") format("woff2-variations");
+  font-weight: 400 700;
+  font-stretch: 75% 125%;
+  font-display: swap;
+}
+*/
+
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  font-size: var(--text-body);
+  font-weight: var(--fw-regular);
+  line-height: var(--leading-body);
+  color: var(--color-text-primary);
+  background: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* §2 type scale — size and weight do the work, one family only. */
+h1,
+.text-h1 {
+  font-size: var(--text-h1);
+  font-weight: var(--fw-bold);
+  line-height: var(--leading-tight);
+}
+h2,
+.text-h2 {
+  font-size: var(--text-h2);
+  font-weight: var(--fw-semibold);
+  line-height: var(--leading-tight);
+}
+h3 {
+  font-size: var(--text-body);
+  font-weight: var(--fw-semibold);
+  line-height: var(--leading-tight);
+}
+small,
+.text-small {
+  font-size: var(--text-small);
+  font-weight: var(--fw-regular);
+}
+.text-display {
+  font-size: var(--text-display);
+  font-weight: var(--fw-bold);
+  font-stretch: 112%; /* §2 wide axis — display only */
+  line-height: var(--leading-tight);
+}
+/* §2 — labels and timestamps are sentence case, never tracked-out caps. */
+.text-caption {
+  font-size: var(--text-caption);
+  font-weight: var(--fw-medium);
+}
+
+/* §2 — cap body copy at ~80 characters. */
+p {
+  max-width: var(--measure);
+}
+img {
+  max-width: 100%;
+  display: block;
+}
+button,
+input,
+select {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+button {
+  cursor: pointer;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+/* §6 asks for a green focus ring; on light surfaces #7ED957 is only
+   1.56:1, which cannot satisfy the 3:1 that §4 rule 11 requires.
+   Double ring instead: green inner reads as brand, deep-green outer
+   carries the contrast. Transparent outline keeps it visible in
+   forced-colors / Windows high-contrast mode. */
+:focus-visible {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  box-shadow: var(--focus-ring);
+  border-radius: var(--radius-sm);
+}
+.surface-dark :focus-visible {
+  box-shadow: var(--focus-ring-on-dark);
+}
+
+/* Opt-in utility: hide the native scrollbar without blocking scrolling
+   (wheel/trackpad/touch/keyboard all still work). Applied per page via
+   the useHideScrollbar hook — the viewport scrollbar is painted against
+   <html>, not <body>, so both carry the class. */
+html.hide-scrollbar,
+body.hide-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* old Edge/IE */
+}
+html.hide-scrollbar::-webkit-scrollbar,
+body.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome/Safari/new Edge */
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
