@@ -200,6 +200,12 @@
 .search-field input::placeholder {
   color: var(--color-text-muted);
 }
+/* The wrapper already shows the focus ring via :focus-within; suppress the
+   global one on the input so the two don't stack as a double border. */
+.search-field input:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
 .search-field--sm {
   height: 40px;
   width: 220px;
