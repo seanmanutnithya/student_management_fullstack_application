@@ -2,14 +2,13 @@ const Students = require("../../models/Students");
 const { checkTargetId } = require("../../helper/validate");
 
 const logs_error = require("../../helper/logs_error");
-const sendTelegramMessage = require("../../helper/sendTelegramMessage");
 const fetchAllData = require("../../helper/fetchAllData");
 
 const deleteStudent = async (req, res) => {
   try {
     const { id } = req.params;
     const student = await Students.findByPk(id);
-    if (!Students) {
+    if (!student) {
       return res.status(404).json({
         stats: false,
         message: "Student not found",
@@ -26,10 +25,10 @@ const deleteStudent = async (req, res) => {
         <b>Phone:</b> <code>${result.phone}</code>
         <b>Remark:</b> ${result.remark}
     `.trim();
-    await sendTelegramMessage(message);
+    // await sendTelegramMessage(message);
     res.status(200).json({
       status: true,
-      message: "Deleted student!",
+      message: "student deleted.",
     });
   } catch (error) {
     const content = error.message;
