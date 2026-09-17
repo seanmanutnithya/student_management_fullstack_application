@@ -9,8 +9,8 @@ function missingValues(field) {
   return missing;
 }
 
-async function checkTargetId(targetId) {
-  const students = await fetchAllData("students");
+async function checkTargetId(targetId, table) {
+  const students = await fetchAllData(table);
 
   const index = await students.findIndex((idx) => idx.id == targetId);
 

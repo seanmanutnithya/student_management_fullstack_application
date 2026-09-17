@@ -1,8 +1,9 @@
-const { studentDB, authDB } = require("../config/config");
+const { studentDB, authDB, teachersDB } = require("../config/config");
 
 const dbByTable = {
   students: studentDB,
   auths: authDB,
+  teachers: teachersDB,
 };
 
 async function fetchAllData(table) {

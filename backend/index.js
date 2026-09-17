@@ -5,6 +5,7 @@ const cardpaywayRoute = require("./src/router/cardpayway.route");
 // node modules
 const express = require("express");
 const cors = require("cors");
+const teacherRoute = require("./src/router/teacher.route");
 
 const app = express();
 app.use(express.json());
@@ -15,6 +16,7 @@ const PORT = 3000;
 student_managementRoute(app);
 authRoute(app);
 cardpaywayRoute(app);
+teacherRoute(app);
 
 app.listen(PORT, () => {
   console.log(`server is running on http://localhost:${PORT}`);

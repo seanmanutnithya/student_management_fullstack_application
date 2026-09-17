@@ -39,6 +39,24 @@ const sequelizeAuthDb = new Sequelize(
   },
 );
 
+const sequelizeTeacherDB = new Sequelize(
+  process.env.TEACHER_DB_NAME,
+  process.env.TEACHER_DB_USER,
+  process.env.TEACHER_DB_PASSWORD || "",
+  {
+    host: process.env.TEACHER_HOST,
+    port: process.env.TEACHER_DB_PORT,
+    dialect: "mysql",
+    logging: false,
+    pool: {
+      max: 5,
+      min: 0,
+      acquire: 30000,
+      idle: 10000,
+    },
+  },
+);
+
 async function testConnection() {
   try {
     await sequelizeAuthDb.authenticate();
@@ -50,4 +68,4 @@ async function testConnection() {
 
 testConnection();
 
-module.exports = { sequelizeStudentDb, sequelizeAuthDb };
+module.exports = { sequelizeStudentDb, sequelizeAuthDb, sequelizeTeacherDB };

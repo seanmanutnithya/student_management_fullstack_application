@@ -9,6 +9,9 @@ const STUDENT_DB_USER = process.env.STUDENT_DB_USER;
 const AUTH_DB_HOST = process.env.AUTH_DB_HOST;
 const AUTH_DB_USER = process.env.AUTH_DB_USER;
 
+const TEACHER_DB_HOST = process.env.TEACHER_DB_HOST;
+const TEACHER_DB_USER = process.env.TEACHER_DB_USER;
+
 const studentDB = mysql.createPool({
   host: STUDENT_DB_HOST,
   user: STUDENT_DB_USER,
@@ -23,4 +26,11 @@ const authDB = mysql.createPool({
   database: "auth_management",
 });
 
-module.exports = { studentDB, authDB };
+const teachersDB = mysql.createPool({
+  host: TEACHER_DB_HOST,
+  user: TEACHER_DB_USER,
+  password: "",
+  database: "student_management",
+});
+
+module.exports = { studentDB, authDB, teachersDB };
