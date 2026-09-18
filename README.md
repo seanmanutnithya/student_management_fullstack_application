@@ -31,7 +31,7 @@
 
 ## 🧭 What this is
 
-Most school offices still run on paper registers, a shared Excel file and a WhatsApp group. Enrolment lives in one place, attendance in another, fees in a third, and nobody can answer a simple question — *how many students in Grade 7 missed more than three days this month?* — without half an hour of cross-referencing.
+Most school offices still run on paper registers, a shared Excel file and a WhatsApp group. Enrolment lives in one place, attendance in another, fees in a third, and nobody can answer a simple question — _how many students in Grade 7 missed more than three days this month?_ — without half an hour of cross-referencing.
 
 This project is one dashboard for the whole school. An administrator signs in and can enrol a student, mark a register, issue a library book, build next term's timetable, enter exam marks, publish a notice to parents, assign a bus seat and allocate a hostel room — from the same interface, on a phone or a desktop.
 
@@ -47,19 +47,19 @@ I'm a full-stack developer building toward freelance work, and I wanted a portfo
 - **The unglamorous parts.** Duplicate-key errors mapped back to the exact input that caused them. Date columns that survive a timezone round trip. Avatar uploads that don't blow past a storage quota. Deleting twenty students without twenty round trips blocking the UI.
 - **Something a real school could actually adopt.** It's designed with Cambodian schools in mind — a Khmer language option, Asia/Phnom Penh as the default timezone, and **Bakong KHQR** alongside Stripe for fee payments, so parents can pay with the banking app they already have.
 
-The codebase is also written to be read. Comments explain *why* a decision was made, not what the line does — the reasoning behind a workaround is the part you can't recover later.
+The codebase is also written to be read. Comments explain _why_ a decision was made, not what the line does — the reasoning behind a workaround is the part you can't recover later.
 
 ---
 
 ## 👥 Who it's for
 
-| Audience | What they get |
-|---|---|
-| **Small and mid-size private schools** | One system instead of five spreadsheets — enrolment, attendance, exams, fees and communication in one place |
-| **Language centers & academies** | Class rosters, timetables and attendance without enterprise-software pricing |
-| **School administrators** | A dashboard that answers questions in seconds: who's absent, who's overdue, which class is over capacity |
-| **Teachers** | Mark a register in one screen, enter exam marks with autosave, see their own weekly workload |
-| **Developers** | A reference full-stack app — React 19 + Context architecture, Express 5 REST API, Sequelize models, file uploads, OTP email auth |
+| Audience                               | What they get                                                                                                                    |
+| -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| **Small and mid-size private schools** | One system instead of five spreadsheets — enrolment, attendance, exams, fees and communication in one place                      |
+| **Language centers & academies**       | Class rosters, timetables and attendance without enterprise-software pricing                                                     |
+| **School administrators**              | A dashboard that answers questions in seconds: who's absent, who's overdue, which class is over capacity                         |
+| **Teachers**                           | Mark a register in one screen, enter exam marks with autosave, see their own weekly workload                                     |
+| **Developers**                         | A reference full-stack app — React 19 + Context architecture, Express 5 REST API, Sequelize models, file uploads, OTP email auth |
 
 ---
 
@@ -67,21 +67,21 @@ The codebase is also written to be read. Comments explain *why* a decision was m
 
 ### Core modules
 
-| Module | What it does |
-|---|---|
-| 🏠 **Dashboard** | Live stat cards, enrolment and attendance charts, recent activity feed, upcoming events |
-| 👨‍🎓 **Students** | Full CRUD, scored live search by name or ID, bulk select and delete, paginated table (desktop) and cards (mobile), profile photo upload, detail view with attendance / results / fees / documents tabs |
-| 👩‍🏫 **Teachers** | Directory with department filters, summary stats, add/edit forms with live validation, profile photos, detail view with weekly schedule |
-| 📚 **Library** | Catalog with availability states, borrow / return / reserve flows, waiting queues, automatic overdue detection and fine calculation, per-member borrowing history |
-| ✅ **Attendance** | Daily register marking, leave-request approvals, 30-day heatmap, absence-reason breakdown, at-risk student watch list |
-| 📖 **Subjects** | Catalog with grading-weight editor (validated to 100%), prerequisite chains with **cycle detection**, syllabus versioning, bulk class assignment |
-| 🏫 **Classes** | Sections with capacity rings, roster drawer with drag-and-drop transfers, class comparison, end-of-year promotion wizard |
-| 📅 **Routine** | Drag-and-drop timetable builder with **live clash detection**, teacher workload balancing, absence cover assignment, bell-schedule editor, print view |
-| 📝 **Exams** | Paper planner with conflict checks, mark entry with autosave, publish gating, grade analytics, seating plans, retake tracking |
-| 🔔 **Notices** | Composer with layered audience targeting and live reach count, templates with placeholders, read tracking, archive |
-| 🚌 **Transport** | Routes and stops, fleet records, seat occupancy, transport fees, maintenance and incident logs |
-| 🏨 **Hostel** | Room allocation with eligibility checks, gate in/out log, leave approvals, warden rota coverage, maintenance tickets |
-| ⚙️ **Account** | Profile, password change, 2FA setup, active sessions, notification preferences, language and timezone |
+| Module            | What it does                                                                                                                                                                                           |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 🏠 **Dashboard**  | Live stat cards, enrolment and attendance charts, recent activity feed, upcoming events                                                                                                                |
+| 👨‍🎓 **Students**   | Full CRUD, scored live search by name or ID, bulk select and delete, paginated table (desktop) and cards (mobile), profile photo upload, detail view with attendance / results / fees / documents tabs |
+| 👩‍🏫 **Teachers**   | Directory with department filters, summary stats, add/edit forms with live validation, profile photos, detail view with weekly schedule                                                                |
+| 📚 **Library**    | Catalog with availability states, borrow / return / reserve flows, waiting queues, automatic overdue detection and fine calculation, per-member borrowing history                                      |
+| ✅ **Attendance** | Daily register marking, leave-request approvals, 30-day heatmap, absence-reason breakdown, at-risk student watch list                                                                                  |
+| 📖 **Subjects**   | Catalog with grading-weight editor (validated to 100%), prerequisite chains with **cycle detection**, syllabus versioning, bulk class assignment                                                       |
+| 🏫 **Classes**    | Sections with capacity rings, roster drawer with drag-and-drop transfers, class comparison, end-of-year promotion wizard                                                                               |
+| 📅 **Routine**    | Drag-and-drop timetable builder with **live clash detection**, teacher workload balancing, absence cover assignment, bell-schedule editor, print view                                                  |
+| 📝 **Exams**      | Paper planner with conflict checks, mark entry with autosave, publish gating, grade analytics, seating plans, retake tracking                                                                          |
+| 🔔 **Notices**    | Composer with layered audience targeting and live reach count, templates with placeholders, read tracking, archive                                                                                     |
+| 🚌 **Transport**  | Routes and stops, fleet records, seat occupancy, transport fees, maintenance and incident logs                                                                                                         |
+| 🏨 **Hostel**     | Room allocation with eligibility checks, gate in/out log, leave approvals, warden rota coverage, maintenance tickets                                                                                   |
+| ⚙️ **Account**    | Profile, password change, 2FA setup, active sessions, notification preferences, language and timezone                                                                                                  |
 
 ### Platform features
 
@@ -91,19 +91,19 @@ The codebase is also written to be read. Comments explain *why* a decision was m
 - 📱 **Responsive throughout** — every table has a mobile card layout
 - 🎬 **GSAP animation** on page load, tab changes, modals, row entrances and form validation errors
 - 🎨 **Design-token CSS system** shared across all 13 modules
-- 📋 **Server-side validation** that reports *which field* failed and *why*, so the form can highlight it
+- 📋 **Server-side validation** that reports _which field_ failed and _why_, so the form can highlight it
 
 ---
 
 ## 📊 Project status
 
-| Module | UI | Logic | REST API | Database |
-|---|:--:|:--:|:--:|:--:|
-| Students | ✅ | ✅ | ✅ | ✅ |
-| Teachers | ✅ | ✅ | 🟡 read + uploads | 🟡 partial |
-| Auth (signup / OTP / reset) | ✅ | ✅ | 🟡 backend ready | ✅ |
-| Library · Attendance · Subjects · Classes · Routine · Exams · Notices · Transport · Hostel · Account | ✅ | ✅ | ⬜ seed data | ⬜ |
-| Payments | ⬜ | ⬜ | 🟡 scaffolded | — |
+| Module                                                                                               | UI  | Logic |     REST API      |  Database  |
+| ---------------------------------------------------------------------------------------------------- | :-: | :---: | :---------------: | :--------: |
+| Students                                                                                             | ✅  |  ✅   |        ✅         |     ✅     |
+| Teachers                                                                                             | ✅  |  ✅   | 🟡 read + uploads | 🟡 partial |
+| Auth (signup / OTP / reset)                                                                          | ✅  |  ✅   | 🟡 backend ready  |     ✅     |
+| Library · Attendance · Subjects · Classes · Routine · Exams · Notices · Transport · Hostel · Account | ✅  |  ✅   |   ⬜ seed data    |     ⬜     |
+| Payments                                                                                             | ⬜  |  ⬜   |   🟡 scaffolded   |     —      |
 
 ✅ done · 🟡 in progress · ⬜ not started
 
@@ -198,63 +198,7 @@ CREATE TABLE auths (
 );
 ```
 
-### 3. Configure the environment
-
-Create **`backend/.env`**:
-
-```ini
-# --- Student database ---
-STUDENT_HOST=localhost
-STUDENT_DB_HOST=localhost
-STUDENT_DB_NAME=student_management
-STUDENT_DB_USER=root
-STUDENT_DB_PASSWORD=
-STUDENT_DB_PORT=3306
-
-# --- Auth database ---
-AUTH_HOST=localhost
-AUTH_DB_HOST=localhost
-AUTH_DB_NAME=auth_management
-AUTH_DB_USER=root
-AUTH_DB_PASSWORD=
-AUTH_DB_PORT=3306
-
-# --- Teacher database (same server as students) ---
-TEACHER_HOST=localhost
-TEACHER_DB_HOST=localhost
-TEACHER_DB_NAME=student_management
-TEACHER_DB_USER=root
-TEACHER_DB_PASSWORD=
-TEACHER_DB_PORT=3306
-
-# --- JWT ---
-SECRET_TOKEN=change_me_to_a_long_random_string
-
-# --- OTP email (Gmail app password) ---
-MAIL_USER=you@gmail.com
-APP_PASSWORD=your_16_char_app_password
-ADMIN_GMAIL=admin@gmail.com
-
-# --- Optional: Telegram notifications ---
-TELEGRAM_BOT_TOKEN=
-CHAT_ID=
-
-# --- Optional: payments ---
-STRIPE_SECRET_KEY=
-BAKONG_ACCOUNT_ID=
-MERCHANT_NAME=
-MERCHANT_CITY=
-MERCHANT_PHONE=
-STORE_LABEL=
-```
-
-Create **`frontend_v2/.env`**:
-
-```ini
-VITE_API_BASE_URL=http://localhost:3000/api/v1
-```
-
-### 4. Install dependencies and run
+### 3. Install dependencies and run
 
 **Backend** — starts on `http://localhost:3000`
 
@@ -323,27 +267,27 @@ npm run lint       # oxlint
 
 All routes are prefixed `/api/v1`.
 
-| Method | Endpoint | Description |
-|---|---|---|
-| `GET` | `/student/get/all` | List all students |
-| `GET` | `/student/get/:id` | Single student |
-| `POST` | `/student/create` | Create — validates required and unique fields |
-| `PUT` | `/student/update/:targetId` | Update (the ID itself can change) |
-| `DELETE` | `/student/delete/:id` | Delete |
-| `POST` | `/student/:id/avatar` | Upload profile photo (multipart) |
-| `GET` | `/teacher/get/all` | List all teachers |
-| `POST` | `/teacher/create` | Create |
-| `PUT` | `/teacher/update/:targetId` | Update |
-| `DELETE` | `/teacher/delete/:id` | Delete |
-| `POST` | `/teacher/:id/avatar` | Upload profile photo (multipart) |
-| `POST` | `/auth/signup` | Hash password, email an OTP |
-| `POST` | `/auth/otp/verify` | Verify OTP and create the account |
-| `POST` | `/auth/login` | Email + password login |
-| `POST` | `/auth/send-otp` | Password-reset code |
-| `POST` | `/auth/reset-password` | Set a new password |
-| `POST` | `/cardpayway/stripe` | Create a Stripe Checkout session |
-| `POST` | `/cardpayway/generate-khqr` | Generate a Bakong KHQR code |
-| `POST` | `/cardpayway/verify` | Verify a KHQR payment |
+| Method   | Endpoint                    | Description                                   |
+| -------- | --------------------------- | --------------------------------------------- |
+| `GET`    | `/student/get/all`          | List all students                             |
+| `GET`    | `/student/get/:id`          | Single student                                |
+| `POST`   | `/student/create`           | Create — validates required and unique fields |
+| `PUT`    | `/student/update/:targetId` | Update (the ID itself can change)             |
+| `DELETE` | `/student/delete/:id`       | Delete                                        |
+| `POST`   | `/student/:id/avatar`       | Upload profile photo (multipart)              |
+| `GET`    | `/teacher/get/all`          | List all teachers                             |
+| `POST`   | `/teacher/create`           | Create                                        |
+| `PUT`    | `/teacher/update/:targetId` | Update                                        |
+| `DELETE` | `/teacher/delete/:id`       | Delete                                        |
+| `POST`   | `/teacher/:id/avatar`       | Upload profile photo (multipart)              |
+| `POST`   | `/auth/signup`              | Hash password, email an OTP                   |
+| `POST`   | `/auth/otp/verify`          | Verify OTP and create the account             |
+| `POST`   | `/auth/login`               | Email + password login                        |
+| `POST`   | `/auth/send-otp`            | Password-reset code                           |
+| `POST`   | `/auth/reset-password`      | Set a new password                            |
+| `POST`   | `/cardpayway/stripe`        | Create a Stripe Checkout session              |
+| `POST`   | `/cardpayway/generate-khqr` | Generate a Bakong KHQR code                   |
+| `POST`   | `/cardpayway/verify`        | Verify a KHQR payment                         |
 
 ---
 
