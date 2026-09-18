@@ -12,16 +12,10 @@ import {
   handleFetchAllStudentData,
   handleMultipleDelete,
 } from "@/services/studentService";
-import {
-  persistAvatar as persistAvatarTo,
-  withStoredAvatars as withStoredAvatarsFrom,
-} from "@/utils/avatarStorage";
-import { fileToThumbnailDataUrl } from "@/utils/image";
+import { handleUploadStudentImage } from "@/services/uploadService";
 import { usePagination } from "@/hooks/usePagination";
 
 const StudentContext = createContext(null);
-
-const AVATAR_STORAGE_KEY = "studentAvatars";
 
 const PAGE_SIZE = 20;
 
@@ -32,12 +26,6 @@ const DUPLICATE_FIELD_MESSAGES = {
   phone: "This phone number is already registered.",
   email: "This email is already registered.",
 };
-
-const withStoredAvatars = (list) =>
-  withStoredAvatarsFrom(AVATAR_STORAGE_KEY, list);
-
-const persistAvatar = (id, dataUrl) =>
-  persistAvatarTo(AVATAR_STORAGE_KEY, id, dataUrl);
 
 export function useAvatarUpload({ onChange, initialSrc = null } = {}) {
   const [preview, setPreview] = useState(initialSrc);
@@ -102,9 +90,7 @@ export function StudentProvider({ children }) {
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  const [students, setStudents] = useState(() =>
-    withStoredAvatars(studentData),
-  );
+  const [students, setStudents] = useState(studentData);
   const [selectedIds, setSelectedIds] = useState([]);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [pendingDeleteIds, setPendingDeleteIds] = useState(null);
@@ -168,7 +154,7 @@ export function StudentProvider({ children }) {
      fills once the fetch resolves — a useState initialiser runs once, so
      without this the list stayed empty no matter what arrived. */
   useEffect(() => {
-    setStudents(withStoredAvatars(studentData));
+    setStudents(studentData);
   }, [studentData]);
   const scoreMatch = (studentData, query) => {
     const q = query.toLowerCase();
@@ -291,7 +277,12 @@ export function StudentProvider({ children }) {
   const openAddStudent = async () => {
     setErrors({});
     setIsDetailForm(true);
-    setFormData({ ...regEmptyForm, ...detailEmptyForm, avatar: null });
+    setFormData({
+      ...regEmptyForm,
+      ...detailEmptyForm,
+      avatar: null,
+      avatarFile: null,
+    });
     setModalOpen(true);
   };
   const openDetail = (id) => {
@@ -302,16 +293,15 @@ export function StudentProvider({ children }) {
     setDetailOpen(false);
     setOpenStudent(null);
   };
-  const updateStudentAvatar = (id, dataUrl) => {
-    persistAvatar(id, dataUrl);
-    setStudents((prev) =>
-      prev.map((s) => (s.id === id ? { ...s, avatar: dataUrl } : s)),
-    );
+  const updateStudentAvatar = (id, avatar) => {
+    setStudents((prev) => prev.map((s) => (s.id === id ? { ...s, avatar } : s)));
     setOpenStudent((prev) =>
-      prev && prev.id === id ? { ...prev, avatar: dataUrl } : prev,
+      prev && prev.id === id ? { ...prev, avatar } : prev,
     );
   };
 
+  /* Detail view: the student already exists, so the file goes straight to the
+     server and what we keep is the path it was stored at. */
   const handleAvatarChange = async (file) => {
     if (!openStudent) return;
     if (!file) {
@@ -319,30 +309,32 @@ export function StudentProvider({ children }) {
       return;
     }
     try {
-      updateStudentAvatar(openStudent.id, await fileToThumbnailDataUrl(file));
+      const { avatar } = await handleUploadStudentImage(file, openStudent.id);
+      updateStudentAvatar(openStudent.id, avatar);
+      toast.success("Photo updated");
     } catch (error) {
-      console.error("Could not read avatar", error);
-      toast.error("Couldn't read that image.");
+      console.error("Could not upload avatar", error);
+      toast.error(
+        error.response?.data?.message ?? "Couldn't upload that image.",
+      );
     }
   };
 
-  const handleAvatarUpload = async (file) => {
-    if (!file) {
-      setFormData((prev) => ({ ...prev, avatar: null }));
-      return;
-    }
-    try {
-      const avatar = await fileToThumbnailDataUrl(file);
-      setFormData((prev) => ({ ...prev, avatar }));
-    } catch (error) {
-      console.error("Could not read avatar", error);
-      toast.error("Couldn't read that image.");
-    }
+  /* Create/edit form: the student may not have an id yet, so hold the file and
+     let saveStudent upload it once there is a record to attach it to. Abandoning
+     the form then costs nothing on the server. AvatarUpload shows its own local
+     preview meanwhile, so there is nothing to read here. */
+  const handleAvatarUpload = (file) => {
+    setFormData((prev) =>
+      file ? { ...prev, avatarFile: file } : (
+        { ...prev, avatar: null, avatarFile: null }
+      ),
+    );
   };
   const openEdit = (id) => {
-    // `students` is the list to read: it carries the locally cached avatar and
-    // any student added this session. `studentData` is the raw server response,
-    // which has neither — spreading a miss from it silently blanks the form.
+    // `students` is the list to read: it carries any student added or edited
+    // this session. `studentData` is the raw server response from page load,
+    // which does not — spreading a miss from it silently blanks the form.
     const student = students.find((s) => s.id === id);
     if (!student) {
       toast.error("Couldn't find that student.");
@@ -424,16 +416,27 @@ export function StudentProvider({ children }) {
       return;
     }
 
-    // Avatars are only cached in this browser, so a failed write is worth a
-    // warning but not the student record.
-    if (data.avatar?.startsWith("data:")) {
-      persistAvatar(finalId, data.avatar);
+    /* The record has to exist before an avatar can point at it, so the upload
+       runs after the save. A failed upload is worth a warning but must not
+       discard a student the server has already accepted. */
+    let avatar = data.avatar;
+    if (data.avatarFile) {
+      try {
+        ({ avatar } = await handleUploadStudentImage(data.avatarFile, finalId));
+      } catch (error) {
+        console.error("Failed to upload avatar", error);
+        toast.error("Student saved, but the photo didn't upload.");
+      }
     }
+
+    // avatarFile is a File and has no place in the list state.
+    const { avatarFile: _discarded, ...rest } = data;
+    const saved = { ...rest, avatar, id: finalId };
 
     setStudents((prev) =>
       editingId !== null ?
-        prev.map((s) => (s.id === editingId ? { ...s, ...data } : s))
-      : [...prev, { ...data, id: finalId }],
+        prev.map((s) => (s.id === editingId ? { ...s, ...saved } : s))
+      : [...prev, saved],
     );
 
     toast.success(editingId !== null ? "Saved" : "Added");

@@ -1,4 +1,3 @@
-const fetchAllData = require("../../helper/fetchAllData");
 const { checkTargetId } = require("../../helper/validate");
 const Teachers = require("../../models/Teachers");
 

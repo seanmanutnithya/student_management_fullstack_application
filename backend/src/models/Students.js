@@ -54,8 +54,8 @@ const Students = sequelizeStudentDb.define(
       type: DataTypes.STRING(300),
       allowNull: true,
     },
-    // NOT NULL in the table but only ever holds a filename or short URL, so it
-    // cannot carry the base64 avatar the form uploads.
+    // NOT NULL in the table and only wide enough for a filename or short URL --
+    // uploads store "/uploads/<file>" here, never the image itself.
     avatar: {
       type: DataTypes.STRING(200),
       allowNull: false,

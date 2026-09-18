@@ -2,8 +2,8 @@ import api from "./axiosInstance";
 
 // createStudent.controller.js reads these off req.body directly. All but
 // `remark` are NOT NULL in the students table, so every one has to be sent.
-// `avatar` is deliberately absent: that column is a varchar(200) for a filename,
-// and the form holds a base64 data URL that neither fits nor belongs on the wire.
+// `avatar` is deliberately absent: it is set by POST /student/:id/avatar, which
+// stores the upload path. Sending it here would overwrite that with form state.
 const STUDENT_COLUMNS = [
   "id",
   "name",
