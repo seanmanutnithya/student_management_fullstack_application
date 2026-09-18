@@ -6,10 +6,12 @@ import { seedProfile } from "@/assets/data/accountSeed";
 import { AvatarUpload, Button, TextField, useToast } from "@/components/ui";
 import { useAuther } from "@/context/AuthContext";
 import { formatDate } from "@/utils/format";
+import { resolveAvatarSrc } from "@/utils/avatar";
+import { handleUploadImage } from "@/services/uploadService";
 
 const EDITABLE = ["name", "email", "phone"];
 
-const ProfileSection = () => {
+const ProfileSection = ({ teacherId }) => {
   const { toast } = useToast();
   const { isEmailValid, isPhoneValid } = useAuther();
 
@@ -41,16 +43,30 @@ const ProfileSection = () => {
     setTouched((prev) => (prev[name] ? prev : { ...prev, [name]: true }));
   }, []);
 
-  const handleAvatar = useCallback((file) => {
-    if (!file) {
-      setForm((prev) => ({ ...prev, avatar: null }));
-      return;
-    }
-    const reader = new FileReader();
-    reader.onload = () =>
-      setForm((prev) => ({ ...prev, avatar: reader.result }));
-    reader.readAsDataURL(file);
-  }, []);
+  // AvatarUpload already shows an instant local preview via createObjectURL, so
+  // what we keep here is the path the server saved — that one survives a reload.
+  const handleAvatar = useCallback(
+    async (file) => {
+      if (!file) {
+        setForm((prev) => ({ ...prev, avatar: null }));
+        return;
+      }
+      if (!teacherId) {
+        toast.error("No profile is loaded yet.");
+        return;
+      }
+      try {
+        const data = await handleUploadImage(file, teacherId);
+        setForm((prev) => ({ ...prev, avatar: data.avatar }));
+        toast.success("Photo updated");
+      } catch (error) {
+        toast.error(
+          error.response?.data?.message ?? "Couldn't upload that image.",
+        );
+      }
+    },
+    [teacherId, toast],
+  );
 
   const handleSave = () => {
     setTouched({ name: true, email: true, phone: true });
@@ -86,7 +102,10 @@ const ProfileSection = () => {
         ref={formRef}
         onSubmit={(e) => e.preventDefault()}>
         <div className="profile-identity">
-          <AvatarUpload onChange={handleAvatar} initialSrc={form.avatar} />
+          <AvatarUpload
+            onChange={handleAvatar}
+            initialSrc={resolveAvatarSrc(form.avatar)}
+          />
           <div className="profile-identity-meta">
             <h3>{saved.name}</h3>
             <div className="profile-badges">
