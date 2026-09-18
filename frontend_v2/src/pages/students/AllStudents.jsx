@@ -26,6 +26,7 @@ const AllStudents = () => {
     detailOpen,
     openDetail,
     closeDetail,
+    students,
     pagedStudents,
     page,
     pageCount,
@@ -36,13 +37,17 @@ const AllStudents = () => {
     resultCount,
   } = useStudent();
 
+  /* `openDetail` looks the student up in `students`, which is empty until the
+     fetch resolves. On a fresh load of /allstudents/:id that lookup misses, so
+     this has to re-run when the list arrives — keyed on `id` alone it never did,
+     and the detail modal opened with no student behind it. */
   useEffect(() => {
     if (id) {
       openDetail(id);
     } else {
       closeDetail();
     }
-  }, [id]);
+  }, [id, students]);
   // Page chrome is in the DOM from the first paint, so this runs once on mount.
   useGSAP(
     () => {

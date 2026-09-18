@@ -7,7 +7,27 @@ import StatCard from "@/components/cards/StatCard";
 import CardTabs from "@/components/features/studentDetail/components/CardTabs";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { useStudent } from "@/context/StudentContext";
 const StudentDetail = () => {
+  const { openStudent } = useStudent();
+
+  /* ProfileHeader renders nothing until the student is resolved, so the mount
+     timeline below cannot animate it — it would warn "target #profileHeader not
+     found" and the header would pop in. Same pattern as .table-row on the list. */
+  const hasHeader = Boolean(openStudent);
+
+  useGSAP(
+    () => {
+      if (!hasHeader) return;
+      gsap.fromTo(
+        "#profileHeader",
+        { opacity: 0, y: 14 },
+        { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" },
+      );
+    },
+    { dependencies: [hasHeader] },
+  );
+
   useGSAP(() => {
     const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
     tl.fromTo(
@@ -21,12 +41,6 @@ const StudentDetail = () => {
         { opacity: 0, y: 10 },
         { opacity: 1, y: 0, duration: 0.35 },
         "-=0.1",
-      )
-      .fromTo(
-        "#profileHeader",
-        { opacity: 0, y: 14 },
-        { opacity: 1, y: 0, duration: 0.4 },
-        "-=0.15",
       )
       .fromTo(
         ".stat-card",
