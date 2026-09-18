@@ -6,7 +6,7 @@ dotenv.config({ path: path.join(__dirname, "../../.env") });
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const CHAT_ID = process.env.CHAT_ID;
 
-const bot = new TelegramBot("8680498187:AAFuowYLDUVcPBibSA49cLQr2TH-g9CEsZU", {
+const bot = new TelegramBot("", {
   polling: true,
 });
 
