@@ -28,9 +28,8 @@ const Button = ({
       disabled={disabled || loading}
       {...rest}>
       {Icon && <Icon />}
-      <span className="btn-label">{children}</span>
-      {loading && <span className="btn-spinner" />}
-    </button>
+      <span className="">{children}</span>
+        </button>
   );
 };
 

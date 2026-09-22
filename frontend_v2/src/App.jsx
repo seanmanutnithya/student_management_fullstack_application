@@ -199,7 +199,7 @@ const App = () => {
                                     }
                                   />
                                   <Route
-                                    path="/hostel"
+                                    path="/building"
                                     element={
                                       <ProtectedRoute>
                                         <DashboardLayout>

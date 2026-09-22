@@ -54,5 +54,5 @@ export const navLinks = [
   { to: "/exam", icon: PenSquare, title: "Exam", isGroup: false },
   { to: "/notice", icon: BellRing, title: "Notice", isGroup: false },
   { to: "/bus", icon: Bus, title: "Bus", isGroup: false },
-  { to: "/hostel", icon: Building2, title: "Hostel", isGroup: false },
+  { to: "/building", icon: Building2, title: "Building", isGroup: false },
 ];

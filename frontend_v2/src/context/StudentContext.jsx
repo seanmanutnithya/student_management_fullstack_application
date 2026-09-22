@@ -27,14 +27,27 @@ const DUPLICATE_FIELD_MESSAGES = {
   email: "This email is already registered.",
 };
 
+// Mirrors the multer limit in backend/src/middleware/upload.js. Catching it
+// here means an oversized photo fails at the picker instead of after the
+// whole file has been uploaded and rejected.
+const MAX_AVATAR_BYTES = 5 * 1024 * 1024;
+const OVERSIZE_MESSAGE = "File must be less than 5MB";
+
 export function useAvatarUpload({ onChange, initialSrc = null } = {}) {
   const [preview, setPreview] = useState(initialSrc);
   const [isDragging, setIsDragging] = useState(false);
+  const [error, setError] = useState(null);
   const inputRef = useRef(null);
 
   const handleFile = useCallback(
     (file) => {
       if (!file || !file.type.startsWith("image/")) return;
+      if (file.size > MAX_AVATAR_BYTES) {
+        // Keep whatever was already picked; only the rejected file is dropped.
+        setError(OVERSIZE_MESSAGE);
+        return;
+      }
+      setError(null);
       const url = URL.createObjectURL(file);
       setPreview((prev) => {
         if (prev?.startsWith("blob:")) URL.revokeObjectURL(prev);
@@ -47,6 +60,9 @@ export function useAvatarUpload({ onChange, initialSrc = null } = {}) {
 
   const handleInputChange = (e) => {
     handleFile(e.target.files?.[0]);
+    // Without this, picking the same oversized file twice fires no change
+    // event, so the error would never come back after being cleared.
+    e.target.value = "";
   };
 
   const handleDragOver = (e) => {
@@ -66,6 +82,7 @@ export function useAvatarUpload({ onChange, initialSrc = null } = {}) {
     e.stopPropagation();
     if (preview?.startsWith("blob:")) URL.revokeObjectURL(preview);
     setPreview(null);
+    setError(null);
     onChange?.(null);
     if (inputRef.current) inputRef.current.value = "";
   };
@@ -75,6 +92,7 @@ export function useAvatarUpload({ onChange, initialSrc = null } = {}) {
   return {
     preview,
     isDragging,
+    error,
     inputRef,
     handleInputChange,
     handleDragOver,

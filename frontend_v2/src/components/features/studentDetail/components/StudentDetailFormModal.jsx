@@ -100,8 +100,8 @@ const StudentDetailFormModal = ({ student }) => {
         <AvatarUpload
           onChange={handleAvatarUpload}
           initialSrc={resolveAvatarSrc(formData.avatar)}
+          hint="PNG or JPG, up to 5MB"
         />
-        <p className="field-hint">PNG or JPG, up to 5MB</p>
       </div>
       <div className="form-grid">
         {fields.map((field, idx) => (

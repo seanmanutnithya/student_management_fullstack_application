@@ -1,11 +1,12 @@
 import React from "react";
-import { Camera, User, X } from "lucide-react";
+import { AlertCircle, Camera, User, X } from "lucide-react";
 import { useAvatarUpload } from "@/context/StudentContext";
 
-const AvatarUpload = ({ onChange, initialSrc = null }) => {
+const AvatarUpload = ({ onChange, initialSrc = null, hint = null }) => {
   const {
     preview,
     isDragging,
+    error,
     inputRef,
     handleInputChange,
     handleDragOver,
@@ -29,12 +30,14 @@ const AvatarUpload = ({ onChange, initialSrc = null }) => {
             if (e.key === "Enter" || e.key === " ") triggerPick();
           }}
           aria-label="Upload profile photo"
+          aria-invalid={error ? true : undefined}
+          aria-describedby={error ? "profileAvatarError" : undefined}
           className={`group relative w-28 h-28 rounded-full cursor-pointer
           flex items-center justify-center overflow-hidden
           transition-all duration-200
           ${
-            isDragging ?
-              "ring-2 ring-blue-500 ring-offset-2"
+            error ? "ring-2 ring-red-500 ring-offset-2"
+            : isDragging ? "ring-2 ring-blue-500 ring-offset-2"
             : "ring-1 ring-gray-300 hover:ring-gray-400"
           }
           ${!preview ? "bg-gray-50" : "bg-gray-100"}`}>
@@ -56,8 +59,19 @@ const AvatarUpload = ({ onChange, initialSrc = null }) => {
           </div>
         </div>
 
+        {/* Error badge — sits on the icon so the failure is visible even
+            when the hint below is off-screen in a scrolled modal. */}
+        {error && (
+          <span
+            aria-hidden="true"
+            className="absolute top-0 right-0 w-6 h-6 rounded-full bg-white
+              shadow-md flex items-center justify-center text-red-600">
+            <AlertCircle className="w-4 h-4" strokeWidth={2} />
+          </span>
+        )}
+
         {/* Remove button */}
-        {preview && (
+        {preview && !error && (
           <button
             type="button"
             onClick={handleRemove}
@@ -88,6 +102,17 @@ const AvatarUpload = ({ onChange, initialSrc = null }) => {
           transition-colors">
         {/* {preview ? "Change photo" : "Upload photo"} */}
       </button>
+
+      {/* The hint doubles as the error slot: callers that pass a hint get it
+          swapped for the failure, callers that don't still see the error. */}
+      {(error || hint) && (
+        <p
+          id={error ? "profileAvatarError" : undefined}
+          role={error ? "alert" : undefined}
+          className={`field-hint${error ? " field-hint--error" : ""}`}>
+          {error || hint}
+        </p>
+      )}
     </div>
   );
 };

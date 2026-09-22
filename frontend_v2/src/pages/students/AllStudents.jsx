@@ -98,6 +98,7 @@ const AllStudents = () => {
     },
     { dependencies: [hasRows, page], scope: containerRef },
   );
+
   return (
     <>
       <main className="main" ref={containerRef}>

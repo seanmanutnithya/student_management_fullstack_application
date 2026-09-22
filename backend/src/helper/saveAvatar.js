@@ -1,6 +1,6 @@
 const fs = require("fs/promises");
 const path = require("path");
-const { UPLOAD_DIR } = require("../middleware/upload");
+const { UPLOAD_DIR, upload } = require("../middleware/upload");
 
 /**
  * Shared tail end of an avatar upload: check the file arrived, point the record
@@ -41,7 +41,7 @@ async function saveAvatar({ Model, id, file, res, label }) {
       .catch(() => {});
   }
 
-  return res.status(200).json({ status: true, avatar: avatarPath });
+  return res.status(200).json({ status: true, avatar: avatarPath, upload });
 }
 
 module.exports = saveAvatar;
