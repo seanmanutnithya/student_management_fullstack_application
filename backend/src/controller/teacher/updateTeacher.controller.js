@@ -24,7 +24,6 @@ const updateTeacher = async (req, res) => {
       qualification,
       joinDate,
       address,
-      avatar,
     } = req.body;
 
     const teacherData = {
@@ -39,7 +38,6 @@ const updateTeacher = async (req, res) => {
       qualification,
       joinDate,
       address,
-      avatar,
     };
     await Teachers.update({ ...teacherData }, { where: { id: targetId } });
     res.status(200).json({

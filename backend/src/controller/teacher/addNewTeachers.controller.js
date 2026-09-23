@@ -6,7 +6,6 @@ const addNewTeacher = async (req, res) => {
     const {
       id,
       name,
-      gender,
       email,
       phone,
       subject,
@@ -16,7 +15,6 @@ const addNewTeacher = async (req, res) => {
       qualification,
       joinDate,
       address,
-      avatar,
     } = req.body;
 
     const index = await checkTargetId(id, "teachers");
@@ -32,7 +30,6 @@ const addNewTeacher = async (req, res) => {
     const fields = {
       id,
       name,
-      gender,
       email,
       phone,
       subject,
@@ -42,7 +39,6 @@ const addNewTeacher = async (req, res) => {
       qualification,
       joinDate,
       address,
-      avatar,
     };
     const missing = missingValues(fields);
     if (missing.length > 0) {
@@ -55,7 +51,8 @@ const addNewTeacher = async (req, res) => {
       });
     }
 
-    const teacher = { ...fields };
+    // avatar starts empty; POST /teacher/:id/avatar sets it after the upload.
+    const teacher = { ...fields, avatar: "" };
 
     const result = await Teachers.create(teacher);
 
