@@ -1,6 +1,6 @@
 const fs = require("fs/promises");
 const path = require("path");
-const { UPLOAD_DIR, upload } = require("../middleware/upload");
+const { UPLOAD_DIR } = require("../middleware/upload");
 
 /**
  * Shared tail end of an avatar upload: check the file arrived, point the record
@@ -10,7 +10,7 @@ const { UPLOAD_DIR, upload } = require("../middleware/upload");
  * the file to disk by the time this runs, so every early return has to remove it
  * again or the upload folder fills with orphans.
  */
-async function saveAvatar({ Model, id, file, res, label }) {
+async function saveAvatar({ Model, id, file, res, label, folder }) {
   // multer leaves req.file undefined when the field name does not match or the
   // filter rejected the file.
   if (!file) {
@@ -20,7 +20,7 @@ async function saveAvatar({ Model, id, file, res, label }) {
   }
 
   // The URL path the browser will request -- not a filesystem path.
-  const avatarPath = `/uploads/${file.filename}`;
+  const avatarPath = `/uploads/${folder}/${file.filename}`;
 
   const record = await Model.findByPk(id);
   if (!record) {
@@ -35,13 +35,16 @@ async function saveAvatar({ Model, id, file, res, label }) {
 
   // Best-effort: the new avatar is already saved, so a failed cleanup must not
   // fail the request. Guarded to /uploads/ so seeded external URLs are untouched.
+  // Covers both "/uploads/<folder>/<file>" and older flat "/uploads/<file>".
   if (oldAvatar && oldAvatar.startsWith("/uploads/")) {
-    await fs
-      .unlink(path.join(UPLOAD_DIR, path.basename(oldAvatar)))
-      .catch(() => {});
+    const oldFile = path.join(UPLOAD_DIR, oldAvatar.slice("/uploads/".length));
+    const rel = path.relative(UPLOAD_DIR, oldFile);
+    if (rel && !rel.startsWith("..") && !path.isAbsolute(rel)) {
+      await fs.unlink(oldFile).catch(() => {});
+    }
   }
 
-  return res.status(200).json({ status: true, avatar: avatarPath, upload });
+  return res.status(200).json({ status: true, avatar: avatarPath });
 }
 
 module.exports = saveAvatar;
