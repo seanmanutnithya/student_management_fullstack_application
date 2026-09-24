@@ -14,10 +14,12 @@ async function postAvatar(url, file) {
   return res.data;
 }
 
+// Stored under backend uploads/teachers.
 export function handleUploadImage(file, teacherId) {
   return postAvatar(`/teacher/${teacherId}/avatar`, file);
 }
 
+// Stored under backend uploads/students.
 export function handleUploadStudentImage(file, studentId) {
   return postAvatar(`/student/${studentId}/avatar`, file);
 }
