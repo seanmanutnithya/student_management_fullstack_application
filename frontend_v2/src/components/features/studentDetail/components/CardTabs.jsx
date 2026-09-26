@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
 
 import { tabButtons } from "@/assets/data/tabs";
 import Overview from "./tabs/Overview";
@@ -10,8 +10,15 @@ import Documents from "./tabs/Documents";
 
 import { useStudent } from "@/context/StudentContext";
 
+const TAB_NAMES = tabButtons.map((t) => t.tab);
+
 const CardTabs = () => {
-  const [activeTab, setActiveTab] = useState("overview");
+  /* The active tab lives in the URL (/allstudents/studentdetail/:id/:tab), so a
+     tab can be linked to and survives a refresh. Tab links use `replace`, so
+     Back still closes the modal instead of stepping through every tab visited.
+     No tab or an unknown one falls back to Overview. */
+  const { id, tab } = useParams();
+  const activeTab = TAB_NAMES.includes(tab) ? tab : "overview";
   const { tabsRef, tabIndicatorRef, moveIndicator } = useStudent();
 
   useEffect(() => {
@@ -29,12 +36,9 @@ const CardTabs = () => {
         {tabButtons.map((t, idx) => (
           <Link
             key={idx}
-            to={"#"}
-            onClick={(e) => {
-              e.preventDefault();
-              setActiveTab(t.tab);
-              moveIndicator(e.currentTarget);
-            }}
+            to={`/allstudents/studentdetail/${id}/${t.tab}`}
+            replace
+            onClick={(e) => moveIndicator(e.currentTarget)}
             className={`detail-tab ${activeTab === t.tab ? "is-active" : ""}`}
             id={t.id}
             role={t.role}
