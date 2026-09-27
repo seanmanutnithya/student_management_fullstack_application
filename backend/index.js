@@ -10,6 +10,7 @@ const uploadRoute = require("./src/router/upload.route");
 
 const multer = require("multer");
 const { UPLOAD_DIR } = require("./src/middleware/upload");
+const homeDataRoute = require("./src/router/homeData.route");
 
 const app = express();
 app.use(express.json());
@@ -23,7 +24,7 @@ authRoute(app);
 cardpaywayRoute(app);
 teacherRoute(app);
 uploadRoute(app);
-
+homeDataRoute(app);
 // Multer rejections arrive here as errors; without this Express returns an HTML
 // stack trace and the frontend's res.json() blows up on it.
 app.use((err, req, res, next) => {
