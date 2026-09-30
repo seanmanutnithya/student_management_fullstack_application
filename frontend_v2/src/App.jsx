@@ -69,7 +69,7 @@ const App = () => {
                                     }
                                   />
                                   <Route
-                                    path="/allstudents/studentdetail/:id"
+                                    path="/allstudents/studentdetail/:id/:tab?"
                                     element={
                                       <ProtectedRoute>
                                         <DashboardLayout>
@@ -139,7 +139,7 @@ const App = () => {
                                     }
                                   />
                                   <Route
-                                    path="/subject"
+                                    path="/subject/:subjectId?/:tab?"
                                     element={
                                       <ProtectedRoute>
                                         <DashboardLayout>
@@ -149,7 +149,7 @@ const App = () => {
                                     }
                                   />
                                   <Route
-                                    path="/class"
+                                    path="/class/:tab?/:classId?"
                                     element={
                                       <ProtectedRoute>
                                         <DashboardLayout>
@@ -189,7 +189,7 @@ const App = () => {
                                     }
                                   />
                                   <Route
-                                    path="/bus"
+                                    path="/bus/:tab?"
                                     element={
                                       <ProtectedRoute>
                                         <DashboardLayout>
