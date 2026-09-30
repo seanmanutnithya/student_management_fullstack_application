@@ -51,9 +51,11 @@ const Teachers = sequelizeTeacherDB.define(
       type: DataTypes.STRING(200),
       allowNull: false,
     },
+    // Uploads store "/uploads/teachers/<file>" here, never the image itself.
     avatar: {
       type: DataTypes.STRING(255),
       allowNull: false,
+      defaultValue: "",
     },
   },
   {

@@ -61,9 +61,10 @@ const Students = sequelizeStudentDb.define(
       allowNull: false,
       defaultValue: "",
     },
-    image_url: {
-      type: DataTypes.STRING(200),
-      allowNull: true,
+    absent: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
     },
   },
   {
