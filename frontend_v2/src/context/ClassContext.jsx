@@ -2,15 +2,18 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useRef,
   useState,
 } from "react";
+import { matchPath, useLocation, useNavigate } from "react-router-dom";
 
 import {
   ATTENDANCE_THRESHOLD,
   CAPACITY_WARN,
   GRADE_THRESHOLD,
+  classTabButtons,
   seedArchived,
   seedClasses,
   teachers,
@@ -20,6 +23,9 @@ import { useToast } from "@/components/ui";
 const ClassContext = createContext(null);
 
 const SAVE_DELAY = 700;
+
+const CLASS_TABS = classTabButtons.map((t) => t.tab);
+const DEFAULT_TAB = "sections";
 
 const average = (values) =>
   values.length ?
@@ -57,12 +63,12 @@ const decorate = (klass) => {
 
 export function ClassProvider({ children }) {
   const { toast } = useToast();
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   const [classes, setClasses] = useState(seedClasses);
   const [archived, setArchived] = useState(seedArchived);
 
-  const [activeTab, setActiveTab] = useState("sections");
-  const [drawerId, setDrawerId] = useState(null);
   const [draggingStudent, setDraggingStudent] = useState(null);
   const [pendingTransfer, setPendingTransfer] = useState(null);
   const [transferring, setTransferring] = useState(false);
@@ -79,6 +85,29 @@ export function ClassProvider({ children }) {
   const [wizardTouched, setWizardTouched] = useState(false);
   const [promoting, setPromoting] = useState(false);
   const wizardFormRef = useRef(null);
+
+  /* The tab and the open roster live in the URL (/class/:tab/:classId), so
+     each can be linked to and survives a refresh, and Back closes a roster.
+     The tab comes first because class ids ("10A") can't be told apart from
+     tab names. The provider sits above <Routes>, so useParams can't see
+     either — match the path directly. */
+  const { tabParam, drawerId } = useMemo(() => {
+    const match =
+      matchPath("/class/:tab/:classId", pathname) ??
+      matchPath("/class/:tab", pathname);
+    return {
+      tabParam: match?.params.tab ?? null,
+      drawerId: match?.params.classId ?? null,
+    };
+  }, [pathname]);
+
+  const activeTab = CLASS_TABS.includes(tabParam) ? tabParam : DEFAULT_TAB;
+
+  // `replace`: switching tabs shouldn't fill history, so Back leaves the page.
+  const setActiveTab = useCallback(
+    (tab) => navigate(`/class/${tab}`, { replace: true }),
+    [navigate],
+  );
 
   /* ---------------- Derived ---------------- */
   const rows = useMemo(() => classes.map(decorate), [classes]);
@@ -137,11 +166,27 @@ export function ClassProvider({ children }) {
   );
 
   /* ---------------- Drawer ---------------- */
-  const openDrawer = useCallback((id) => setDrawerId(id), []);
-  const closeDrawer = useCallback(() => {
-    setDrawerId(null);
-    setFilterView(null);
-  }, []);
+  const openDrawer = useCallback(
+    (id) => navigate(`/class/${activeTab}/${encodeURIComponent(id)}`),
+    [navigate, activeTab],
+  );
+  const closeDrawer = useCallback(
+    () => navigate(`/class/${activeTab}`),
+    [navigate, activeTab],
+  );
+
+  // Covers every way the roster changes, including the browser's Back button,
+  // so a health filter never carries over to another class.
+  useEffect(() => setFilterView(null), [drawerId]);
+
+  // A stale or mistyped link (/class/foo, /class/sections/ZZ) falls back to
+  // the nearest valid page.
+  useEffect(() => {
+    if (tabParam && !CLASS_TABS.includes(tabParam))
+      navigate("/class", { replace: true });
+    else if (drawerId && !drawerClass)
+      navigate(`/class/${activeTab}`, { replace: true });
+  }, [tabParam, drawerId, drawerClass, activeTab, navigate]);
 
   /* ---------------- Transfer ---------------- */
   const startDrag = useCallback((student, fromId) => {
@@ -405,6 +450,7 @@ export function ClassProvider({ children }) {
       comparison,
       homeroomCounts,
       activeTab,
+      setActiveTab,
       drawerId,
       drawerClass,
       drawerTeacher,
