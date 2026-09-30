@@ -7,39 +7,24 @@ import {
   useState,
 } from "react";
 import gsap from "gsap";
-import { useNavigate } from "react-router-dom";
+import { createStaticHandler, useNavigate } from "react-router-dom";
 
 import { useToast } from "@/components/ui";
 import { shake } from "@/animation/shake";
 import { usePagination } from "@/hooks/usePagination";
 import { EMAIL_RE, PHONE_RE } from "@/lib/validations";
-import { getAllTeachers } from "@/services/TeacherService";
+import {
+  getAllTeachers,
+  handleCreateTeacher,
+  handleDeleteTeacher,
+  handleEditTeacher,
+} from "@/services/TeacherService";
+import { handleUploadImage } from "@/services/uploadService";
 
 const TeacherContext = createContext(null);
 
-const AVATAR_STORAGE_KEY = "teacherAvatars";
 const PAGE_SIZE = 10;
 const SAVE_DELAY = 900;
-
-const loadStoredAvatars = () => {
-  try {
-    return JSON.parse(localStorage.getItem(AVATAR_STORAGE_KEY)) || {};
-  } catch {
-    return {};
-  }
-};
-
-const withStoredAvatars = (list) => {
-  const stored = loadStoredAvatars();
-  return list.map((t) => (stored[t.id] ? { ...t, avatar: stored[t.id] } : t));
-};
-
-const persistAvatar = (id, dataUrl) => {
-  const stored = loadStoredAvatars();
-  if (dataUrl) stored[id] = dataUrl;
-  else delete stored[id];
-  localStorage.setItem(AVATAR_STORAGE_KEY, JSON.stringify(stored));
-};
 
 const emptyForm = {
   id: "",
@@ -54,6 +39,7 @@ const emptyForm = {
   joinDate: "",
   address: "",
   avatar: null,
+  avatarFile: null,
 };
 
 const handleGetAllTeachers = async () => {
@@ -73,25 +59,43 @@ const isValidPhone = (value) => {
   );
 };
 
+const isFilled = (value) => String(value ?? "").trim().length > 0;
+
 const validators = {
+  id: isFilled,
   name: (value) => String(value).trim().length >= 2,
   email: (value) => EMAIL_RE.test(String(value).trim()),
   phone: isValidPhone,
+  subject: isFilled,
+  dept: isFilled,
+  exp: isFilled,
+  qualification: isFilled,
+  joinDate: isFilled,
+  address: isFilled,
 };
 
 const errorMessages = {
+  id: "Please enter the teacher ID.",
   name: "Please enter the teacher's full name.",
   email: "Enter a valid email address.",
   phone: "Enter a valid phone number (7–15 digits).",
+  subject: "Please select a subject.",
+  dept: "Please select a department.",
+  exp: "Please enter the experience.",
+  qualification: "Please enter the qualification.",
+  joinDate: "Please pick the joining date.",
+  address: "Please enter the address.",
+};
+
+const DUPLICATE_MESSAGES = {
+  id: "This teacher ID already exists.",
 };
 
 export function TeacherProvider({ children }) {
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  const [teachers, setTeachers] = useState(() =>
-    withStoredAvatars(teacherData),
-  );
+  const [teachers, setTeachers] = useState(teacherData);
   const [selectedIds, setSelectedIds] = useState([]);
   const [query, setQuery] = useState("");
   const [dept, setDept] = useState("");
@@ -188,9 +192,14 @@ export function TeacherProvider({ children }) {
     });
   };
 
-  const requestDeleteSingle = (id) => {
+  const requestDeleteSingle = async (id) => {
     setPendingDeleteId(id);
     setConfirmOpen(true);
+    try {
+      await handleDeleteTeacher(id);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const requestDeleteSelected = () => {
@@ -240,9 +249,12 @@ export function TeacherProvider({ children }) {
     setErrors((prev) => ({ ...prev, [name]: !validators[name](value) }));
   };
 
-  const fieldError = (name) => (errors[name] ? errorMessages[name] : "");
+  const fieldError = (name) =>
+    typeof errors[name] === "string" ? errors[name]
+    : errors[name] ? errorMessages[name]
+    : "";
 
-  const openAddTeacher = () => {
+  const openAddTeacher = async () => {
     setEditingId(null);
     setErrors({});
     setFormData(emptyForm);
@@ -255,6 +267,7 @@ export function TeacherProvider({ children }) {
     setErrors({});
     setFormData({ ...emptyForm, ...teacher });
     setModalOpen(true);
+    // -> form data will has value after make change
   };
 
   const closeModal = () => {
@@ -264,7 +277,8 @@ export function TeacherProvider({ children }) {
     setModalOpen(false);
   };
 
-  const saveTeacher = () => {
+  // handle save
+  const saveTeacher = async () => {
     const invalid = Object.keys(validators).filter(
       (key) => !validators[key](formData[key] ?? ""),
     );
@@ -278,15 +292,52 @@ export function TeacherProvider({ children }) {
     }
 
     setSaving(true);
-    saveTimerRef.current = setTimeout(() => {
-      const finalId =
-        editingId ??
-        (formData.id.trim() || `T-${Date.now().toString().slice(-5)}`);
+    saveTimerRef.current = setTimeout(async () => {
+      const finalId = editingId ?? formData.id.trim();
+      const data = { ...formData, id: finalId };
 
-      if (formData.avatar?.startsWith("data:"))
-        persistAvatar(finalId, formData.avatar);
+      try {
+        if (editingId !== null) await handleEditTeacher(editingId, data);
+        else await handleCreateTeacher(data);
+      } catch (error) {
+        console.error(error);
+        const data = error.response?.data;
+        const badFields = data?.fields ?? [];
+        if (badFields.length > 0) {
+          setErrors((prev) => ({
+            ...prev,
+            ...Object.fromEntries(
+              badFields.map((key) => [
+                key,
+                (data.reason === "duplicate" && DUPLICATE_MESSAGES[key]) ||
+                  true,
+              ]),
+            ),
+          }));
+        }
+        if (formRef.current) shake(formRef.current);
+        toast.error(data?.message || "Could not save teacher");
+        setSaving(false);
+        return;
+      }
 
-      const saved = { ...formData, id: finalId };
+      /* The record has to exist before an avatar can point at it, so the upload
+         runs after the save. A failed upload is worth a warning but must not
+         discard a teacher the server has already accepted. */
+      let avatar = data.avatar;
+      if (data.avatarFile) {
+        try {
+          ({ avatar } = await handleUploadImage(data.avatarFile, finalId));
+        } catch (error) {
+          console.error("Failed to upload avatar", error);
+          toast.error("Teacher saved, but the photo didn't upload.");
+        }
+      }
+
+      // avatarFile is a File and has no place in the list state.
+      const { avatarFile: _discarded, ...rest } = data;
+      const saved = { ...rest, avatar };
+
       setTeachers((prev) =>
         editingId !== null ?
           prev.map((t) => (t.id === editingId ? { ...t, ...saved } : t))
@@ -302,38 +353,44 @@ export function TeacherProvider({ children }) {
   };
 
   /* ---------------- Avatar ---------------- */
-  const updateTeacherAvatar = (id, dataUrl) => {
-    persistAvatar(id, dataUrl);
+  const updateTeacherAvatar = (id, avatar) => {
     setTeachers((prev) =>
-      prev.map((t) => (t.id === id ? { ...t, avatar: dataUrl } : t)),
+      prev.map((t) => (t.id === id ? { ...t, avatar } : t)),
     );
     setOpenTeacher((prev) =>
-      prev && prev.id === id ? { ...prev, avatar: dataUrl } : prev,
+      prev && prev.id === id ? { ...prev, avatar } : prev,
     );
   };
 
-  // Detail header — swaps the photo straight away.
-  const handleAvatarChange = (file) => {
+  /* Detail view: the teacher already exists, so the file goes straight to the
+     server and what we keep is the path it was stored at. */
+  const handleAvatarChange = async (file) => {
     if (!openTeacher) return;
     if (!file) {
       updateTeacherAvatar(openTeacher.id, null);
       return;
     }
-    const reader = new FileReader();
-    reader.onload = () => updateTeacherAvatar(openTeacher.id, reader.result);
-    reader.readAsDataURL(file);
+    try {
+      const { avatar } = await handleUploadImage(file, openTeacher.id);
+      updateTeacherAvatar(openTeacher.id, avatar);
+      toast.success("Photo updated");
+    } catch (error) {
+      console.error("Could not upload avatar", error);
+      toast.error(
+        error.response?.data?.message ?? "Couldn't upload that image.",
+      );
+    }
   };
 
-  // Add/Edit modal — staged on the form until "Save teacher".
+  /* Add/Edit modal: a new teacher has no record yet, so hold the file and let
+     saveTeacher upload it once there is one to attach it to. AvatarUpload
+     shows its own local preview meanwhile. */
   const handleAvatarUpload = (file) => {
-    if (!file) {
-      setFormData((prev) => ({ ...prev, avatar: null }));
-      return;
-    }
-    const reader = new FileReader();
-    reader.onload = () =>
-      setFormData((prev) => ({ ...prev, avatar: reader.result }));
-    reader.readAsDataURL(file);
+    setFormData((prev) =>
+      file ?
+        { ...prev, avatarFile: file }
+      : { ...prev, avatar: null, avatarFile: null },
+    );
   };
 
   /* ---------------- Detail popup ---------------- */

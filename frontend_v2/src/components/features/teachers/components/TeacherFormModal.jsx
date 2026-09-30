@@ -76,6 +76,20 @@ const TeacherFormModal = () => {
 
         <div className="form-grid">
           <TextField
+            id="fTeacherId"
+            name="id"
+            label="Teacher ID"
+            className="field--full"
+            placeholder="e.g. T-10234"
+            value={formData.id}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={fieldError("id")}
+            valid={isValid("id")}
+            disabled={editingTeacher}
+          />
+
+          <TextField
             id="fName"
             name="name"
             label="Full name"
@@ -118,12 +132,17 @@ const TeacherFormModal = () => {
             valid={isValid("phone")}
           />
 
-          <Field label="Subject" htmlFor="fSubject">
+          <Field
+            label="Subject"
+            htmlFor="fSubject"
+            error={fieldError("subject")}
+            valid={isValid("subject")}>
             <select
               id="fSubject"
               name="subject"
               value={formData.subject}
-              onChange={handleChange}>
+              onChange={handleChange}
+              onBlur={handleBlur}>
               <option value="">Select subject</option>
               {SUBJECTS.map((s) => (
                 <option key={s}>{s}</option>
@@ -131,12 +150,17 @@ const TeacherFormModal = () => {
             </select>
           </Field>
 
-          <Field label="Department" htmlFor="fDept">
+          <Field
+            label="Department"
+            htmlFor="fDept"
+            error={fieldError("dept")}
+            valid={isValid("dept")}>
             <select
               id="fDept"
               name="dept"
               value={formData.dept}
-              onChange={handleChange}>
+              onChange={handleChange}
+              onBlur={handleBlur}>
               <option value="">Select department</option>
               {DEPARTMENTS.map((d) => (
                 <option key={d}>{d}</option>
@@ -151,6 +175,9 @@ const TeacherFormModal = () => {
             placeholder="e.g. 8 yrs"
             value={formData.exp}
             onChange={handleChange}
+            onBlur={handleBlur}
+            error={fieldError("exp")}
+            valid={isValid("exp")}
           />
 
           <Field label="Employment type" htmlFor="fType">
@@ -172,6 +199,9 @@ const TeacherFormModal = () => {
             placeholder="e.g. M.Ed, B.Sc"
             value={formData.qualification}
             onChange={handleChange}
+            onBlur={handleBlur}
+            error={fieldError("qualification")}
+            valid={isValid("qualification")}
           />
 
           <TextField
@@ -181,6 +211,9 @@ const TeacherFormModal = () => {
             label="Joining date"
             value={formData.joinDate}
             onChange={handleChange}
+            onBlur={handleBlur}
+            error={fieldError("joinDate")}
+            valid={isValid("joinDate")}
           />
 
           <TextField
@@ -191,6 +224,9 @@ const TeacherFormModal = () => {
             placeholder="e.g. TA-107, New York"
             value={formData.address}
             onChange={handleChange}
+            onBlur={handleBlur}
+            error={fieldError("address")}
+            valid={isValid("address")}
           />
         </div>
       </form>
