@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect, useState } from "react";
-// import studentData from "../../../database/data.json";
 import { useToast } from "@/components/ui";
 import { shake } from "@/animation/shake";
 import { useCallback, useMemo, useRef } from "react";
@@ -312,7 +311,9 @@ export function StudentProvider({ children }) {
     setOpenStudent(null);
   };
   const updateStudentAvatar = (id, avatar) => {
-    setStudents((prev) => prev.map((s) => (s.id === id ? { ...s, avatar } : s)));
+    setStudents((prev) =>
+      prev.map((s) => (s.id === id ? { ...s, avatar } : s)),
+    );
     setOpenStudent((prev) =>
       prev && prev.id === id ? { ...prev, avatar } : prev,
     );
@@ -344,9 +345,9 @@ export function StudentProvider({ children }) {
      preview meanwhile, so there is nothing to read here. */
   const handleAvatarUpload = (file) => {
     setFormData((prev) =>
-      file ? { ...prev, avatarFile: file } : (
-        { ...prev, avatar: null, avatarFile: null }
-      ),
+      file ?
+        { ...prev, avatarFile: file }
+      : { ...prev, avatar: null, avatarFile: null },
     );
   };
   const openEdit = (id) => {
