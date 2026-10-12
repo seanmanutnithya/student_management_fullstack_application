@@ -75,6 +75,19 @@ const sequelizeFeeDB = new Sequelize(
   },
 );
 
+const sequelizeEnrDB = new Sequelize("student_management", "root", "", {
+  host: "localhost",
+  port: 3306,
+  dialect: "mysql",
+  logging: false,
+  pool: {
+    max: 5,
+    min: 0,
+    acquire: 30000,
+    idle: 10000,
+  },
+});
+
 async function testConnection() {
   try {
     await sequelizeAuthDb.authenticate();
@@ -91,4 +104,5 @@ module.exports = {
   sequelizeAuthDb,
   sequelizeTeacherDB,
   sequelizeFeeDB,
+  sequelizeEnrDB,
 };

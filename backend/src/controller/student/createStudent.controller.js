@@ -1,7 +1,7 @@
 const Students = require("../../models/Students");
 const { missingValues, checkTargetId } = require("../../helper/validate");
 const logs_error = require("../../helper/logs_error");
-
+const { enrollStd } = require("../../services/enrollment.service");
 // A primary-key collision is reported against the constraint name rather than
 // the column, which is no use to a form that wants to highlight one input.
 const COLUMN_BY_CONSTRAINT = { PRIMARY: "id" };
@@ -20,6 +20,7 @@ const createStudent = async (req, res) => {
       guardianName,
       guardianPhone,
       remark,
+      academic_year,
     } = req.body;
 
     // Every one of these is NOT NULL in the table; omitting them let MySQL fall
@@ -35,6 +36,7 @@ const createStudent = async (req, res) => {
       address,
       guardianName,
       guardianPhone,
+      academic_year,
     };
     const missing = await missingValues(field);
     if (missing.length > 0) {
@@ -59,13 +61,14 @@ const createStudent = async (req, res) => {
 
     const student = { ...field, remark: remark || null };
     await Students.create(student);
+    await enrollStd(id, academic_year);
 
     const message = `
       🆕 <b>New Student Registered</b>
           <b>ID:</b> <code>${student.id}</code>
           <b>Name:</b> ${student.name}
           <b>Gender:</b> ${student.gender}
-          <b>Class:</b> ${student.std_class}
+          <b>Class:</b> ${student.std_class}  
           <b>Phone:</b> <code>${student.phone}</code>
     `.trim();
     // await sendTelegramMessage(message);

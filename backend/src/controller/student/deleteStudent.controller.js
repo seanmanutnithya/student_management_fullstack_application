@@ -3,11 +3,13 @@ const { checkTargetId } = require("../../helper/validate");
 
 const logs_error = require("../../helper/logs_error");
 const fetchAllData = require("../../helper/fetchAllData");
+const { unenrollStd } = require("../../services/enrollment.service");
 
 const deleteStudent = async (req, res) => {
   try {
     const { id } = req.params;
     const student = await Students.findByPk(id);
+    await unenrollStd(id);
     if (!student) {
       return res.status(404).json({
         stats: false,
