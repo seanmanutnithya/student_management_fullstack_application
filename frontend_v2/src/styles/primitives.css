@@ -523,6 +523,12 @@ input[type="checkbox"] {
   font-size: var(--fs-xs);
   color: var(--color-text-muted);
 }
+/* The hint turns into the validation message in place, so it has to carry
+   the danger colour itself rather than relying on a .is-invalid ancestor. */
+.field-hint--error {
+  color: var(--color-danger);
+  font-weight: var(--fw-semibold);
+}
 
 .form-grid {
   display: grid;

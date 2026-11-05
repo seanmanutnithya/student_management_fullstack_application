@@ -891,9 +891,23 @@
   font-size: var(--fs-sm);
   font-weight: var(--fw-medium);
   cursor: pointer;
+  /* The chip is a toggle, not prose. Without this, ticking one drags a
+     text selection across its label — worse on a double-click. */
+  -webkit-user-select: none;
+  user-select: none;
   transition:
     border-color var(--transition-fast),
     background var(--transition-fast);
+}
+/* Chromium still matches :focus-visible on a checkbox clicked with the mouse
+   once the keyboard has been used, pinning a focus ring to the 18px box inside
+   the chip. The chip's fill already shows the state; keyboard focus keeps its
+   ring. See utils/focusModality.js for the flag. */
+:root[data-focus-modality="pointer"]
+  .class-chip
+  input[type="checkbox"]:focus-visible {
+  box-shadow: none;
+  outline: none;
 }
 .class-chip .cell-sub {
   margin-top: 0;
