@@ -1,5 +1,4 @@
-import { TrendingDown, TrendingUp } from "lucide-react";
-
+import { TrendingDown, TrendingUp, Minus } from "lucide-react";
 const RING_CIRCUMFERENCE = 213.6;
 
 const StatCard = ({
@@ -34,10 +33,10 @@ const StatCard = ({
           </svg>
           <span className="stat-ring-value">{value}%</span>
         </div>
-      : <div className={`stat-icon stat-icon--${colorClass}`}>{<Icon />}</div>
-      }
+      : <div className={`stat-icon stat-icon--${colorClass}`}>{<Icon />}</div>}
       <div className="stat-card-body">
-        {ring ? null
+        {ring ?
+          null
         : isNumeric ?
           <span
             className="stat-card-value"
@@ -49,12 +48,14 @@ const StatCard = ({
         : <span className="stat-card-value">{value}</span>}
         <span className="stat-card-title">{label}</span>
       </div>
-      {trend && (
+      {trend != null && (
         <span className={`trend trend--${trendDirection}`}>
           {trendDirection === "up" ?
-            <TrendingUp />
-          : <TrendingDown />}
-          {trend}
+            <TrendingUp strokeWidth={4} />
+          : trendDirection === "down" ?
+            <TrendingDown strokeWidth={4} />
+          : <Minus strokeWidth={4} />}
+          {Math.abs(trend)} %
         </span>
       )}
     </div>

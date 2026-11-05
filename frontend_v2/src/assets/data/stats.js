@@ -35,42 +35,7 @@ const events = [
     meta: "All students",
   },
 ];
-const stats = [
-  {
-    icon: GraduationCap,
-    colorClass: "purple",
-    value: 1248,
-    label: "Total students",
-    trend: "4.2%",
-    trendDirection: "up",
-  },
-  {
-    icon: Users,
-    colorClass: "blue",
-    value: 86,
-    label: "Total teachers",
-    trend: "1.8%",
-    trendDirection: "up",
-  },
-  {
-    icon: ClipboardCheck,
-    colorClass: "green",
-    value: 94,
-    suffix: "%",
-    label: "Today's attendance",
-    trend: "1.1%",
-    trendDirection: "down",
-  },
-  {
-    icon: Wallet,
-    colorClass: "amber",
-    value: 12400,
-    prefix: "$",
-    label: "Pending fees",
-    trend: "6.4%",
-    trendDirection: "down",
-  },
-];
+
 const studentDetailStat = [
   {
     ring: true,
@@ -154,4 +119,4 @@ const teacherSummaryCards = [
   },
 ];
 
-export { stats, events, activities, studentDetailStat, teacherSummaryCards };
+export { events, activities, studentDetailStat, teacherSummaryCards };

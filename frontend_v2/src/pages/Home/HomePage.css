@@ -156,6 +156,10 @@
   background: var(--color-danger-bg);
   color: var(--color-danger);
 }
+.trend--flat {
+  background: var(--color-warning-bg);
+  color: var(--color-warning);
+}
 
 /* ---------------- Home grid layout ---------------- */
 .home-grid {
@@ -472,7 +476,6 @@
 .event-date-month {
   font-size: var(--text-caption);
   font-weight: var(--fw-bold);
-
 }
 .event-info {
   min-width: 0;
