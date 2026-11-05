@@ -2,14 +2,17 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useRef,
   useState,
 } from "react";
+import { matchPath, useLocation, useNavigate } from "react-router-dom";
 
 import {
   EXPIRY_WARN_DAYS,
   ZONES,
+  busTabButtons,
   seedBuses,
   seedMaintenance,
   seedRoutes,
@@ -22,6 +25,8 @@ import { parseDate, toIsoDate } from "@/utils/format";
 const BusContext = createContext(null);
 
 const SAVE_DELAY = 700;
+const BUS_TABS = busTabButtons.map((t) => t.tab);
+const DEFAULT_TAB = "routes";
 const MS_DAY = 86400000;
 
 const toMinutes = (time) => {
@@ -57,13 +62,31 @@ const staffById = Object.fromEntries(staff.map((s) => [s.id, s]));
 
 export function BusProvider({ children }) {
   const { toast } = useToast();
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   const [routes, setRoutes] = useState(seedRoutes);
   const [buses, setBuses] = useState(seedBuses);
   const [students, setStudents] = useState(seedStudents);
   const [maintenance, setMaintenance] = useState(seedMaintenance);
 
-  const [activeTab, setActiveTab] = useState("routes");
+  /* The active tab lives in the URL (/bus/:tab), so each tab can be linked to
+     and survives a refresh. The provider sits above <Routes>, so useParams
+     can't see it — match the path directly. */
+  const tabParam = matchPath("/bus/:tab", pathname)?.params.tab ?? null;
+  const activeTab = BUS_TABS.includes(tabParam) ? tabParam : DEFAULT_TAB;
+
+  // `replace`: switching tabs shouldn't fill history, so Back leaves the page.
+  const setActiveTab = useCallback(
+    (tab) => navigate(`/bus/${tab}`, { replace: true }),
+    [navigate],
+  );
+
+  // A mistyped link (/bus/foo) falls back to the default tab.
+  useEffect(() => {
+    if (tabParam && !BUS_TABS.includes(tabParam))
+      navigate("/bus", { replace: true });
+  }, [tabParam, navigate]);
   const [routeId, setRouteId] = useState(seedRoutes[0].id);
   const [busId, setBusId] = useState(seedBuses[0].id);
   const [draggingStopId, setDraggingStopId] = useState(null);
@@ -485,6 +508,7 @@ export function BusProvider({ children }) {
       incidentOpen,
       logIncident,
       activeTab,
+      setActiveTab,
       summary,
     ],
   );
