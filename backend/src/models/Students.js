@@ -66,6 +66,10 @@ const Students = sequelizeStudentDb.define(
       allowNull: false,
       defaultValue: 0,
     },
+    academic_year: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
   },
   {
     tableName: "students",

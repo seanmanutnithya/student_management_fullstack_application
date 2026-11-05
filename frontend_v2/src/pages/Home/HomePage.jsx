@@ -8,14 +8,13 @@ import ActivityFeed from "@/components/features/home/components/ActivityFeed";
 import EventLists from "@/components/features/home/components/EventsList";
 import Charts from "@/components/features/home/components/Charts";
 
-import { stats } from "@/assets/data/stats";
 import { wireHoverScale } from "@/animation/hover";
 
 import { usePageLoadAnimation } from "@/animation/pageLoadAnimation";
 import { useHideScrollbar } from "@/hooks/useHideScrollbar";
 import renderDonutChart from "@/components/features/home/utils/renderDonutChart";
 import renderLineChart from "@/components/features/home/utils/renderLineChart";
-
+import { useHome } from "@/context/HomeContext";
 const HomePage = () => {
   const containerRef = usePageLoadAnimation(() => {
     wireHoverScale(".btn", 1.035);
@@ -28,6 +27,9 @@ const HomePage = () => {
   });
 
   useHideScrollbar();
+
+  const { stats } = useHome();
+  console.log(stats);
 
   return (
     <>

@@ -13,7 +13,7 @@ const fees = sequelizeFeeDB.define(
       type: DataTypes.STRING(10),
       allowNull: false,
     },
-    academicYear: {
+    academic_year: {
       type: DataTypes.SMALLINT,
       allowNull: false,
     },
